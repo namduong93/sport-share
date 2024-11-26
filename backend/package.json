@@ -10,10 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "1.7.7",
     "aws-jwt-verify": "^4.0.1",
     "aws-sdk": "^2.1632.0",
     "aws-serverless-express": "^3.4.0",
-    "cookie-parser": "^1.4.7",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
