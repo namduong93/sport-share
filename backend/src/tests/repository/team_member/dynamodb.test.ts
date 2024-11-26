@@ -1,8 +1,8 @@
 import { DynamoDBTeamMemberRepository } from '../../../repository/team_member/dynamodb';
 import { TeamMember } from '../../../model/team_member_model';
-import { User, UserType } from '../../../model/user_model';
 import AWS from "aws-sdk";
 import { Position } from '../../../model/player_stats_model';
+import { User, UserType } from '../../../model/user_model';
 
 describe('DynamoDBTeamMemberRepository - convertDB2Model', () => {
     // Mock data item from DynamoDB
@@ -240,7 +240,8 @@ describe('DynamoDBTeamMemberRepository - create', () => {
         const user: User = {
             email: "",
             uuid: "uuid",
-            name: "John Doe",
+            firstName: "John",
+            lastName: "Doe",
             role: UserType.USER,
             preferredName: "",
             password: "",
@@ -300,7 +301,8 @@ describe('DynamoDBTeamMemberRepository - create', () => {
         const user: User = {
             email: "bukayo.saka@gmail.com",
             uuid: "uuid",
-            name: "John Doe",
+            firstName: "John",
+            lastName: "Doe",
             role: UserType.USER,
             preferredName: "John",
             password: "password",

@@ -34,18 +34,18 @@ export const useDashInfo = (): [
 
   // The hook fetches the dashboard info when the component mounts and stores it in the state.
   useEffect(() => {
-    (async () => {
-      try {
-        const infoResponse = await sendRequest.get<{
-          preferredName: string;
-          affiliation: string;
-          profilePic: string;
-        }>(`/user/dash_info`);
-        setDashInfo(infoResponse.data);
-      } catch (error: unknown) {
-        console.log("Error fetching dashboard info:", error);
-      }
-    })();
+    // (async () => {
+    //   try {
+    //     const infoResponse = await sendRequest.get<{
+    //       preferredName: string;
+    //       affiliation: string;
+    //       profilePic: string;
+    //     }>(`/user/dash_info`);
+    //     setDashInfo(infoResponse.data);
+    //   } catch (error: unknown) {
+    //     console.log("Error fetching dashboard info:", error);
+    //   }
+    // })();
   }, []);
 
   return [dashInfo, setDashInfo];

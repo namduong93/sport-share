@@ -1,10 +1,10 @@
 import {UserRepository} from "../user_repository";
 import AWS from "aws-sdk";
 import {DDB_USERS_TABLE_NAME} from "../../config/dynamodb";
-import {User, UserType, validate} from "../../model/user_model";
 import {sha256} from "js-sha256";
 import {BAD_REQUEST, USER_NOT_FOUND} from "../../utils/error";
 import {Device} from "../../model/device_model";
+import { User, UserType, validate } from "../../model/user_model";
 
 export class DynamoDBUserRepository implements UserRepository {
     private readonly dynamoDB: AWS.DynamoDB;
@@ -69,12 +69,15 @@ export class DynamoDBUserRepository implements UserRepository {
                 "em": {S: user.email},
                 "sk": {S: await this.generateSortKey(user.uuid)},
                 "uuid": {S: user.uuid},
-                "nm": {S: user.name},
+                "fn": {S: user.firstName},
+                "ln": {S: user.lastName},
                 "pfn": {S: user.preferredName},
                 "pw": {S: sha256(user.password ? user.password : "")},
                 "img": {S: user.image || ""},
                 "ca": {S: currentDate.getTime().toString()},
-                "ma": {S: ""}
+                "ma": {S: ""},
+                "bio": {S: user.bio},
+                "ref": {S: user.referrer || ""}
             },
             ConditionExpression: "attribute_not_exists(sk)" // Ensure the item does not exist
         };
@@ -178,9 +181,10 @@ export class DynamoDBUserRepository implements UserRepository {
                 "em": {S: user.email},
                 "sk": {S: await this.generateSortKey(user.uuid)}
             },
-            UpdateExpression: "SET #nm = :nm, #pfn = :pfn, #pw = :pw, #hp = :hp, #img = :img, #ma = :ma",
+            UpdateExpression: "SET #fn = :fn, #ln = :ln, #pfn = :pfn, #pw = :pw, #hp = :hp, #img = :img, #ma = :ma",
             ExpressionAttributeNames: {
-                "#nm": "nm",
+                "#fn": "fn",
+                "#ln": "ln",
                 "#pfn": "pfn",
                 "#pw": "pw",
                 "#hp": "hp",
@@ -188,10 +192,12 @@ export class DynamoDBUserRepository implements UserRepository {
                 "#ma": "ma"
             },
             ExpressionAttributeValues: {
-                ":nm": {S: user.name},
+                ":fn": {S: user.firstName},
+                ":ln": {S: user.lastName},
                 ":pfn": {S: user.preferredName},
                 ":img": {S: user.image},
-                ":ma": {S: currentDate.getTime().toString()}
+                ":ma": {S: currentDate.getTime().toString()},
+                ":bio": {S: user.bio},            
             }
         };
 
@@ -208,8 +214,9 @@ export class DynamoDBUserRepository implements UserRepository {
         return {
             email: item?.em?.S || "",
             uuid: item?.uuid?.S || "",
-            name: item?.nm?.S || "",
-            role: UserType.USER,
+            firstName: item?.fn?.S || "",
+            lastName: item?.ln?.S || "",
+            role: item?.rl?.S as UserType || "",
             preferredName: item?.pfn?.S || "",
             password: item?.pw?.S || "",
             image: item?.img?.S || "",

@@ -3,7 +3,8 @@
 export interface User {
     email: string;
     uuid: string;
-    name: string;
+    firstName: string;
+    lastName: string;
     role: UserType;
     preferredName?: string;
     password?: string;
@@ -26,8 +27,12 @@ export function validate(user: User): string {
         return "uuid is required";
     }
 
-    if (!user.name || user.name.length === 0) {
-        return "name is required";
+    if (!user.firstName || user.firstName.length === 0) {
+        return "firstName is required";
+    }
+
+    if (!user.lastName || user.lastName.length === 0) {
+        return "lastName is required";
     }
 
     if (!user.email || user.email.length === 0) {

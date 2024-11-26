@@ -1,9 +1,9 @@
 import { createContext, useContext } from "react";
-import { FormState } from "../FormState";
+import { User } from "../../../../../shared_types/User/User";
 
 interface MultiStepRegoFormContextType {
-  formData: FormState;
-  setFormData: (data: Partial<FormState>) => void;
+  formData: User;
+  setFormData: (data: Partial<User>) => void;
 }
 
 export const MultiStepRegoFormContext = createContext<

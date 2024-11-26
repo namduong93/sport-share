@@ -34,15 +34,14 @@ export const AccountDataInput: FC = () => {
   const [error, setError] = useState("");
 
   const isButtonDisabled = () => {
-    const { firstName, lastName, password, email, gender } = formData;
+    const { firstName, lastName, password, email } = formData;
     return (
       error !== "" ||
       password === "" ||
       confirmPassword === "" ||
       firstName === "" ||
       lastName === "" ||
-      email === "" ||
-      gender === ""
+      email === ""    
     );
   };
 
@@ -104,18 +103,6 @@ export const AccountDataInput: FC = () => {
             }
             width="100%"
           />
-          <StyledDoubleInputContainer className="account-data-input--StyledDoubleInputContainer-1">
-            <DropdownInput
-              label="Gender"
-              options={genderOptions}
-              value={formData.gender}
-              required={true}
-              onChange={(e) => 
-                setFormData({ ...formData, gender: e.target.value })
-              }
-              width="45%"
-            />
-          </StyledDoubleInputContainer>
           <TextInput
             label="Email"
             placeholder="user@example.com"

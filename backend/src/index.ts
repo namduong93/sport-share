@@ -26,11 +26,10 @@ const app: Express = express();
 // AWS Config
 AWS.config.update({region:"ap-southeast-2"});
 
-// Middleware to parse JSON bodies
-app.use(express.json());
-
 app.use(cors());
 
+// Middleware to parse JSON bodies
+app.use(express.json());
 // Middleware to authenticate request (bypass for local env)
 const authenticator = new Authenticator();
 app.use(authenticator.authenticationMiddleware)

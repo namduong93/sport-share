@@ -12,6 +12,7 @@ export class UserController {
     // This method is used to authenticate a user
     async authenticate(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log("Authenticating user");
             const email = req.body.email;
             const password = req.body.password;
 
@@ -46,9 +47,10 @@ export class UserController {
 
     // This method is used to create a user
     async create(req: Request, res: Response, next: NextFunction) {
-        console.log('Creating user');
         try {
             const user = req.body;
+            console.log(user);
+            console.log("Body", req.body);
             const newUser = await this.userService.create(user);
 
             if (newUser) {

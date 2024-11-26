@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MultiStepRegoFormContext } from "./hooks/useMultiStepRegoForm";
-import { FormState, initialState } from "./FormState";
+import { User, UserType } from "../../../../shared_types/User/User";
 
 /**
  * A provider component that manages and provides the form data state for a multi-step registration form.
@@ -18,9 +18,25 @@ import { FormState, initialState } from "./FormState";
 export const RegisterFormProvider: React.FC<
   React.HTMLAttributes<HTMLDivElement>
 > = ({ children }) => {
-  const [formData, setFormData] = useState<FormState>(initialState);
+  const [formData, setFormData] = useState<User>(
+    {
+      email: "",
+      uuid: "",
+      firstName: "",
+      lastName: "",
+      role: UserType.USER,
+      preferredName: "",
+      password: "",
+      image: "",
+      token: "",
+      createdAt: "",
+      modifiedAt: "",
+      bio: "",
+      referrer: "",
+    }
+  );
 
-  const updateFormData = (data: Partial<FormState>) => {
+  const updateFormData = (data: Partial<User>) => {
     setFormData((prev) => ({
       ...prev,
       ...data,

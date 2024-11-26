@@ -1,8 +1,8 @@
 import { TeamMember, validate } from '../../model/team_member_model';
 import { TeamMemberRepository } from '../team_member_repository';
-import { User } from '../../model/user_model';
 import { DDB_TEAM_MEMBERS_TABLE_NAME} from "../../config/dynamodb";
 import AWS from 'aws-sdk';
+import { User } from '../../model/user_model';
 
 // This is the implementation layer. It is responsible for handling database operations.
 export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
@@ -42,7 +42,7 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
         // Set the team member properties from the user object
         teamMember.uuid = user.uuid;
         teamMember.image = user.image;
-        teamMember.name = user.name;
+        teamMember.name = user.firstName + " " + user.lastName;
         teamMember.preferredName = user.preferredName;
 
         // Round the credit to 2 decimal places

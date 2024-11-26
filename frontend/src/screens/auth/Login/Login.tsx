@@ -31,7 +31,7 @@ export const Login: FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await sendRequest.post("/user/login", { email, password });
+      await sendRequest.post("/users/authenticate", { email, password });
       window.location.href = "/dashboard";
     } catch (error: unknown) {
       console.error("Login failed", error);
