@@ -65,7 +65,6 @@ app.post("/users", (req: Request, res: Response, next: NextFunction) => userCont
 app.put("/users", (req: Request, res: Response, next: NextFunction) => userController.update(req, res, next));
 app.delete("/users/:email", (req: Request, res: Response, next: NextFunction) => userController.delete(req, res, next));
 app.post("/users/authenticate", (req: Request, res: Response, next: NextFunction) => userController.authenticate(req, res, next));
-app.post("/users/device", (req: Request, res: Response, next: NextFunction) => userController.updateUserDevice(req, res, next));
 
 // Team Member Routes
 app.get("/teams/:teamId/members", (req: Request, res: Response) => teamMemberController.list(req, res));

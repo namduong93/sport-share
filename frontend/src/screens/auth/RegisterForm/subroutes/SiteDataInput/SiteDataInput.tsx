@@ -35,19 +35,8 @@ export const SiteDataInput: FC = () => {
         e.preventDefault();
     
         try {
-          const endpoint =
-            formData.role === "Staff" ? "/staff/register" : "/student/register";
-    
-          await sendRequest.post(endpoint, {
-            name: `${formData.firstName} ${formData.lastName}`,
-            preferredName: formData.preferredName,
-            gender: formData.gender,
-            email: formData.email,
-            password: formData.password,
-            bio: formData.bio,
-            referrer: formData.referrer,
-          });
-    
+          console.log("Sending registration data:", formData);
+          await sendRequest.post("/users", formData);
           window.location.href = "/dashboard";
         } catch (error) {
           console.error("Error during registration:", error);

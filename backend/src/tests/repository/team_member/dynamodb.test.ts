@@ -1,6 +1,6 @@
 import { DynamoDBTeamMemberRepository } from '../../../repository/team_member/dynamodb';
 import { TeamMember } from '../../../model/team_member_model';
-import { User } from '../../../model/user_model';
+import { User, UserType } from '../../../model/user_model';
 import AWS from "aws-sdk";
 import { Position } from '../../../model/player_stats_model';
 
@@ -238,16 +238,18 @@ describe('DynamoDBTeamMemberRepository - create', () => {
 
         // Create a mock user object
         const user: User = {
+            email: "",
             uuid: "uuid",
             name: "John Doe",
-            email: "",
-            mobile: "123",
-            image: "",
+            role: UserType.USER,
             preferredName: "",
+            password: "",
+            image: "",
             token: "",
             createdAt: "",
             modifiedAt: "",
-            devices: []
+            bio: "",
+            referrer: ""
         }
 
         // Call the create method with the sample team member
@@ -296,16 +298,18 @@ describe('DynamoDBTeamMemberRepository - create', () => {
 
         // Create a mock user object
         const user: User = {
+            email: "bukayo.saka@gmail.com",
             uuid: "uuid",
             name: "John Doe",
-            email: "bukayo.saka@gmail.com",
-            mobile: "1234567890",
-            image: "image-url",
+            role: UserType.USER,
             preferredName: "John",
+            password: "password",
+            image: "image-url",
             token: "token",
             createdAt: "1231",
             modifiedAt: "1231",
-            devices: []
+            bio: "bio",
+            referrer: "referrer"
         }
 
         // Assert that calling the create method throws an error

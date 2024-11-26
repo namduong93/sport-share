@@ -46,6 +46,7 @@ export class UserController {
 
     // This method is used to create a user
     async create(req: Request, res: Response, next: NextFunction) {
+        console.log('Creating user');
         try {
             const user = req.body;
             const newUser = await this.userService.create(user);
@@ -93,19 +94,5 @@ export class UserController {
         }catch (e) {
             next(e)
         }
-    }
-
-    async updateUserDevice(req: Request, res: Response, next: NextFunction) {
-        try {
-            const userId = res.locals.uuid;
-            const device = req.body;
-
-            const devices = await this.userService.updateUserDevice(userId, device);
-
-            res.send(devices);
-        } catch (error) {
-            next(error)
-        }
-
     }
 }

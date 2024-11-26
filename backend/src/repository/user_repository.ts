@@ -9,5 +9,4 @@ export interface UserRepository {
     update(user: User): Promise<User | null>;
     delete(email: string, userId: string): Promise<boolean>;
     list(): Promise<User[]>;
-    updateUserDevices(user: User): Promise<User>;
 }

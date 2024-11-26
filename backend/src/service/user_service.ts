@@ -63,20 +63,4 @@ export class UserService {
     async list(): Promise<User[]> {
         return await this.userRepository.list();
     }
-
-    async updateUserDevice(userId: string, device: Device) {
-        let user = await this.userRepository.findById(userId);
-
-        if (!user.devices || user.devices.length === 0) {
-            user.devices.push(device);
-        }
-
-        for (let dv of user.devices) {
-            if (dv.deviceId === device.deviceId) {
-                dv.deviceToken = device.deviceToken;
-            }
-        }
-
-        return await this.userRepository.updateUserDevices(user);
-    }
 }

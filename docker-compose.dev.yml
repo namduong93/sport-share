@@ -25,9 +25,9 @@ services:
       - ./frontend:/app
       - ./frontend/node_modules:/app/node_modules
     ports:
-      - "5173:5173"
+      - "3000:3000"
     environment:
-      - REACT_APP_BACKEND_URL=http://localhost:8000 
+      - REACT_APP_BACKEND_URL=http://localhost:3001 
       # HTTPS-Migrate, Uncomment when moving to https
       # - REACT_APP_BACKEND_URL=https://localhost:8000
     depends_on:

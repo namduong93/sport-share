@@ -11,7 +11,6 @@ import {
   StyledTitle,
 } from "./Login.styles";
 import TextInput from "../../../components/general_utility/TextInput";
-import { backendURL } from "../../../../config/backendURLConfig";
 import { StyledCustomButton } from "../../general_styles/button_styles";
 
 /**

@@ -11,7 +11,7 @@ export default defineConfig({
     host: '0.0.0.0',
   },
   preview: {
-    port: 5173,
+    port: 3000,
   },
   test: {
     globals: true,

@@ -1,7 +1,7 @@
 import {UserRepository} from "../user_repository";
 import AWS from "aws-sdk";
 import {DDB_USERS_TABLE_NAME} from "../../config/dynamodb";
-import {User, validate} from "../../model/user_model";
+import {User, UserType, validate} from "../../model/user_model";
 import {sha256} from "js-sha256";
 import {BAD_REQUEST, USER_NOT_FOUND} from "../../utils/error";
 import {Device} from "../../model/device_model";
@@ -71,8 +71,7 @@ export class DynamoDBUserRepository implements UserRepository {
                 "uuid": {S: user.uuid},
                 "nm": {S: user.name},
                 "pfn": {S: user.preferredName},
-                "pw": {S: sha256(user.password ? user.password : user.mobile)},
-                "hp": {S: user.mobile},
+                "pw": {S: sha256(user.password ? user.password : "")},
                 "img": {S: user.image || ""},
                 "ca": {S: currentDate.getTime().toString()},
                 "ma": {S: ""}
@@ -191,8 +190,6 @@ export class DynamoDBUserRepository implements UserRepository {
             ExpressionAttributeValues: {
                 ":nm": {S: user.name},
                 ":pfn": {S: user.preferredName},
-                ":pw": {S: sha256(user.password ? user.password : user.mobile)},
-                ":hp": {S: user.mobile},
                 ":img": {S: user.image},
                 ":ma": {S: currentDate.getTime().toString()}
             }
@@ -212,14 +209,15 @@ export class DynamoDBUserRepository implements UserRepository {
             email: item?.em?.S || "",
             uuid: item?.uuid?.S || "",
             name: item?.nm?.S || "",
+            role: UserType.USER,
             preferredName: item?.pfn?.S || "",
             password: item?.pw?.S || "",
-            mobile: item?.hp?.S || "",
             image: item?.img?.S || "",
             token: "",
-            devices: item?.dvs?.L?.map(dv => this.convertDB2DeviceModel(dv.M)) || [],
             createdAt: item?.ca?.S || "",
-            modifiedAt: item?.ma?.S || ""
+            modifiedAt: item?.ma?.S || "",
+            bio: item?.bio?.S || "",
+            referrer: item?.ref?.S || ""
         };
     }
 
@@ -257,36 +255,6 @@ export class DynamoDBUserRepository implements UserRepository {
         }
 
         return this.convertDB2Model(data.Items[0]);
-    }
-
-    async updateUserDevices(user: User): Promise<any> {
-        const params = {
-            TableName: DDB_USERS_TABLE_NAME,
-            Key: {
-                "em": {S: user.email},
-                "sk": {S: await this.generateSortKey(user.uuid)}
-            },
-            UpdateExpression: "SET #dvs = :dvs",
-            ExpressionAttributeNames: {
-                "#dvs": "dvs",
-            },
-            ExpressionAttributeValues: {
-                ":dvs": {
-                    L: user.devices.map(dv => {
-                            return {
-                                M: {
-                                    "dvid": {S: dv.deviceId},
-                                    "dvtk": {S: dv.deviceToken},
-                                    "os": {S: dv.os}
-                                }
-                            }
-                        })
-                }
-            }
-        };
-
-        await this.dynamoDB.updateItem(params).promise();
-        return user;
     }
 
     async generateSortKey(uuid: string): Promise<string> {

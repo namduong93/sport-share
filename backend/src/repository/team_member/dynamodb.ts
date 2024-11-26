@@ -44,7 +44,6 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
         teamMember.image = user.image;
         teamMember.name = user.name;
         teamMember.preferredName = user.preferredName;
-        teamMember.mobile = user.mobile;
 
         // Round the credit to 2 decimal places
         teamMember.credit = Math.floor(teamMember.credit * 100) / 100;

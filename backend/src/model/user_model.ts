@@ -1,19 +1,23 @@
 // User interface model
 
-import {Device} from "./device_model";
-
 export interface User {
     email: string;
     uuid: string;
     name: string;
+    role: UserType;
     preferredName?: string;
     password?: string;
-    mobile: string;
     image?: string;
     token: string;
-    devices: Device[],
     createdAt: string;
     modifiedAt?: string;
+    bio: string;
+    referrer?: string;
+}
+
+export enum UserType {
+    ADMIN = "Admin",
+    USER = "User"
 }
 
 // Model validation
@@ -30,8 +34,8 @@ export function validate(user: User): string {
         return "email is required";
     }
 
-    if (!user.mobile || user.mobile.length === 0) {
-        return "mobile is required";
+    if(!user.password || user.password.length === 0) {
+        return "password is required";
     }
 
     return "";

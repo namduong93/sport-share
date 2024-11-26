@@ -12,7 +12,7 @@ Then change into the root directory of the repository and run the command:
 
 Then wait for the system to load and once it is finished it can be found at:
 
-http://localhost:5173/
+http://localhost:3000/
 
 
 Note: An HTTPS implementation can be found commented out in the code, (server.ts + docker compose files + config files). Once a domain is obtained, certbot can be used to generate an SSL token and from there, the HTTPS implementation can be uncommented to run the server on HTTPS.
