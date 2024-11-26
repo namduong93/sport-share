@@ -14,7 +14,7 @@ import {
 import TextInput from "../../../../../components/general_utility/TextInput";
 import DropdownInput from "../../../../../components/general_utility/DropDownInput";
 import { StyledErrorMessage } from "../../../../general_styles/error_styles";
-import { genderOptions, pronounOptions } from "./AccountDataOptions";
+import { genderOptions } from "./AccountDataOptions";
 
 /**
  * A React web page form component for collecting account information in a multi-step registration process.
@@ -32,7 +32,6 @@ export const AccountDataInput: FC = () => {
 
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [showOtherGenderInput, setShowOtherGenderInput] = useState(false);
 
   const isButtonDisabled = () => {
     const { firstName, lastName, password, email, gender } = formData;
@@ -58,18 +57,6 @@ export const AccountDataInput: FC = () => {
     }
   };
 
-  // Allows users to enter their own gender designation if it
-  // is not one of the provided options
-  const handleGenderChange = (value: string) => {
-    if (value === "other") {
-      setShowOtherGenderInput(true);
-      setFormData({ ...formData, gender: "" });
-    } else {
-      setShowOtherGenderInput(false);
-      setFormData({ ...formData, gender: value });
-    }
-  };
-
   const handleNext = () => {
     navigate("/siteinformation");
   };
@@ -85,7 +72,7 @@ export const AccountDataInput: FC = () => {
           <StyledDoubleInputContainer className="account-data-input--StyledDoubleInputContainer-0">
             <TextInput
               label="First Name"
-              placeholder="John"
+              placeholder="Nam"
               type="text"
               required={true}
               value={formData.firstName}
@@ -96,7 +83,7 @@ export const AccountDataInput: FC = () => {
             />
             <TextInput
               label="Last Name"
-              placeholder="Smith"
+              placeholder="Duong"
               type="text"
               required={true}
               value={formData.lastName}
@@ -123,38 +110,15 @@ export const AccountDataInput: FC = () => {
               options={genderOptions}
               value={formData.gender}
               required={true}
-              onChange={(e) => handleGenderChange(e.target.value)}
-              width="45%"
-            />
-            <div style={{ display: "flex", width: "45%", minWidth: "172px" }}>
-              <DropdownInput
-                label="Preferred Pronouns"
-                options={pronounOptions}
-                value={formData.preferredPronoun || ""}
-                required={false}
-                onChange={(e) =>
-                  setFormData({ ...formData, preferredPronoun: e.target.value })
-                }
-                width="100%"
-              />
-            </div>
-          </StyledDoubleInputContainer>
-          {showOtherGenderInput && (
-            <TextInput
-              label="Please Specify Your Gender"
-              placeholder="Enter your gender"
-              type="text"
-              required={true}
-              value={formData.gender || ""}
-              onChange={(e) =>
+              onChange={(e) => 
                 setFormData({ ...formData, gender: e.target.value })
               }
-              width="100%"
+              width="45%"
             />
-          )}
+          </StyledDoubleInputContainer>
           <TextInput
             label="Email"
-            placeholder="example@email.com"
+            placeholder="user@example.com"
             type="text"
             required={true}
             value={formData.email}

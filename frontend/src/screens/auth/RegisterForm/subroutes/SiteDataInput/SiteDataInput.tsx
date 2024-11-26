@@ -8,13 +8,14 @@ import {
   ButtonContainer,
   Container,
   ContentContainer,
-  NextButton,
+  CreateAccountButton,
   Title,
 } from "./SiteDataInput.styles";
 import DropdownInput from "../../../../../components/general_utility/DropDownInput";
 import DescriptiveTextInput from "../../../../../components/general_utility/DescriptiveTextInput";
 import MultiRadio from "../../../../../components/general_utility/MultiRadio";
 import { dietaryOptions, tShirtOptions } from "./SiteDataOptions";
+import { sendRequest } from "../../../../../utility/request";
 
 /**
  * A React web page form component for collecting site-related information during the registration process.
@@ -29,10 +30,29 @@ import { dietaryOptions, tShirtOptions } from "./SiteDataOptions";
 export const SiteDataInput: FC = () => {
   const navigate = useNavigate();
   const { formData, setFormData } = useMultiStepRegoForm(); // Access the form context
-
-  const handleNext = () => {
-    navigate("/institutioninformation");
-  };
+  
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+    
+        try {
+          const endpoint =
+            formData.role === "Staff" ? "/staff/register" : "/student/register";
+    
+          await sendRequest.post(endpoint, {
+            name: `${formData.firstName} ${formData.lastName}`,
+            preferredName: formData.preferredName,
+            gender: formData.gender,
+            email: formData.email,
+            password: formData.password,
+            bio: formData.bio,
+            referrer: formData.referrer,
+          });
+    
+          window.location.href = "/dashboard";
+        } catch (error) {
+          console.error("Error during registration:", error);
+        }
+      };
 
   return (
     <StyledFlexBackground
@@ -45,55 +65,34 @@ export const SiteDataInput: FC = () => {
       <RegoProgressBar progressNumber={2} />
       <Container>
         <ContentContainer>
-          <Title>Site Information</Title>
-
-          <DropdownInput
-            label="T-Shirt Size"
-            options={tShirtOptions}
-            value={formData.tShirtSize}
-            required={true}
-            onChange={(e) =>
-              setFormData({ ...formData, tShirtSize: e.target.value })
-            }
-            width="100%"
-            descriptor="Please refer to the Sizing Guide"
-          />
+          <Title>Club Information</Title>
 
           <DescriptiveTextInput
-            label="Food Allergies"
-            descriptor="Please let us know if you have any food allergies so that we can ensure your safety"
-            placeholder="Enter a description"
+            label="Verify Question"
+            descriptor="Please introduce yourself to our club"
+            placeholder=""
             required={false}
-            value={formData.foodAllergies || ""}
+            value={formData.bio || ""}
             onChange={(e) =>
-              setFormData({ ...formData, foodAllergies: e.target.value })
+              setFormData({ ...formData, bio: e.target.value })
             }
             width="100%"
           />
 
-          <MultiRadio
-            options={dietaryOptions}
-            selectedValues={formData.dietaryRequirements || []}
-            onChange={(selectedValues) =>
-              setFormData({ ...formData, dietaryRequirements: selectedValues })
-            }
-            label="Dietary Requirements"
-            descriptor="Please select one or more options, or specify 'Other' if applicable"
-          />
-
           <DescriptiveTextInput
-            label="Accessibility Requirements"
-            descriptor="Please inform us of any accessibility needs you may have"
-            placeholder="Enter a description"
+            label="Referrer"
+            descriptor="Who do you know in the team?"
+            placeholder=""
             required={false}
-            value={formData.accessibilityRequirements || ""}
+            value={formData.referrer || ""}
             onChange={(e) =>
               setFormData({
                 ...formData,
-                accessibilityRequirements: e.target.value,
+                referrer: e.target.value,
               })
             }
             width="100%"
+            height="35%"
           />
 
           <ButtonContainer>
@@ -101,9 +100,11 @@ export const SiteDataInput: FC = () => {
               Back
             </Button>
 
-            <NextButton disabled={!formData.tShirtSize} onClick={handleNext}>
-              Next
-            </NextButton>
+            <CreateAccountButton
+              disabled={!formData.bio || !formData.referrer}
+              onClick={handleSubmit}
+              className="institution-data-input--StyledCreateAccountButton-0">Create Account
+            </CreateAccountButton>
           </ButtonContainer>
         </ContentContainer>
       </Container>

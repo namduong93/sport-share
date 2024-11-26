@@ -23,7 +23,7 @@ export const RoleSelect: FC = () => {
   const navigate = useNavigate();
   const { formData, setFormData } = useMultiStepRegoForm();
 
-  const handleRoleClick = (selectedRole: "Student" | "Staff") => {
+  const handleRoleClick = (selectedRole: "User" | "Admin") => {
     setFormData({ ...formData, role: selectedRole });
   };
 
@@ -46,16 +46,16 @@ export const RoleSelect: FC = () => {
           <StyledStudentButton
             type='button'
             // Pass isSelected prop
-            isSelected={formData.role === 'Student'}
-            onClick={() => handleRoleClick('Student')}
-            className="role-select--StyledStudentButton-0">Student</StyledStudentButton>
+            isSelected={formData.role === 'User'}
+            onClick={() => handleRoleClick('User')}
+            className="role-select--StyledStudentButton-0">User</StyledStudentButton>
 
           <StyledStaffButton
             type='button'
             // Pass isSelected prop
-            isSelected={formData.role === 'Staff'}
-            onClick={() => handleRoleClick('Staff')}
-            className="role-select--StyledStaffButton-0">Staff</StyledStaffButton>
+            isSelected={formData.role === 'Admin'}
+            onClick={() => handleRoleClick('Admin')}
+            className="role-select--StyledStaffButton-0">Admin</StyledStaffButton>
         </RoleContainer>
         <StyledButton disabled={!formData.role} className="role-select--StyledButton-0">Next</StyledButton>
       </StyledFormContainer>

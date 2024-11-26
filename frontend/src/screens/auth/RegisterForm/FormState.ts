@@ -5,15 +5,10 @@ export interface FormState {
   lastName: string;
   preferredName?: string;
   gender: string;
-  preferredPronoun?: string;
   email: string;
   password:string;
-  tShirtSize: string;
-  foodAllergies?: string;
-  dietaryRequirements?: string[];
-  accessibilityRequirements?: string;
-  institution: string;
-  studentId?: string;
+  bio: string;
+  referrer: string;
 }
 
 export const initialState: FormState = {
@@ -21,14 +16,9 @@ export const initialState: FormState = {
   firstName: '',
   lastName: '',
   preferredName: undefined,
-  gender: '',
-  preferredPronoun: undefined,
+  gender: 'Male',
   email: '',
   password: '',
-  tShirtSize: '',
-  foodAllergies: undefined,
-  dietaryRequirements: [],
-  accessibilityRequirements: undefined,
-  institution: '',
-  studentId: undefined,
+  bio: '',
+  referrer: ''
 }

@@ -19,7 +19,7 @@ import { RegisterFormProvider } from "./screens/auth/RegisterForm/RegisterFormPr
 import { RoleSelect } from "./screens/auth/RegisterForm/subroutes/RoleSelect/RoleSelect";
 import { AccountDataInput } from "./screens/auth/RegisterForm/subroutes/AccountDataInput/AccountDataInput";
 import { SiteDataInput } from "./screens/auth/RegisterForm/subroutes/SiteDataInput/SiteDataInput";
-import { InstitutionDataInput } from "./screens/auth/RegisterForm/subroutes/InstitutionDataInput/InstitutionDataInput";
+// import { InstitutionDataInput } from "./screens/auth/RegisterForm/subroutes/InstitutionDataInput/InstitutionDataInput";
 import {
   PasswordCodeRecoverForm,
   PasswordRecovery,
@@ -132,14 +132,14 @@ function App() {
               </RegisterFormProvider>
             }
           />
-          <Route
+          {/* <Route
             path="/institutioninformation"
             element={
               <RegisterFormProvider>
                 <InstitutionDataInput />
               </RegisterFormProvider>
             }
-          />
+          /> */}
           {/* coach page should be split up subrouted TeamsView and StudentsView in the future */}
           <Route path="/password/recovery" element={<PasswordRecovery />}>
             <Route path="email" element={<EmailForm />} />
