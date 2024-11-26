@@ -1,0 +1,17 @@
+services:
+  db:
+    build: ./database
+    container_name: capstone_db_container
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=ab
+      - POSTGRES_DB=capstone_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    stdin_open: true
+    tty: true
+volumes:
+  db-data:

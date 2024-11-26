@@ -1,0 +1,21 @@
+{
+  "name": "Auto Coach",
+  "version": "1.0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "icons": {
+    "32": "ICPC_balloon.png"
+  }
+  
+}

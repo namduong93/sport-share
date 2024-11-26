@@ -1,0 +1,64 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      NODE_ENV: production
+    networks:
+      - docker-network
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:8000
+      # HTTPS-Migrate, Uncomment when moving to https
+      # - REACT_APP_BACKEND_URL=https://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - docker-network
+  
+  db:
+    build: ./database
+    container_name: capstone_db_container
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=ab
+      - POSTGRES_DB=capstone_db
+    networks:
+      - docker-network
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    stdin_open: true
+    tty: true
+
+  # test_db:
+  #   build: ./database
+  #   container_name: capstone_test_db_container
+  #   ports:
+  #     - "5433:5432"
+  #   restart: always
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=ab
+  #     - POSTGRES_DB=capstone_db_test
+  #   networks:
+  #     - docker-network
+  #   volumes:
+  #     - test-db-data:/var/lib/postgresql/data
+  #   stdin_open: true
+  #   tty: true
+
+volumes:
+  db-data:
+  test-db-data:
+networks:
+  docker-network:
