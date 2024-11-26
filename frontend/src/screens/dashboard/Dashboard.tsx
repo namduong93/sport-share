@@ -18,6 +18,8 @@ import { StyledInput } from "../Account/Account.styles";
 import { StyledErrorMessage } from "../general_styles/error_styles";
 import { CompCard } from "./subcomponents/CompCard";
 import { RegisterPopUp } from "../../components/general_utility/RegisterPopUp";
+import { useUserContext } from "../../components/general_utility/UserContext";
+import { UserType } from "../../../shared_types/User/User";
 
 export interface Competition {
   compName: string;
@@ -64,31 +66,29 @@ export const Dashboard: FC<DashboardsProps> = ({ dashInfo }) => {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
   const [userType, setUserType] = useState<string>("");
   const navigate = useNavigate();
+  const { userData } = useUserContext();
 
   // Fetches the user type and competitions data when the component mounts
   useEffect(() => {
     (async () => {
       try {
-        const typeResponse = await sendRequest.get<{ type: string }>(
-          "/user/type"
-        );
-        setUserType(typeResponse.data.type);
-        setIsAdmin(typeResponse.data.type === "system_admin");
+        setUserType(userData?.role || UserType.USER);
+        setIsAdmin(userData?.role === UserType.ADMIN);
         setIsLoaded(true);
 
-        const fakeComps = await sendRequest.get<{
-          competitions: Competition[];
-        }>("/competitions/list");
-        const formattedCompetitions = fakeComps.data.competitions.map(
-          (comp) => ({
-            ...comp,
-            compDate: new Date(comp.compDate).toISOString().split("T")[0],
-            compCreatedDate: new Date(comp.compCreatedDate)
-              .toISOString()
-              .split("T")[0],
-          })
-        );
-        setCompetitions(formattedCompetitions);
+        // const fakeComps = await sendRequest.get<{
+        //   competitions: Competition[];
+        // }>("/competitions/list");
+        // const formattedCompetitions = fakeComps.data.competitions.map(
+        //   (comp) => ({
+        //     ...comp,
+        //     compDate: new Date(comp.compDate).toISOString().split("T")[0],
+        //     compCreatedDate: new Date(comp.compCreatedDate)
+        //       .toISOString()
+        //       .split("T")[0],
+        //   })
+        // );
+        // setCompetitions(formattedCompetitions);
       } catch (error: unknown) {
         sendRequest.handleErrorStatus(error, [403], () => {
           setIsLoaded(false);

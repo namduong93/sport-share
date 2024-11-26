@@ -12,16 +12,35 @@ export class UserController {
     // This method is used to authenticate a user
     async authenticate(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log("Authenticating user");
             const email = req.body.email;
             const password = req.body.password;
 
             const user = await this.userService.authenticate(email, password);
+            res.cookie('token', user?.token, {httpOnly: true, path:'/', secure: true, sameSite: 'none'});
 
             if (user) {
                 res.send(user);
             } else {
                 res.status(403).send('Wrong email or password');
+            }
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    // This method is used to log out a user
+    async logout(req: Request, res: Response, next: NextFunction) {
+        try {
+            const email = req.body.email;
+            const token = req.body.token;
+            console.log(email, token);
+            console.log("haha");
+            const deleted = true;
+
+            if (deleted) {
+                res.send('Logged out');
+            } else {
+                res.status(500).send('Failed to log out');
             }
         } catch (e) {
             next(e);
@@ -49,8 +68,6 @@ export class UserController {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
             const user = req.body;
-            console.log(user);
-            console.log("Body", req.body);
             const newUser = await this.userService.create(user);
 
             if (newUser) {

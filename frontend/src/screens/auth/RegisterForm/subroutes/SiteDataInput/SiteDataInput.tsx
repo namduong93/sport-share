@@ -16,6 +16,7 @@ import DescriptiveTextInput from "../../../../../components/general_utility/Desc
 import MultiRadio from "../../../../../components/general_utility/MultiRadio";
 import { dietaryOptions, tShirtOptions } from "./SiteDataOptions";
 import { sendRequest } from "../../../../../utility/request";
+import { User } from "../../../../../../shared_types/User/User";
 
 /**
  * A React web page form component for collecting site-related information during the registration process.
@@ -36,8 +37,8 @@ export const SiteDataInput: FC = () => {
     
         try {
           console.log("Sending registration data:", formData);
-          await sendRequest.post("/users", formData);
-          window.location.href = "/dashboard";
+          await sendRequest.post<User> ("/users", formData);
+          window.location.href = "/";
         } catch (error) {
           console.error("Error during registration:", error);
         }

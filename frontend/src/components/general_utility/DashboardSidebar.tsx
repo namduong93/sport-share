@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { sendRequest } from "../../utility/request";
 import { backendURL } from "../../../config/backendURLConfig";
 import { StyledProfilePic } from "../../screens/Account/Account.styles";
+import { useUserContext } from "./UserContext";
 
 const StyledSidebarContainer = styled.div<{ $cropState: boolean }>`
   min-width: ${({ $cropState: cropState }) => (cropState ? "40px" : "200px")};
@@ -194,6 +195,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 }) => {
   const [isSysAdmin, setIsSysAdmin] = useState(false);
   const navigate = useNavigate();
+  const { setUserData } = useUserContext();
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -201,7 +203,8 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await sendRequest.post("/user/logout");
+    await sendRequest.post("/users/logout");
+    setUserData(null);
     handleNavigation("/");
   };
 
@@ -209,9 +212,14 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   useEffect(() => {
     (async () => {
       try {
-        const typeResponse = await sendRequest.get<{ type: string }>(
-          "/user/type"
-        );
+        // const typeResponse = await sendRequest.get<{ type: string }>(
+        //   "/user/type"
+        // );
+        const typeResponse = {
+          data: {
+            type: "user"
+          }
+        }
         setIsSysAdmin(typeResponse.data.type === "system_admin");
       } catch (error: unknown) {
         sendRequest.handleErrorStatus(error, [403], () => {

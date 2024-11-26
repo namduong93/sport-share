@@ -54,9 +54,14 @@ export const Settings: FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        const typeResponse = await sendRequest.get<{ type: string }>(
-          "/user/type"
-        );
+        // const typeResponse = await sendRequest.get<{ type: string }>(
+        //   "/user/type"
+        // );
+        const typeResponse = {
+          data: {
+            type: "user"
+          }
+        }
         const savedTheme = localStorage.getItem("theme");
         if (savedTheme) setTheme(savedTheme);
         fetchFAQs(typeResponse.data.type);

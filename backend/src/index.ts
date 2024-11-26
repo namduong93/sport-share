@@ -1,4 +1,4 @@
-import express, {Express, NextFunction, Request, Response} from "express";
+import express, {json, Express, NextFunction, Request, Response} from "express";
 import dotenv from "dotenv";
 import serverless from "serverless-http";
 import * as AWS from "aws-sdk";
@@ -18,6 +18,7 @@ import {DynamoDBSessionRepository} from "./repository/session/dynamodb";
 import {Authenticator} from "./middleware/authenticator";
 import {handleError} from "./middleware/error_hanlder";
 import cors from 'cors';
+import cookieParser from "cookie-parser";
 
 // Load environment variable
 dotenv.config();
@@ -26,13 +27,18 @@ const app: Express = express();
 // AWS Config
 AWS.config.update({region:"ap-southeast-2"});
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
+
+app.use(cookieParser());
 
 // Middleware to parse JSON bodies
 app.use(express.json());
 // Middleware to authenticate request (bypass for local env)
-const authenticator = new Authenticator();
-app.use(authenticator.authenticationMiddleware)
+// const authenticator = new Authenticator();
+// app.use(authenticator.authenticationMiddleware)
 
 // User Registry
 const userRepository = new DynamoDBUserRepository(new AWS.DynamoDB());
@@ -64,6 +70,7 @@ app.post("/users", (req: Request, res: Response, next: NextFunction) => userCont
 app.put("/users", (req: Request, res: Response, next: NextFunction) => userController.update(req, res, next));
 app.delete("/users/:email", (req: Request, res: Response, next: NextFunction) => userController.delete(req, res, next));
 app.post("/users/authenticate", (req: Request, res: Response, next: NextFunction) => userController.authenticate(req, res, next));
+app.post("/users/logout", (req: Request, res: Response, next: NextFunction) => userController.logout(req, res, next));
 
 // Team Member Routes
 app.get("/teams/:teamId/members", (req: Request, res: Response) => teamMemberController.list(req, res));

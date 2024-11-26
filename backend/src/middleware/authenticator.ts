@@ -29,7 +29,7 @@ export class Authenticator {
           return;
       }
 
-      const token = Authenticator.extractTokenFromHeader(req);
+      const token = req.cookies.token;
       if (!token) {
         throw TOKEN_NOT_FOUND;
       }
@@ -50,7 +50,7 @@ export class Authenticator {
       // }
 
       // Passing uuid to the next middleware
-      res.locals.uuid = session.uuid;
+      req.query.uuid = session.uuid;
       next();
 
     } catch (err: any) {

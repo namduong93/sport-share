@@ -29,7 +29,8 @@ export class sendRequest {
         params
       )}`,
       {
-        headers
+        withCredentials: true,
+        ...headers,
       }
     );
   }
@@ -43,7 +44,8 @@ export class sendRequest {
       `${backendURL.HOST}:${backendURL.PORT}${path}`,
       params,
       {
-        headers
+        withCredentials: true,
+        ...headers,
       }
     );
   }
@@ -57,7 +59,8 @@ export class sendRequest {
       `${backendURL.HOST}:${backendURL.PORT}${path}`,
       params,
       {
-        headers
+        withCredentials: true,
+        ...headers,
       }
     );
   }
@@ -72,7 +75,8 @@ export class sendRequest {
         params
       )}`,
       {
-        headers
+        withCredentials: true,
+        ...headers,
       }
     );
   }

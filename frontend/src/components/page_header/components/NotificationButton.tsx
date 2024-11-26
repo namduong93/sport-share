@@ -164,9 +164,14 @@ export const NotificationButton: FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        const typeResponse = await sendRequest.get<{ type: string }>(
-          "/user/type"
-        );
+        // const typeResponse = await sendRequest.get<{ type: string }>(
+        //   "/user/type"
+        // );
+        const typeResponse = {
+          data: {
+            type: "user"
+          }
+        }
         setIsStaff(typeResponse.data.type !== "student");
         setIsAdmin(typeResponse.data.type === "system_admin");
       } catch (error: unknown) {
@@ -182,24 +187,25 @@ export const NotificationButton: FC = () => {
     (async () => {
       try {
         // Fetch notifications from the backend
-        const notifResponse = await sendRequest.get<Notification[]>(
-          "/user/notifications"
-        );
+        // const notifResponse = await sendRequest.get<Notification[]>(
+        //   "/user/notifications"
+        // );
 
         // Transform the backend response to match the frontend Notification structure
-        const transformedNotifications = notifResponse.data.map((notif) => ({
-          id: notif.id,
-          type: notif.type as Notification["type"],
-          message: notif.message,
-          createdAt: new Date(notif.createdAt), // Use createdAt as date
-          competitionId: notif.competitionId, // Convert competitionId to compId and string
-          competitionName: notif.competitionName,
-          decision: notif.decision,
-          teamName: notif.teamName,
-          studentName: notif.studentName,
-          newTeamName: notif.newTeamName,
-          siteLocation: notif.siteLocation,
-        }));
+        // const transformedNotifications = notifResponse.data.map((notif) => ({
+        //   id: notif.id,
+        //   type: notif.type as Notification["type"],
+        //   message: notif.message,
+        //   createdAt: new Date(notif.createdAt), // Use createdAt as date
+        //   competitionId: notif.competitionId, // Convert competitionId to compId and string
+        //   competitionName: notif.competitionName,
+        //   decision: notif.decision,
+        //   teamName: notif.teamName,
+        //   studentName: notif.studentName,
+        //   newTeamName: notif.newTeamName,
+        //   siteLocation: notif.siteLocation,
+        // }));
+        const transformedNotifications : Notification[] = [];
 
         setNotifications(transformedNotifications); // Set transformed data
       } catch (error: unknown) {

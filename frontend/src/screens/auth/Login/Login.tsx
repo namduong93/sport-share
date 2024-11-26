@@ -12,6 +12,8 @@ import {
 } from "./Login.styles";
 import TextInput from "../../../components/general_utility/TextInput";
 import { StyledCustomButton } from "../../general_styles/button_styles";
+import { User } from "../../../../shared_types/User/User";
+import { useUserContext } from "../../../components/general_utility/UserContext";
 
 /**
  * A React web page component that renders a login form. It includes fields for email and password
@@ -26,12 +28,15 @@ export const Login: FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {setUserData} = useUserContext();
 
   // If the user logs in successfully, redirect them to their dashboard
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await sendRequest.post("/users/authenticate", { email, password });
+      const response = await sendRequest.post<User>("/users/authenticate", { email, password });
+      setUserData(response.data);
+      localStorage.setItem('userData', JSON.stringify(response.data));
       window.location.href = "/dashboard";
     } catch (error: unknown) {
       console.error("Login failed", error);

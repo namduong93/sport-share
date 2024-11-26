@@ -47,6 +47,7 @@ import { CompExperienceInput } from "./screens/competition/register/RegisterForm
 import { StaffRegisterForm } from "./screens/competition/register/StaffRegisterForm/StaffRegisterForm";
 import { TeamDetails } from "./screens/student/subroutes/TeamDetails/TeamDetails";
 import { TeamManage } from "./screens/student/subroutes/TeamManage/TeamManage";
+import { UserProvider } from "./components/general_utility/UserContext";
 
 const themeMap = {
   default: defaultTheme,
@@ -103,128 +104,130 @@ function App() {
 
   return (
     <ThemeProvider theme={currentTheme}>
-      <Router>
-        <div style={{ background: currentTheme.background }}></div>
-        <Routes>
-          <Route path="/" element={<Login />} />
+      <UserProvider>
+        <Router>
+          <div style={{ background: currentTheme.background }}></div>
+          <Routes>
+            <Route path="/" element={<Login />} />
 
-          <Route
-            path="/roleregistration"
-            element={
-              <RegisterFormProvider>
-                <RoleSelect />
-              </RegisterFormProvider>
-            }
-          />
-          <Route
-            path="/accountinformation"
-            element={
-              <RegisterFormProvider>
-                <AccountDataInput />
-              </RegisterFormProvider>
-            }
-          />
-          <Route
-            path="/siteinformation"
-            element={
-              <RegisterFormProvider>
-                <SiteDataInput />
-              </RegisterFormProvider>
-            }
-          />
-          {/* <Route
-            path="/institutioninformation"
-            element={
-              <RegisterFormProvider>
-                <InstitutionDataInput />
-              </RegisterFormProvider>
-            }
-          /> */}
-          {/* coach page should be split up subrouted TeamsView and StudentsView in the future */}
-          <Route path="/password/recovery" element={<PasswordRecovery />}>
-            <Route path="email" element={<EmailForm />} />
-            <Route path="email/success" element={<EmailSuccess />} />
-            <Route path="reset/:code" element={<PasswordCodeRecoverForm />} />
-          </Route>
-
-          <Route
-            element={<SidebarLayout cropState={false} sidebarInfo={dashInfo} />}
-          >
             <Route
-              path="/competition/page/:compId"
-              element={<CompIdNavigate route="/competition/page/teams" />}
+              path="/roleregistration"
+              element={
+                <RegisterFormProvider>
+                  <RoleSelect />
+                </RegisterFormProvider>
+              }
             />
             <Route
-              path="/competition/page"
-              element={<Navigate to="/dashboard" />}
+              path="/accountinformation"
+              element={
+                <RegisterFormProvider>
+                  <AccountDataInput />
+                </RegisterFormProvider>
+              }
             />
-            <Route path="/competition/page/" element={<CompetitionPage />}>
-              <Route index element={<Navigate to="/dashboard" />} />
-              <Route path="teams/:compId" element={<TeamPage />} />
-              <Route path="students/:compId" element={<StudentPage />} />
-              <Route path="staff/:compId" element={<StaffPage />} />
-              <Route path="site/:compId" element={<AttendeesDisplay />} />
-              <Route path="manage/:compId" element={<ManagePage />} />
+            <Route
+              path="/siteinformation"
+              element={
+                <RegisterFormProvider>
+                  <SiteDataInput />
+                </RegisterFormProvider>
+              }
+            />
+            {/* <Route
+              path="/institutioninformation"
+              element={
+                <RegisterFormProvider>
+                  <InstitutionDataInput />
+                </RegisterFormProvider>
+              }
+            /> */}
+            {/* coach page should be split up subrouted TeamsView and StudentsView in the future */}
+            <Route path="/password/recovery" element={<PasswordRecovery />}>
+              <Route path="email" element={<EmailForm />} />
+              <Route path="email/success" element={<EmailSuccess />} />
+              <Route path="reset/:code" element={<PasswordCodeRecoverForm />} />
             </Route>
 
             <Route
-              path="/competition/participant/:compId/"
-              element={<TeamProfile />}
+              element={<SidebarLayout cropState={false} sidebarInfo={dashInfo} />}
             >
-              <Route index element={<TeamDetails />} />
-              <Route path="details" element={<TeamDetails />} />
-              <Route path="manage" element={<TeamManage />} />
+              <Route
+                path="/competition/page/:compId"
+                element={<CompIdNavigate route="/competition/page/teams" />}
+              />
+              <Route
+                path="/competition/page"
+                element={<Navigate to="/dashboard" />}
+              />
+              <Route path="/competition/page/" element={<CompetitionPage />}>
+                <Route index element={<Navigate to="/dashboard" />} />
+                <Route path="teams/:compId" element={<TeamPage />} />
+                <Route path="students/:compId" element={<StudentPage />} />
+                <Route path="staff/:compId" element={<StaffPage />} />
+                <Route path="site/:compId" element={<AttendeesDisplay />} />
+                <Route path="manage/:compId" element={<ManagePage />} />
+              </Route>
+
+              <Route
+                path="/competition/participant/:compId/"
+                element={<TeamProfile />}
+              >
+                <Route index element={<TeamDetails />} />
+                <Route path="details" element={<TeamDetails />} />
+                <Route path="manage" element={<TeamManage />} />
+              </Route>
+
+              <Route
+                path="/dashboard"
+                element={<Dashboard dashInfo={dashInfo} />}
+              />
+              <Route path="/staffAccounts" element={<StaffAccessPage />} />
+              <Route
+                path="/account"
+                element={<Account setDashInfo={setDashInfo} />}
+              />
+              <Route path="/settings" element={<Settings />} />
             </Route>
 
+            <Route path="/competition/create" element={<CompDataInput />} />
             <Route
-              path="/dashboard"
-              element={<Dashboard dashInfo={dashInfo} />}
+              path="/competition/confirmation"
+              element={<CompDataConfirmation />}
             />
-            <Route path="/staffAccounts" element={<StaffAccessPage />} />
+
             <Route
-              path="/account"
-              element={<Account setDashInfo={setDashInfo} />}
+              path="/competition/information/:code?"
+              element={
+                <CompRegisterFormProvider>
+                  <CompetitionInformation />
+                </CompRegisterFormProvider>
+              }
             />
-            <Route path="/settings" element={<Settings />} />
-          </Route>
+            <Route
+              path="/competition/individual/:code?"
+              element={
+                <CompRegisterFormProvider>
+                  <CompIndividualInput />
+                </CompRegisterFormProvider>
+              }
+            />
+            <Route
+              path="/competition/experience/:code?"
+              element={
+                <CompRegisterFormProvider>
+                  <CompExperienceInput />
+                </CompRegisterFormProvider>
+              }
+            />
 
-          <Route path="/competition/create" element={<CompDataInput />} />
-          <Route
-            path="/competition/confirmation"
-            element={<CompDataConfirmation />}
-          />
-
-          <Route
-            path="/competition/information/:code?"
-            element={
-              <CompRegisterFormProvider>
-                <CompetitionInformation />
-              </CompRegisterFormProvider>
-            }
-          />
-          <Route
-            path="/competition/individual/:code?"
-            element={
-              <CompRegisterFormProvider>
-                <CompIndividualInput />
-              </CompRegisterFormProvider>
-            }
-          />
-          <Route
-            path="/competition/experience/:code?"
-            element={
-              <CompRegisterFormProvider>
-                <CompExperienceInput />
-              </CompRegisterFormProvider>
-            }
-          />
-
-          <Route
-            path="/competition/staff/register/:code?"
-            element={<StaffRegisterForm />}
-          />
-        </Routes>
-      </Router>
+            <Route
+              path="/competition/staff/register/:code?"
+              element={<StaffRegisterForm />}
+            />
+          </Routes>
+        </Router>
+      </UserProvider>
     </ThemeProvider>
   );
 }
