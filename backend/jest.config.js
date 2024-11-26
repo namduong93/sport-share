@@ -1,12 +1,5 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} **/
-export default {
+/** @type {import('ts-jest').JestConfigWithTsJest} */
+module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  moduleFileExtensions: ['ts', 'js', 'json', 'node'],
-  testPathIgnorePatterns: ['<rootDir>/dist/'],
-  coveragePathIgnorePatterns: ['<rootDir>/src/models/', '<rootDir>/src/errors/'],
-  moduleNameMapper: {
-    // Map to allow imports without .js in TypeScript
-    '^(.*)\\.js$': '$1',
-  },
 };
