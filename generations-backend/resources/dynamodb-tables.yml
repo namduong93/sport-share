@@ -1,0 +1,78 @@
+Resources:
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.dynamo-table-names.users-table}
+      AttributeDefinitions:
+        - AttributeName: em
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: em
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  TeamsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.dynamo-table-names.teams-table}
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  TeamMembersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.dynamo-table-names.team-members-table}
+      AttributeDefinitions:
+        - AttributeName: tid
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: tid
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  TeamGamesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.dynamo-table-names.team-games-table}
+      AttributeDefinitions:
+        - AttributeName: tid
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: tid
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  SessionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.dynamo-table-names.sessions-table}
+      AttributeDefinitions:
+        - AttributeName: tk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: tk
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1

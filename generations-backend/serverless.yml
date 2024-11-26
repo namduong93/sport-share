@@ -1,0 +1,40 @@
+service: generations-aws-lambda
+frameworkVersion: '3'
+
+custom:
+  stage: ${opt:stage, self:provider.stage, 'dev'}
+  dynamo-table-names:
+    users-table: ${self:custom.stage}-generations-users
+    teams-table: ${self:custom.stage}-generations-teams
+    team-members-table: ${self:custom.stage}-generations-team-members
+    team-games-table: ${self:custom.stage}-generations-team-games
+    sessions-table: ${self:custom.stage}-generations-sessions
+  serverless-offline:
+    httpPort: 3001
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  profile: generations-dev
+  region: ap-southeast-2
+  environment:
+    DDB_TEAM_MEMBERS_TABLE_NAME: ${self:custom.dynamo-table-names.team-members-table}
+    DDB_TEAMS_TABLE_NAME: ${self:custom.dynamo-table-names.teams-table}
+    DDB_TEAM_GAMES_TABLE_NAME: ${self:custom.dynamo-table-names.team-games-table}
+    DDB_USERS_TABLE_NAME: ${self:custom.dynamo-table-names.users-table}
+    DDB_USER_SESSIONS_TABLE_NAME: ${self:custom.dynamo-table-names.sessions-table}
+  httpApi:
+    cors: true
+
+functions:
+  app:
+    handler: src/index.handler
+    events:
+      - httpApi: '*'
+
+resources:
+  - ${file(resources/dynamodb-tables.yml)}
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript

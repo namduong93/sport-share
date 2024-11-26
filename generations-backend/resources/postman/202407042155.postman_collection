@@ -1,0 +1,1022 @@
+{
+	"info": {
+		"_postman_id": "53f35c30-96d5-41d1-885b-06183949160b",
+		"name": "GenerationsFC",
+		"description": "All API endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34424783"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"const token = response.token;\r",
+									"\r",
+									"if (token) {\r",
+									"    pm.collectionVariables.set(\"userToken\", token);\r",
+									"}\r",
+									"\r",
+									"console.log(\"New token:\", token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{userEmail}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/users/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"authenticate"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{userEmail}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/users/authenticate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"users",
+										"authenticate"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "482"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"1e2-awGStUqCbJPDo1/LhMXze2bfvXQ\""
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Jul 2024 03:47:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"email\": \"hoangtungquan@gmail.com\",\n    \"uuid\": \"4\",\n    \"name\": \"Tung Quan Hoang\",\n    \"preferredName\": \"TWuan\",\n    \"mobile\": \"0123456789\",\n    \"image\": \"https://scontent-syd2-1.xx.fbcdn.net/v/t39.30808-6/313308589_3303620429891676_667751645311934402_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=z5xJT-AYT-gQ7kNvgHieM5I&_nc_ht=scontent-syd2-1.xx&oh=00_AYAoA-vebTILh7yqO54epPC_vpzhQwGfklrFtQjJQ618lw&oe=668BC12E\",\n    \"token\": \"0.0rqekchrwe70.6f8xjozr9qt\",\n    \"createdAt\": \"2024-07-04T00:12:35.000Z\",\n    \"modifiedAt\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{userEmailToBeDeleted}}\",\r\n    \"uuid\": null,\r\n    \"name\": \"{{oldUserName}}\",\r\n    \"preferredName\": \"TWuan\",\r\n    \"password\": \"{{userPassword}}\",\r\n    \"mobile\": \"0123456789\",\r\n    \"image\": \"https://scontent-syd2-1.xx.fbcdn.net/v/t39.30808-6/313308589_3303620429891676_667751645311934402_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=z5xJT-AYT-gQ7kNvgHieM5I&_nc_ht=scontent-syd2-1.xx&oh=00_AYAoA-vebTILh7yqO54epPC_vpzhQwGfklrFtQjJQ618lw&oe=668BC12E\",\r\n    \"token\": null,\r\n    \"createdAt\": null,\r\n    \"modifiedAt\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('email');\r",
+									"    pm.expect(responseData).to.have.property('uuid');\r",
+									"    pm.expect(responseData).to.have.property('name');\r",
+									"    pm.expect(responseData).to.have.property('preferredName');\r",
+									"    pm.expect(responseData).to.have.property('password');\r",
+									"    pm.expect(responseData).to.have.property('mobile');\r",
+									"    pm.expect(responseData).to.have.property('image');\r",
+									"    pm.expect(responseData).to.have.property('token');\r",
+									"    pm.expect(responseData).to.have.property('createdAt');\r",
+									"    pm.expect(responseData).to.have.property('modifiedAt');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.email).to.be.a('string').and.to.match(/^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)*(\\.[a-z]{2,})$/);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response name is equal to the collection variable oldUserName\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const oldUserName = pm.collectionVariables.get(\"oldUserName\");\r",
+									"    pm.expect(responseData.name).to.equal(oldUserName);\r",
+									"});\r",
+									"\r",
+									"// Save the UUID as a collection variable\r",
+									"var uuidToBeDeleted = pm.response.json().uuid;\r",
+									"pm.collectionVariables.set(\"userUuidToBeDeleted\", uuidToBeDeleted);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/users/{{userEmailToBeDeleted}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"{{userEmailToBeDeleted}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "User Profile",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3001/users/{{userEmailToBeDeleted}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"users",
+										"{{userEmailToBeDeleted}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "547"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"223-GS/2BBeBKv/PRKKDq3aIzP+ZomI\""
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "accept-ranges",
+									"value": "bytes"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Jul 2024 08:20:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"email\": \"hoangtungquan2@gmail.com\",\n    \"uuid\": \"1720081209083\",\n    \"name\": \"Tung Quan Hoang\",\n    \"preferredName\": \"TWuan\",\n    \"password\": \"64113e16db9edbb1bd772387f5aafbc0954c4ec8491653680f2e454a69a88b01\",\n    \"mobile\": \"0123456789\",\n    \"image\": \"https://scontent-syd2-1.xx.fbcdn.net/v/t39.30808-6/313308589_3303620429891676_667751645311934402_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=z5xJT-AYT-gQ7kNvgHieM5I&_nc_ht=scontent-syd2-1.xx&oh=00_AYAoA-vebTILh7yqO54epPC_vpzhQwGfklrFtQjJQ618lw&oe=668BC12E\",\n    \"token\": \"\",\n    \"createdAt\": \"2024-07-04T08:20:09.000Z\",\n    \"modifiedAt\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Update User Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{userEmailToBeDeleted}}\",\r\n    \"uuid\": \"1720064775745\",\r\n    \"name\": \"{{newUserName}}\",\r\n    \"preferredName\": \"TQuan\",\r\n    \"password\": \"tungquan2002\",\r\n    \"mobile\": \"0123456789\",\r\n    \"image\": \"https://scontent-syd2-1.xx.fbcdn.net/v/t39.30808-6/313308589_3303620429891676_667751645311934402_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=z5xJT-AYT-gQ7kNvgHieM5I&_nc_ht=scontent-syd2-1.xx&oh=00_AYAoA-vebTILh7yqO54epPC_vpzhQwGfklrFtQjJQ618lw&oe=668BC12E\",\r\n    \"token\": null,\r\n    \"createdAt\": null,\r\n    \"modifiedAt\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check User Profile after Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('email');\r",
+									"    pm.expect(responseData).to.have.property('uuid');\r",
+									"    pm.expect(responseData).to.have.property('name');\r",
+									"    pm.expect(responseData).to.have.property('preferredName');\r",
+									"    pm.expect(responseData).to.have.property('password');\r",
+									"    pm.expect(responseData).to.have.property('mobile');\r",
+									"    pm.expect(responseData).to.have.property('image');\r",
+									"    pm.expect(responseData).to.have.property('token');\r",
+									"    pm.expect(responseData).to.have.property('createdAt');\r",
+									"    pm.expect(responseData).to.have.property('modifiedAt');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.email).to.be.a('string').and.to.match(/^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)*(\\.[a-z]{2,})$/);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response name is equal to the collection variable newUserName\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const newUserName = pm.collectionVariables.get(\"newUserName\");\r",
+									"    pm.expect(responseData.name).to.equal(newUserName);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/users/{{userEmailToBeDeleted}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"{{userEmailToBeDeleted}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Register, log in, and acquire general information for user(s)."
+		},
+		{
+			"name": "Team",
+			"item": [
+				{
+					"name": "Create Team",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{newTeamName}}\",\r\n    \"email\": \"{{newTeamEmail}}\",\r\n    \"image\": \"abcxyz.com2\",\r\n    \"createdAt\": null,\r\n    \"modifiedAt\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/teams",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Teams Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - id, name, email, image, createdAt, and modifiedAt\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('array');\r",
+									"    responseData.forEach(function(team) {\r",
+									"        pm.expect(team).to.include.all.keys('id', 'name', 'email', 'image', 'createdAt', 'modifiedAt');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    responseData.forEach(function(team) {\r",
+									"        pm.expect(team.email).to.be.a('string').and.to.match(/\\S+@\\S+\\.\\S+/);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"CreatedAt and modifiedAt are in a valid date format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    responseData.forEach(function(team) {\r",
+									"        pm.expect(team.createdAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);\r",
+									"        pm.expect(team.modifiedAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/teams",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "All Teams Information",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3001/teams",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"teams"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "673"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"2a1-KpAnODBv+2Gh9O+tGKz3BgGETSk\""
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "accept-ranges",
+									"value": "bytes"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Jul 2024 08:41:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"2\",\n        \"name\": \"Tat Phuc 2\",\n        \"email\": \"abcxyz2@generations.com\",\n        \"image\": \"abcxyz.com2\",\n        \"createdAt\": \"2024-06-15T07:30:52.000Z\",\n        \"modifiedAt\": \"2024-07-04T08:41:37.975Z\"\n    },\n    {\n        \"id\": \"1720081890220\",\n        \"name\": \"Team 1\",\n        \"email\": \"abcxyztest@generations.com\",\n        \"image\": \"abcxyz.com2\",\n        \"createdAt\": \"2024-07-04T08:31:30.000Z\",\n        \"modifiedAt\": \"2024-07-04T08:41:37.975Z\"\n    },\n    {\n        \"id\": \"1\",\n        \"name\": \"Tat Phuc\",\n        \"email\": \"abcxyz@generations.com\",\n        \"image\": \"abcxyz.com\",\n        \"createdAt\": \"2024-06-11T00:02:20.000Z\",\n        \"modifiedAt\": \"2024-07-04T08:41:37.975Z\"\n    },\n    {\n        \"id\": \"123\",\n        \"name\": \"Team 1\",\n        \"email\": \"abcxyztest@generations.com\",\n        \"image\": \"abcxyz.com2\",\n        \"createdAt\": \"2024-07-04T08:41:26.000Z\",\n        \"modifiedAt\": \"2024-07-04T08:41:37.975Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get One Team Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('id');\r",
+									"    pm.expect(responseData).to.have.property('name');\r",
+									"    pm.expect(responseData).to.have.property('email');\r",
+									"    pm.expect(responseData).to.have.property('image');\r",
+									"    pm.expect(responseData).to.have.property('createdAt');\r",
+									"    pm.expect(responseData).to.have.property('modifiedAt');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.email).to.be.a('string');\r",
+									"    pm.expect(responseData.email).to.match(/^.+@.+\\..+$/);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"CreatedAt and ModifiedAt fields are in valid date format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.createdAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);\r",
+									"    pm.expect(responseData.modifiedAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Email and name are equal to collection variables\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.name).to.equal(pm.collectionVariables.get(\"newTeamName\"));\r",
+									"    pm.expect(responseData.email).to.equal(pm.collectionVariables.get(\"newTeamEmail\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "One Team Information",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3001/teams/{{newTeamId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"teams",
+										"{{newTeamId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "166"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"a6-jhmNxGreVCuv1V2ltPQUnlzgTzY\""
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "accept-ranges",
+									"value": "bytes"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Jul 2024 08:42:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"123\",\n    \"name\": \"Team 1\",\n    \"email\": \"abcxyztest@generations.com\",\n    \"image\": \"abcxyz.com2\",\n    \"createdAt\": \"2024-07-04T08:41:26.000Z\",\n    \"modifiedAt\": \"2024-07-04T08:42:14.020Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Team Information",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{newTeamId}}\",\r\n    \"name\": \"{{updatedTeamName}}\",\r\n    \"email\": \"{{updatedTeamEmail}}\",\r\n    \"image\": \"abcxyz.com2\",\r\n    \"createdAt\": null,\r\n    \"modifiedAt\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get One Team Information after Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('id');\r",
+									"    pm.expect(responseData).to.have.property('name');\r",
+									"    pm.expect(responseData).to.have.property('email');\r",
+									"    pm.expect(responseData).to.have.property('image');\r",
+									"    pm.expect(responseData).to.have.property('createdAt');\r",
+									"    pm.expect(responseData).to.have.property('modifiedAt');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.email).to.be.a('string');\r",
+									"    pm.expect(responseData.email).to.match(/^.+@.+\\..+$/);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"CreatedAt and ModifiedAt fields are in valid date format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.createdAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);\r",
+									"    pm.expect(responseData.modifiedAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Email and name are equal to collection variables\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.name).to.equal(pm.collectionVariables.get(\"updatedTeamName\"));\r",
+									"    pm.expect(responseData.email).to.equal(pm.collectionVariables.get(\"updatedTeamEmail\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Team Member",
+			"item": [
+				{
+					"name": "Get Members of New Team",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Returned array has no members (size 0) since it is newly created\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(responseData.length).to.equal(0);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}/members",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}",
+								"members"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "inherit"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "userEmail",
+			"value": "hoangtungquan@gmail.com",
+			"type": "string"
+		},
+		{
+			"key": "userPassword",
+			"value": "tungquan2002",
+			"type": "string"
+		},
+		{
+			"key": "userToken",
+			"value": ""
+		},
+		{
+			"key": "teamId",
+			"value": ""
+		},
+		{
+			"key": "userEmailToBeDeleted",
+			"value": "hoangtungquan2@gmail.com",
+			"type": "string"
+		},
+		{
+			"key": "uuidToBeDeleted",
+			"value": ""
+		},
+		{
+			"key": "userUuidToBeDeleted",
+			"value": ""
+		},
+		{
+			"key": "oldUserName",
+			"value": "Tung Quan Hoang",
+			"type": "string"
+		},
+		{
+			"key": "newUserName",
+			"value": "Quan Hoang",
+			"type": "string"
+		},
+		{
+			"key": "newTeamName",
+			"value": "Team 1",
+			"type": "string"
+		},
+		{
+			"key": "newTeamEmail",
+			"value": "abcxyztest@generations.com",
+			"type": "string"
+		},
+		{
+			"key": "newTeamId",
+			"value": "123",
+			"type": "string"
+		},
+		{
+			"key": "updatedTeamName",
+			"value": "Team 1 Updated",
+			"type": "string"
+		},
+		{
+			"key": "updatedTeamEmail",
+			"value": "abcxyztest2@generations.com",
+			"type": "string"
+		}
+	]
+}

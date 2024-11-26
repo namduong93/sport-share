@@ -1,0 +1,1255 @@
+{
+	"info": {
+		"_postman_id": "1d149bfe-703f-45ba-8910-391765b3ec40",
+		"name": "GenerationsFC",
+		"description": "All API endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36733303"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"const token = response.token;\r",
+									"\r",
+									"if (token) {\r",
+									"    pm.collectionVariables.set(\"userToken\", token);\r",
+									"}\r",
+									"\r",
+									"console.log(\"New token:\", token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{userEmail}}\",       // string: User Email\r\n    \"password\": \"{{userPassword}}\"  // string: User password\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/users/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"authenticate"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"hoangtungquan@gmail.com\",\r\n    \"password\": \"tungquan2002\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/users/authenticate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"users",
+										"authenticate"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "482"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"1e2-awGStUqCbJPDo1/LhMXze2bfvXQ\""
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Jul 2024 03:47:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"email\": \"hoangtungquan@gmail.com\",\n    \"uuid\": \"4\",\n    \"name\": \"Tung Quan Hoang\",\n    \"preferredName\": \"TWuan\",\n    \"mobile\": \"0123456789\",\n    \"image\": \"https://scontent-syd2-1.xx.fbcdn.net/v/t39.30808-6/313308589_3303620429891676_667751645311934402_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=z5xJT-AYT-gQ7kNvgHieM5I&_nc_ht=scontent-syd2-1.xx&oh=00_AYAoA-vebTILh7yqO54epPC_vpzhQwGfklrFtQjJQ618lw&oe=668BC12E\",\n    \"token\": \"0.0rqekchrwe70.6f8xjozr9qt\",\n    \"createdAt\": \"2024-07-04T00:12:35.000Z\",\n    \"modifiedAt\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{userEmailToBeDeleted}}\", // string: The email address of the user\r\n    \"uuid\": null,                        // string: The universally unique identifier (UUID) of the user\r\n    \"name\": \"{{oldUserName}}\",           // string: The name of the user\r\n    \"preferredName\": \"TWuan\",            // string: The preferred name of the user\r\n    \"password\": \"{{userPassword}}\",      // string (optional): The password of the user\r\n    \"mobile\": \"0123456789\",              // string: The mobile number of the user\r\n    \"image\": \"https://scontent-syd2-1.xx.fbcdn.net/v/t39.30808-6/313308589_3303620429891676_667751645311934402_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=z5xJT-AYT-gQ7kNvgHieM5I&_nc_ht=scontent-syd2-1.xx&oh=00_AYAoA-vebTILh7yqO54epPC_vpzhQwGfklrFtQjJQ618lw&oe=668BC12E\", // string (optional): The URL of the user's profile image\r\n    \"token\": null,                       // string: The token for authentication\r\n    \"createdAt\": null,                   // Date: The creation date of the user record\r\n    \"modifiedAt\": null                   // Date (optional): The last modified date of the user record\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('email');\r",
+									"    pm.expect(responseData).to.have.property('uuid');\r",
+									"    pm.expect(responseData).to.have.property('name');\r",
+									"    pm.expect(responseData).to.have.property('preferredName');\r",
+									"    pm.expect(responseData).to.have.property('password');\r",
+									"    pm.expect(responseData).to.have.property('mobile');\r",
+									"    pm.expect(responseData).to.have.property('image');\r",
+									"    pm.expect(responseData).to.have.property('token');\r",
+									"    pm.expect(responseData).to.have.property('createdAt');\r",
+									"    pm.expect(responseData).to.have.property('modifiedAt');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.email).to.be.a('string').and.to.match(/^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)*(\\.[a-z]{2,})$/);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response name is equal to the collection variable oldUserName\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const oldUserName = pm.collectionVariables.get(\"oldUserName\");\r",
+									"    pm.expect(responseData.name).to.equal(oldUserName);\r",
+									"});\r",
+									"\r",
+									"// Save the UUID as a collection variable\r",
+									"var uuidToBeDeleted = pm.response.json().uuid;\r",
+									"pm.collectionVariables.set(\"userUuidToBeDeleted\", uuidToBeDeleted);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/users/{{userEmailToBeDeleted}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"{{userEmailToBeDeleted}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "User Profile",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3001/users/hoangtungquan2@gmail.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"users",
+										"hoangtungquan2@gmail.com"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "547"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"223-GS/2BBeBKv/PRKKDq3aIzP+ZomI\""
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "accept-ranges",
+									"value": "bytes"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Jul 2024 08:20:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"email\": \"hoangtungquan2@gmail.com\",\n    \"uuid\": \"1720081209083\",\n    \"name\": \"Tung Quan Hoang\",\n    \"preferredName\": \"TWuan\",\n    \"password\": \"64113e16db9edbb1bd772387f5aafbc0954c4ec8491653680f2e454a69a88b01\",\n    \"mobile\": \"0123456789\",\n    \"image\": \"https://scontent-syd2-1.xx.fbcdn.net/v/t39.30808-6/313308589_3303620429891676_667751645311934402_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=z5xJT-AYT-gQ7kNvgHieM5I&_nc_ht=scontent-syd2-1.xx&oh=00_AYAoA-vebTILh7yqO54epPC_vpzhQwGfklrFtQjJQ618lw&oe=668BC12E\",\n    \"token\": \"\",\n    \"createdAt\": \"2024-07-04T08:20:09.000Z\",\n    \"modifiedAt\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Update User Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{userEmailToBeDeleted}}\", // string: The email address of the user\r\n    \"uuid\": \"{{userUuidToBeDeleted}}\",   // string: The universally unique identifier (UUID) of the user\r\n    \"name\": \"{{newUserName}}\",           // string: The name of the user\r\n    \"preferredName\": \"TQuan\",            // string: The preferred name of the user\r\n    \"password\": \"tungquan2002\",          // string (optional): The password of the user\r\n    \"mobile\": \"0123456789\",              // string: The mobile number of the user\r\n    \"image\": \"https://scontent-syd2-1.xx.fbcdn.net/v/t39.30808-6/313308589_3303620429891676_667751645311934402_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=z5xJT-AYT-gQ7kNvgHieM5I&_nc_ht=scontent-syd2-1.xx&oh=00_AYAoA-vebTILh7yqO54epPC_vpzhQwGfklrFtQjJQ618lw&oe=668BC12E\", // string (optional): The URL of the user's profile image\r\n    \"token\": null,                       // string: The token for authentication\r\n    \"createdAt\": null,                   // Date: The creation date of the user record\r\n    \"modifiedAt\": null                   // Date (optional): The last modified date of the user record\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Register, log in, and acquire general information for user(s)."
+		},
+		{
+			"name": "Team",
+			"item": [
+				{
+					"name": "Create Team",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{newTeamId}}\",               // string: The unique identifier (UUID) of the team\r\n    \"name\": \"{{newTeamName}}\",           // string: The name of the team\r\n    \"email\": \"{{newTeamEmail}}\",         // string: The email address of the team\r\n    \"image\": \"abcxyz.com2\",              // string: The URL of the team's profile image\r\n    \"createdAt\": null,                   // Date: The creation date of the team record\r\n    \"modifiedAt\": null                   // Date: The last modified date of the team record\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/teams",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Teams Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - id, name, email, image, createdAt, and modifiedAt\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('array');\r",
+									"    responseData.forEach(function(team) {\r",
+									"        pm.expect(team).to.include.all.keys('id', 'name', 'email', 'image', 'createdAt', 'modifiedAt');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    responseData.forEach(function(team) {\r",
+									"        pm.expect(team.email).to.be.a('string').and.to.match(/\\S+@\\S+\\.\\S+/);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"CreatedAt and modifiedAt are in a valid date format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    responseData.forEach(function(team) {\r",
+									"        pm.expect(team.createdAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);\r",
+									"        pm.expect(team.modifiedAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/teams",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "All Teams Information",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3001/teams",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"teams"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "673"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"2a1-KpAnODBv+2Gh9O+tGKz3BgGETSk\""
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "accept-ranges",
+									"value": "bytes"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Jul 2024 08:41:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"2\",\n        \"name\": \"Tat Phuc 2\",\n        \"email\": \"abcxyz2@generations.com\",\n        \"image\": \"abcxyz.com2\",\n        \"createdAt\": \"2024-06-15T07:30:52.000Z\",\n        \"modifiedAt\": \"2024-07-04T08:41:37.975Z\"\n    },\n    {\n        \"id\": \"1720081890220\",\n        \"name\": \"Team 1\",\n        \"email\": \"abcxyztest@generations.com\",\n        \"image\": \"abcxyz.com2\",\n        \"createdAt\": \"2024-07-04T08:31:30.000Z\",\n        \"modifiedAt\": \"2024-07-04T08:41:37.975Z\"\n    },\n    {\n        \"id\": \"1\",\n        \"name\": \"Tat Phuc\",\n        \"email\": \"abcxyz@generations.com\",\n        \"image\": \"abcxyz.com\",\n        \"createdAt\": \"2024-06-11T00:02:20.000Z\",\n        \"modifiedAt\": \"2024-07-04T08:41:37.975Z\"\n    },\n    {\n        \"id\": \"123\",\n        \"name\": \"Team 1\",\n        \"email\": \"abcxyztest@generations.com\",\n        \"image\": \"abcxyz.com2\",\n        \"createdAt\": \"2024-07-04T08:41:26.000Z\",\n        \"modifiedAt\": \"2024-07-04T08:41:37.975Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get One Team Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('id');\r",
+									"    pm.expect(responseData).to.have.property('name');\r",
+									"    pm.expect(responseData).to.have.property('email');\r",
+									"    pm.expect(responseData).to.have.property('image');\r",
+									"    pm.expect(responseData).to.have.property('createdAt');\r",
+									"    pm.expect(responseData).to.have.property('modifiedAt');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.email).to.be.a('string');\r",
+									"    pm.expect(responseData.email).to.match(/^.+@.+\\..+$/);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"CreatedAt and ModifiedAt fields are in valid date format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.createdAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);\r",
+									"    pm.expect(responseData.modifiedAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Email and name are equal to collection variables\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.name).to.equal(pm.collectionVariables.get(\"newTeamName\"));\r",
+									"    pm.expect(responseData.email).to.equal(pm.collectionVariables.get(\"newTeamEmail\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "One Team Information",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3001/teams/123",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"teams",
+										"123"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "166"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"a6-jhmNxGreVCuv1V2ltPQUnlzgTzY\""
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "accept-ranges",
+									"value": "bytes"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Jul 2024 08:42:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"123\",\n    \"name\": \"Team 1\",\n    \"email\": \"abcxyztest@generations.com\",\n    \"image\": \"abcxyz.com2\",\n    \"createdAt\": \"2024-07-04T08:41:26.000Z\",\n    \"modifiedAt\": \"2024-07-04T08:42:14.020Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Team Information",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{newTeamId}}\",               // string: The unique identifier (UUID) of the team\r\n    \"name\": \"{{updatedTeamName}}\",       // string: The name of the team\r\n    \"email\": \"{{updatedTeamEmail}}\",     // string: The email address of the team\r\n    \"image\": \"abcxyz.com2\",              // string: The URL of the team's profile image\r\n    \"createdAt\": null,                   // Date: The creation date of the team record\r\n    \"modifiedAt\": null                   // Date: The last modified date of the team record\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Team Member",
+			"item": [
+				{
+					"name": "Create Team Member",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"teamId\": \"{{newTeamId}}\",              // string: The ID of the team\r\n    \"meta\": null,                           // string: Additional metadata\r\n    \"uuid\": \"{{userUuidToBeDeleted}}\",      // string: The universally unique identifier (UUID) of the team member\r\n    \"name\": \"{{newUserName}}\",              // string: The name of the team member\r\n    \"email\": \"{{userEmailToBeDeleted}}\",    // string: The email address of the team member\r\n    \"mobile\": \"0123456789\",                 // string: The mobile number of the team member\r\n    \"image\": \"https://scontent-syd2-1.xx.fbcdn.net/v/t39.30808-6/313308589_3303620429891676_667751645311934402_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=z5xJT-AYT-gQ7kNvgHieM5I&_nc_ht=scontent-syd2-1.xx&oh=00_AYAoA-vebTILh7yqO54epPC_vpzhQwGfklrFtQjJQ618lw&oe=668BC12E\",                      // string: The URL of the team member's profile image\r\n    \"credit\": 10,                           // number: The credit balance of the team member\r\n    \"role\": \"admin\",                        // string: The role of the team member (admin, member, developer)\r\n    \"playerStats\": {                        // PlayerStats: Stats of the player\r\n        \"preferredPosition\": [\"GK\"],\r\n        \"goalkeeping\": 80,\r\n        \"defense\": 85,\r\n        \"attack\": 90,\r\n        \"control\": 75,\r\n        \"physique\": 80,\r\n        \"speed\": 95\r\n    },\r\n    \"createdAt\": null,                      // Date: The creation date of the team member record\r\n    \"modifiedAt\": null                      // Date: The last modified date of the team member record\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}/members",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Members of Team",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}/members",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}",
+								"members"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Game",
+			"item": [
+				{
+					"name": "Create New Game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"teamId\": \"{{newTeamId}}\",           // string: The ID of the team\r\n    \"meta\": null,                        // string: Additional metadata\r\n    \"id\": null,                          // string: The unique ID of the game\r\n    \"location\": \"Stadium C\",             // string: The location of the game\r\n    \"name\": \"Championship Game\",         // string: The name of the game\r\n    \"description\": null,                 // string: The description of the game\r\n    \"startTime\": \"1720155871197\", // string: The start time in ISO 8601 format\r\n    \"duration\": null,                    // string: The duration of the game\r\n    \"deadlineForRegistration\": null,     // string: The registration deadline\r\n    \"minAttendance\": null,               // number: Minimum attendance required\r\n    \"maxAttendance\": null,               // number: Maximum attendance allowed\r\n    \"going\": null,                       // string[]: List of users attending\r\n    \"notGoing\": null,                    // string[]: List of users not attending\r\n    \"maybe\": null,                       // string[]: List of users maybe attending\r\n    \"estimatedExpense\": null,            // string: Estimated expense for the game\r\n    \"images\": null,                      // string[]: List of image URLs\r\n    \"thumbnail\": null,                   // string: URL of the thumbnail image\r\n    \"status\": \"ready\",                   // string: The status of the game - \"ready\", \"pending\", \"cancelled\"\r\n    \"comments\": null,                    // Comment[]: List of comments\r\n    \"createdBy\": \"organizer123\",         // string: The ID of the creator\r\n    \"createdAt\": null,                   // string: Creation timestamp in ISO 8601 format\r\n    \"modifiedAt\": null                   // string: Last modified timestamp in ISO 8601 format\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}/games",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}",
+								"games"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Games",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Extract and set the first game id as newGameId\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"newGameId\", jsonData[0].id);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}/games",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}",
+								"games"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "All Games",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3001/teams/123/games",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"teams",
+										"123",
+										"games"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "879"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"36f-qDkfMak8GpbijdIida/XlfU8/HM\""
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "accept-ranges",
+									"value": "bytes"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Jul 2024 09:29:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"teamId\": \"123\",\n        \"meta\": \"game#1720155871085\",\n        \"id\": \"1720155871085\",\n        \"location\": \"Stadium B\",\n        \"name\": \"Championship Game\",\n        \"description\": \"\",\n        \"startTime\": \"2024-08-15T18:00:00Z\",\n        \"duration\": \"\",\n        \"deadlineForRegistration\": \"\",\n        \"minAttendance\": 0,\n        \"maxAttendance\": 0,\n        \"going\": null,\n        \"notGoing\": null,\n        \"maybe\": null,\n        \"estimatedExpense\": \"\",\n        \"images\": null,\n        \"thumbnail\": \"\",\n        \"status\": \"pending\",\n        \"comments\": [],\n        \"createdBy\": \"organizer123\",\n        \"createdAt\": \"1720155871085\",\n        \"modifiedAt\": \"1720156969780\"\n    },\n    {\n        \"teamId\": \"123\",\n        \"meta\": \"game#1720171772933\",\n        \"id\": \"1720171772933\",\n        \"location\": \"Stadium C\",\n        \"name\": \"Championship Game\",\n        \"description\": \"\",\n        \"startTime\": \"1720155871197\",\n        \"duration\": \"\",\n        \"deadlineForRegistration\": \"\",\n        \"minAttendance\": 0,\n        \"maxAttendance\": 0,\n        \"going\": null,\n        \"notGoing\": null,\n        \"maybe\": null,\n        \"estimatedExpense\": \"\",\n        \"images\": null,\n        \"thumbnail\": \"\",\n        \"status\": \"pending\",\n        \"comments\": [],\n        \"createdBy\": \"organizer123\",\n        \"createdAt\": \"1720171772933\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get One Game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}/games/{{newGameId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}",
+								"games",
+								"{{newGameId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example Game",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3001/teams/123/games/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"teams",
+										"123",
+										"games",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "427"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"1ab-DVQLB4pvIkEv5hqQJoiV2+w7ajg\""
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "accept-ranges",
+									"value": "bytes"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Jul 2024 05:09:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"teamId\": \"123\",\n    \"meta\": \"game#1720155871085\",\n    \"id\": \"1720155871085\",\n    \"location\": \"Stadium A\",\n    \"name\": \"Championship Game\",\n    \"description\": \"\",\n    \"startTime\": \"2024-08-15T18:00:00Z\",\n    \"duration\": \"\",\n    \"deadlineForRegistration\": \"\",\n    \"minAttendance\": 0,\n    \"maxAttendance\": 0,\n    \"going\": null,\n    \"notGoing\": null,\n    \"maybe\": null,\n    \"estimatedExpense\": \"\",\n    \"images\": null,\n    \"thumbnail\": \"\",\n    \"status\": \"pending\",\n    \"comments\": [],\n    \"createdBy\": \"organizer123\",\n    \"createdAt\": \"1720155871085\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"teamId\": \"123\",                        // string: The ID of the team\r\n    \"meta\": \"game#1720155871085\",           // string: Additional metadata\r\n    \"id\": \"1720155871085\",                  // string: The unique ID of the game\r\n    \"location\": \"Stadium B\",                // string: The location of the game\r\n    \"name\": \"Championship Game\",            // string: The name of the game\r\n    \"description\": \"\",                      // string: The description of the game\r\n    \"startTime\": \"2024-08-15T18:00:00Z\",    // string: The start time in ISO 8601 format\r\n    \"duration\": \"\",                         // string: The duration of the game\r\n    \"deadlineForRegistration\": \"\",          // string: The registration deadline\r\n    \"minAttendance\": 0,                     // number: Minimum attendance required\r\n    \"maxAttendance\": 0,                     // number: Maximum attendance allowed\r\n    \"going\": null,                          // string[]: List of users attending\r\n    \"notGoing\": null,                       // string[]: List of users not attending\r\n    \"maybe\": null,                          // string[]: List of users maybe attending\r\n    \"estimatedExpense\": \"\",                 // string: Estimated expense for the game\r\n    \"images\": null,                         // string[]: List of image URLs\r\n    \"thumbnail\": \"\",                        // string: URL of the thumbnail image\r\n    \"status\": \"pending\",                    // string: The status of the game - \"ready\", \"pending\", \"cancelled\"\r\n    \"comments\": [],                         // Comment[]: List of comments\r\n    \"createdBy\": \"organizer123\",            // string: The creator\r\n    \"createdAt\": \"1720155871085\",           // string: Creation timestamp in ISO 8601 format\r\n    \"modifiedAt\": null                      // string: Last modified timestamp in ISO 8601 format\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}/games/{{newGameId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}",
+								"games",
+								"{{newGameId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vote Game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"teamId\": \"{{newTeamId}}\",              // string: Team ID\r\n    \"id\": \"{{newGameId}}\",                  // string: Game ID\r\n    \"uuid\": \"{{userUuidToBeDeleted}}\",      // string: Player/Team member ID\r\n    \"vote\": \"yes\"                           // string: Vote status - \"yes\", \"no\", \"maybe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/teams/{{newTeamId}}/games/{{newGameId}}/vote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams",
+								"{{newTeamId}}",
+								"games",
+								"{{newGameId}}",
+								"vote"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "inherit"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "userEmail",
+			"value": "hoangtungquan@gmail.com",
+			"type": "string"
+		},
+		{
+			"key": "userPassword",
+			"value": "tungquan2002",
+			"type": "string"
+		},
+		{
+			"key": "userToken",
+			"value": ""
+		},
+		{
+			"key": "userEmailToBeDeleted",
+			"value": "hoangtungquan2@gmail.com",
+			"type": "string"
+		},
+		{
+			"key": "userUuidToBeDeleted",
+			"value": ""
+		},
+		{
+			"key": "oldUserName",
+			"value": "Tung Quan Hoang",
+			"type": "string"
+		},
+		{
+			"key": "newUserName",
+			"value": "Quan Hoang",
+			"type": "string"
+		},
+		{
+			"key": "newTeamName",
+			"value": "Team 1",
+			"type": "string"
+		},
+		{
+			"key": "newTeamEmail",
+			"value": "abcxyztest@generations.com",
+			"type": "string"
+		},
+		{
+			"key": "newTeamId",
+			"value": "123",
+			"type": "string"
+		},
+		{
+			"key": "updatedTeamName",
+			"value": "Team 1 Updated",
+			"type": "string"
+		},
+		{
+			"key": "updatedTeamEmail",
+			"value": "abcxyztest2@generations.com",
+			"type": "string"
+		},
+		{
+			"key": "newGameId",
+			"value": ""
+		}
+	]
+}
