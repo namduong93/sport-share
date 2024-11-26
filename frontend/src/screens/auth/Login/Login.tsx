@@ -45,7 +45,7 @@ export const Login: FC = () => {
       className="login--StyledFlexBackground-0">
       <div style={{ width: '600px', flex: '0 1 auto' }}>
         <StyledImage
-          src={`${backendURL.HOST}:${backendURL.PORT}/images/football_landing.png`}
+          src={`../resource/assets/sport_landing.png`}
           className="login--StyledImage-0" />
       </div>
       <StyledFormContainer onSubmit={handleSubmit} className="login--StyledFormContainer-0">
