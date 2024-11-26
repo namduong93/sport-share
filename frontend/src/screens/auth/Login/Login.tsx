@@ -45,11 +45,11 @@ export const Login: FC = () => {
       className="login--StyledFlexBackground-0">
       <div style={{ width: '600px', flex: '0 1 auto' }}>
         <StyledImage
-          src={`${backendURL.HOST}:${backendURL.PORT}/images/icpc_logo_landing.png`}
+          src={`${backendURL.HOST}:${backendURL.PORT}/images/football_landing.png`}
           className="login--StyledImage-0" />
       </div>
       <StyledFormContainer onSubmit={handleSubmit} className="login--StyledFormContainer-0">
-        <StyledTitle className="login--StyledTitle-0">Welcome</StyledTitle>
+        <StyledTitle className="login--StyledTitle-0">Sport Share</StyledTitle>
         <StyledInputContainer className="login--StyledInputContainer-0">
           <TextInput
             label="Email"
@@ -75,9 +75,9 @@ export const Login: FC = () => {
         <StyledForgotPassword
           onClick={() => navigate('/password/recovery/email')}
           className="login--StyledForgotPassword-0">Forgot Password?</StyledForgotPassword>
-        <StyledCustomButton type="submit" className="login--StyledCustomButton-0">Login</StyledCustomButton>
+        <StyledCustomButton type="submit" className="login--StyledCustomButton-0">Sign in</StyledCustomButton>
         <div>
-          <span style={{ marginRight: '5px', fontFamily: 'Arial, Helvetica, sans-serif' }}>New Here?</span>
+          <span style={{ marginRight: '5px', fontFamily: 'Arial, Helvetica, sans-serif' }}>Are you new?</span>
           <StyledSignUpLink
             onClick={() => navigate('/roleregistration')}
             className="login--StyledSignUpLink-0">Sign Up</StyledSignUpLink>
