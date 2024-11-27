@@ -239,7 +239,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
             <StyledProfilePic className="dashboard-sidebar--StyledProfilePic-0"
               $imageUrl={
                 sidebarInfo.profilePic ||
-                `${backendURL.HOST}:${backendURL.PORT}/images/default_profile.jpg`
+                `../../resource/assets/default_profile.png`
               }
             />
             <div>Hello</div>

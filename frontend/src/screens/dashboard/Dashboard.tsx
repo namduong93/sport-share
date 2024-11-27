@@ -43,7 +43,7 @@ interface DashboardsProps {
  * It includes a registration button and filters competitions based on search, location, roles, status, and year.
  *
  * @param {DashboardsProps} dashInfo - The dashboard information of the logged-in user, including their
- * preferred name, affiliation, and profile picture.
+ * preferred name, and profile picture.
  * @returns {JSX.Element} - The dashboard page with competitions displayed as cards, a filter bar,
  * and a registration section with popups for success or team join notifications.
  */
@@ -268,7 +268,7 @@ export const Dashboard: FC<DashboardsProps> = ({ dashInfo }) => {
 
           <ResponsiveActionButton
             icon={<MdAssignmentAdd />}
-            label="Register"
+            label="Find Game"
             question="Register for a new competition?"
             redirectPath={
               userType === "student"
