@@ -25,7 +25,7 @@ import DescriptiveTextInput from "../../../../../../components/general_utility/D
 
 interface User {
   role: "student" | "staff";
-  profilePic: string;
+  image: string;
   name: string;
   preferredName: string;
   email: string;
@@ -97,7 +97,7 @@ export const CompIndividualInput: FC = () => {
 
   const [, setUser] = useState<User>({
     role: "student",
-    profilePic: "",
+    image: "",
     name: "",
     preferredName: "",
     email: "",

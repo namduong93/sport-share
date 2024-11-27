@@ -15,7 +15,7 @@ const TestAccount = () => {
   const [, setDashInfo] = useState<DashInfo>({
     preferredName: 'test preferred',
     affiliation: 'test affiliation',
-    profilePic: 'test profilepic'
+    image: 'test profilepic'
   });
   return (
   <>

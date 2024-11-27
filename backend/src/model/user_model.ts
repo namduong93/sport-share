@@ -38,10 +38,5 @@ export function validate(user: User): string {
     if (!user.email || user.email.length === 0) {
         return "email is required";
     }
-
-    if(!user.password || user.password.length === 0) {
-        return "password is required";
-    }
-
     return "";
 }

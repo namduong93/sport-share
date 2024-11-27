@@ -71,6 +71,7 @@ export class DynamoDBUserRepository implements UserRepository {
                 "uuid": {S: user.uuid},
                 "fn": {S: user.firstName},
                 "ln": {S: user.lastName},
+                "rl": {S: user.role},
                 "pfn": {S: user.preferredName},
                 "pw": {S: sha256(user.password ? user.password : "")},
                 "img": {S: user.image || ""},
@@ -175,19 +176,19 @@ export class DynamoDBUserRepository implements UserRepository {
         }
         user.email = await this.trimDotsForEmail(user.email);
 
+        console.log("Updating user:", user);
+
         const params = {
             TableName: DDB_USERS_TABLE_NAME,
             Key: {
                 "em": {S: user.email},
                 "sk": {S: await this.generateSortKey(user.uuid)}
             },
-            UpdateExpression: "SET #fn = :fn, #ln = :ln, #pfn = :pfn, #pw = :pw, #hp = :hp, #img = :img, #ma = :ma",
+            UpdateExpression: "SET #fn = :fn, #ln = :ln, #pfn = :pfn, #img = :img, #ma = :ma",
             ExpressionAttributeNames: {
                 "#fn": "fn",
                 "#ln": "ln",
                 "#pfn": "pfn",
-                "#pw": "pw",
-                "#hp": "hp",
                 "#img": "img",
                 "#ma": "ma"
             },
@@ -197,7 +198,6 @@ export class DynamoDBUserRepository implements UserRepository {
                 ":pfn": {S: user.preferredName},
                 ":img": {S: user.image},
                 ":ma": {S: currentDate.getTime().toString()},
-                ":bio": {S: user.bio},            
             }
         };
 

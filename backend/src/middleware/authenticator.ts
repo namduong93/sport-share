@@ -50,7 +50,7 @@ export class Authenticator {
       // }
 
       // Passing uuid to the next middleware
-      req.query.uuid = session.uuid;
+      res.locals.uuid = session.uuid;
       next();
 
     } catch (err: any) {

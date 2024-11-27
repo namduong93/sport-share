@@ -295,7 +295,7 @@ export const handlers = [
   http.get(`${backendURL.HOST}:${backendURL.PORT}/user/profile_info`, async () => {
     return HttpResponse.json({
       role: 'staff',
-      profilePic: 'test profilepic',
+      image: 'test profilepic',
       name: 'test name',
       preferredName: 'test preferred name',
       email: 'test@example.com',

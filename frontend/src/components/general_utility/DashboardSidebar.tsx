@@ -177,7 +177,7 @@ const StyledLogoutButton = styled.button`
 export interface DashboardSidebarProps
   extends React.HTMLAttributes<HTMLDivElement> {
   cropState: boolean;
-  sidebarInfo: { preferredName: string | null; profilePic?: string | null };
+  sidebarInfo: { preferredName: string | null; image?: string | null };
 }
 
 /**
@@ -195,7 +195,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 }) => {
   const [isSysAdmin, setIsSysAdmin] = useState(false);
   const navigate = useNavigate();
-  const { setUserData } = useUserContext();
+  const { userData, setUserData } = useUserContext();
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -203,7 +203,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await sendRequest.post("/users/logout");
+    await sendRequest.post("/users/logout", { token: userData?.token });
     setUserData(null);
     handleNavigation("/");
   };
@@ -238,7 +238,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
           <StyledProfileSection className="dashboard-sidebar--StyledProfileSection-0">
             <StyledProfilePic className="dashboard-sidebar--StyledProfilePic-0"
               $imageUrl={
-                sidebarInfo.profilePic ||
+                sidebarInfo.image ||
                 `../../resource/assets/default_profile.png`
               }
             />

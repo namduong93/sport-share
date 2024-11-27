@@ -33,9 +33,7 @@ export class UserController {
         try {
             const email = req.body.email;
             const token = req.body.token;
-            console.log(email, token);
-            console.log("haha");
-            const deleted = true;
+            const deleted = await this.userService.logout(token);
 
             if (deleted) {
                 res.send('Logged out');

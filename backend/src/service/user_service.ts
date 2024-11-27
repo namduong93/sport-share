@@ -63,4 +63,9 @@ export class UserService {
     async list(): Promise<User[]> {
         return await this.userRepository.list();
     }
+
+    //This method is used to log out a user
+    async logout(token: string): Promise<boolean> {
+        return await this.sessionRepository.delete(token);
+    }
 }

@@ -3,7 +3,7 @@ import { useUserContext } from "../../../components/general_utility/UserContext"
 
 export interface DashInfo {
   preferredName: string | null;
-  profilePic: string | null;
+  image: string | null;
 }
 
 export const useDashInfo = (): [
@@ -22,12 +22,12 @@ export const useDashInfo = (): [
           (parsedUser.firstName && parsedUser.lastName ? 
             `${parsedUser.firstName} ${parsedUser.lastName}` : 
             null),
-        profilePic: parsedUser.image || null,
+        image: parsedUser.image || null,
       };
     }
     return {
       preferredName: null,
-      profilePic: null
+      image: null
     };
   });
 
@@ -38,7 +38,7 @@ export const useDashInfo = (): [
           (userData.firstName && userData.lastName ? 
             `${userData.firstName} ${userData.lastName}` : 
             null),
-        profilePic: userData.image || null,
+        image: userData.image || null,
       });
     }
   }, [userData]);

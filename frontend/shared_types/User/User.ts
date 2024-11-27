@@ -9,7 +9,7 @@ export const enum UserAccess {
 
 export interface User {
   email: string;
-  uuid: string;
+  uuid?: string;
   firstName: string;
   lastName: string;
   role: UserType;
