@@ -5,7 +5,8 @@ export interface TeamMember {
     teamId: string;
     meta: string;
     uuid: string;
-    name: string;
+    firstName: string;
+    lastName: string;
     preferredName?: string;
     email: string;
     mobile: string;
@@ -35,7 +36,7 @@ export function validate(teamMember: TeamMember): string {
         return "uuid is required";
     }
 
-    if (!teamMember.name || teamMember.name.length === 0) {
+    if (!teamMember.firstName || teamMember.lastName.length === 0) {
         return "name is required";
     }
 

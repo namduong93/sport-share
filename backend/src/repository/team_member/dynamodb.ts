@@ -42,7 +42,8 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
         // Set the team member properties from the user object
         teamMember.uuid = user.uuid;
         teamMember.image = user.image;
-        teamMember.name = user.firstName + " " + user.lastName;
+        teamMember.firstName = user.firstName;
+        teamMember.lastName = user.lastName;
         teamMember.preferredName = user.preferredName;
 
         // Round the credit to 2 decimal places
@@ -61,7 +62,8 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
                 "sk": { S: await this.generateSortKey(teamMember.uuid) },
                 "uuid": { S: teamMember.uuid }, // we need this here from FE
                 "cr": { N: teamMember.credit.toString() || "0" },
-                "na": { S: teamMember.name },
+                "fn": { S: teamMember.firstName },
+                "ln": { S: teamMember.lastName },
                 "pfn": { S: teamMember.preferredName },
                 "em": { S: teamMember.email },
                 "hp": { S: teamMember.mobile },
@@ -130,7 +132,8 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
             },
             ExpressionAttributeValues: {
                 ":cr": { N: teamMember.credit.toString() || "0" },
-                ":na": { S: teamMember.name },
+                ":fn": { S: teamMember.firstName },
+                ":ln": { S: teamMember.lastName },
                 ":em": { S: teamMember.email },
                 ":hp": { S: teamMember.mobile },
                 ":img": { S: teamMember.image },
@@ -214,7 +217,8 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
             meta: item?.sk?.S || "",
             credit: item?.cr?.N || 0,
             uuid: item?.uuid?.S || "",
-            name: item?.na?.S || "",
+            firstName: item?.na?.S || "",
+            lastName: item?.ln?.S || "",
             email: item?.em?.S || "",
             mobile: item?.hp?.S || "",
             image: item?.img?.S || "",

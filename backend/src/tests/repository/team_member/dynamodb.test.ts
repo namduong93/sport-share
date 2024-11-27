@@ -66,7 +66,8 @@ describe('DynamoDBTeamMemberRepository - convertDB2Model', () => {
         const teamMember: TeamMember = await repository.convertDB2Model(mockInvalidItem);
 
         // Expect missing properties to be replaced with default values
-        expect(teamMember.name).toBe("");
+        expect(teamMember.firstName).toBe("");
+        expect(teamMember.lastName).toBe("");
         expect(teamMember.image).toBe("");
         expect(teamMember.mobile).toBe("");
         expect(teamMember.email).toBe("");
@@ -218,7 +219,8 @@ describe('DynamoDBTeamMemberRepository - create', () => {
             uuid: "uuid",
             meta: "sortKey",
             credit: 100,
-            name: "John Doe",
+            firstName: "John",
+            lastName: "Doe",
             email: "john@example.com",
             mobile: "1234567890",
             image: "image-url",
@@ -279,7 +281,8 @@ describe('DynamoDBTeamMemberRepository - create', () => {
             uuid: "uuid",
             meta: "sortKey",
             credit: 100,
-            name: "John Doe",
+            firstName: "John",
+            lastName: "Doe",
             email: "john@example.com",
             mobile: "1234567890",
             image: "image-url",
@@ -364,7 +367,8 @@ describe('DynamoDBTeamMemberRepository - update', () => {
             uuid: "uuid",
             meta: "sortKey",
             credit: 100,
-            name: "John Doe",
+            firstName: "John",
+            lastName: "Doe",
             email: "john@example.com",
             mobile: "1234567890",
             image: "image-url",
@@ -429,7 +433,8 @@ describe('DynamoDBTeamMemberRepository - update', () => {
             uuid: "uuid",
             meta: "sortKey",
             credit: 100,
-            name: "John Doe",
+            firstName: "John",
+            lastName: "Doe",
             email: "john@example.com",
             mobile: "1234567890",
             image: "image-url",
