@@ -482,7 +482,8 @@ export class DynamoDBGameRepository implements GameRepository {
             },
             ExpressionAttributeValues: {
                 ":uuid": { S: teamMember.uuid },
-                ":nm": { S: teamMember.name },
+                ":fn": { S: teamMember.firstName },
+                ":ln": { S: teamMember.lastName },
                 ":pfn": { S: teamMember.preferredName || "" },
                 ":img": { S: teamMember.image || "" }
             },
@@ -557,7 +558,8 @@ export class DynamoDBGameRepository implements GameRepository {
             ExpressionAttributeValues: {
                 ":uuid": { S: teamMember.uuid },
                 ":gls": { S: goals },
-                ":nm": { S: teamMember.name },
+                ":fn": { S: teamMember.firstName },
+                ":ln": { S: teamMember.lastName },
                 ":pfn": { S: teamMember.preferredName || "" },
                 ":img": { S: teamMember.image || ""},
             },
@@ -632,7 +634,8 @@ export class DynamoDBGameRepository implements GameRepository {
             ExpressionAttributeValues: {
                 ":uuid": {S: teamMember.uuid},
                 ":ass": {S: assists},
-                ":nm": {S: teamMember.name},
+                ":fn": {S: teamMember.firstName},
+                ":ln": {S: teamMember.lastName},
                 ":pfn": {S: teamMember.preferredName || ""},
                 ":img": {S: teamMember.image || ""},
             },
@@ -679,7 +682,8 @@ export class DynamoDBGameRepository implements GameRepository {
     async convertDB2ModelGameAttendee(item: any): Promise<GameAttendee> {
         return {
             uuid: item?.uuid?.S,
-            name: item?.nm?.S,
+            firstName: item?.fn?.S,
+            lastName: item?.ln?.S,
             vote: gameVotes.YES,
             preferredName: item?.pfn?.S || "",
             image: item?.img?.S || "",

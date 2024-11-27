@@ -101,7 +101,8 @@ export class GameService {
                     {
                         uuid: teamMember.uuid,
                         vote: gameVotes.YES,
-                        name: teamMember.name,
+                        firstName: teamMember.firstName,
+                        lastName: teamMember.lastName,
                         preferredName: teamMember.preferredName,
                         image: teamMember.image
                     }
