@@ -29,7 +29,7 @@ AWS.config.update({region:"ap-southeast-2"});
 
 app.use(cors({
   origin: 'http://localhost:5173',
-  credentials: true,
+  preflightContinue: true
 }));
 
 app.use(cookieParser());

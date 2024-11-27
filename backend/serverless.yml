@@ -24,7 +24,18 @@ provider:
     DDB_USERS_TABLE_NAME: ${self:custom.dynamo-table-names.users-table}
     DDB_USER_SESSIONS_TABLE_NAME: ${self:custom.dynamo-table-names.sessions-table}
   httpApi:
-    cors: true
+    cors:
+      allowedOrigins:
+        - http://localhost:5173
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+      allowedMethods:
+        - GET, POST, DELETE, OPTION, PUT
+      allowCredentials: true
+      exposedResponseHeaders:
+        - Special-Response-Header
+      maxAge: 6000 # In seconds
 
 functions:
   app:
