@@ -177,7 +177,7 @@ const StyledLogoutButton = styled.button`
 export interface DashboardSidebarProps
   extends React.HTMLAttributes<HTMLDivElement> {
   cropState: boolean;
-  sidebarInfo: { preferredName: string; affiliation: string; profile?: string };
+  sidebarInfo: { preferredName: string | null; profilePic?: string | null };
 }
 
 /**
@@ -238,13 +238,12 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
           <StyledProfileSection className="dashboard-sidebar--StyledProfileSection-0">
             <StyledProfilePic className="dashboard-sidebar--StyledProfilePic-0"
               $imageUrl={
-                sidebarInfo.profile ||
+                sidebarInfo.profilePic ||
                 `${backendURL.HOST}:${backendURL.PORT}/images/default_profile.jpg`
               }
             />
             <div>Hello</div>
             <StyledName className="dashboard-sidebar--StyledName-0">{sidebarInfo.preferredName}</StyledName>
-            <div>{sidebarInfo.affiliation}</div>
           </StyledProfileSection>
         )}
 

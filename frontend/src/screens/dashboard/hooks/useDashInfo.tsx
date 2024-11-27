@@ -1,52 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { sendRequest } from "../../../utility/request";
+import { useUserContext } from "../../../components/general_utility/UserContext";
 
 export interface DashInfo {
-  preferredName: string;
-  affiliation: string;
-  profilePic: string;
-};
+  preferredName: string | null;
+  profilePic: string | null;
+}
 
-/**
- * A custom hook that fetches and manages the dashboard information for the user.
- * It returns the current dashboard information (preferred name, affiliation, and profile picture)
- * and a function to update this information.
- *
- * @returns {Array} - An array containing the dashboard info and the setter function for updating it:
- * `dashInfo`: An object containing the user's preferred name, affiliation, and profile picture.
- * `setDashInfo`: A function that allows updating the dashboard info.
- */
 export const useDashInfo = (): [
-  { preferredName: string; affiliation: string; profilePic: string },
-  React.Dispatch<
-    React.SetStateAction<{
-      preferredName: string;
-      affiliation: string;
-      profilePic: string;
-    }>
-  >
+  DashInfo,
+  React.Dispatch<React.SetStateAction<DashInfo>>
 ] => {
-  const [dashInfo, setDashInfo] = useState({
-    preferredName: "",
-    affiliation: "",
-    profilePic: "",
+  const { userData } = useUserContext();
+  
+  // Try to load initial state from the same userData in localStorage
+  const [dashInfo, setDashInfo] = useState<DashInfo>(() => {
+    const savedUser = localStorage.getItem('userData');
+    if (savedUser) {
+      const parsedUser = JSON.parse(savedUser);
+      return {
+        preferredName: parsedUser.preferredName || 
+          (parsedUser.firstName && parsedUser.lastName ? 
+            `${parsedUser.firstName} ${parsedUser.lastName}` : 
+            null),
+        profilePic: parsedUser.image || null,
+      };
+    }
+    return {
+      preferredName: null,
+      profilePic: null
+    };
   });
 
-  // The hook fetches the dashboard info when the component mounts and stores it in the state.
   useEffect(() => {
-    // (async () => {
-    //   try {
-    //     const infoResponse = await sendRequest.get<{
-    //       preferredName: string;
-    //       affiliation: string;
-    //       profilePic: string;
-    //     }>(`/user/dash_info`);
-    //     setDashInfo(infoResponse.data);
-    //   } catch (error: unknown) {
-    //     console.log("Error fetching dashboard info:", error);
-    //   }
-    // })();
-  }, []);
+    if (userData) {
+      setDashInfo({
+        preferredName: userData.preferredName || 
+          (userData.firstName && userData.lastName ? 
+            `${userData.firstName} ${userData.lastName}` : 
+            null),
+        profilePic: userData.image || null,
+      });
+    }
+  }, [userData]);
 
   return [dashInfo, setDashInfo];
 };
