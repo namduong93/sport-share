@@ -153,24 +153,24 @@ function App() {
               element={<SidebarLayout cropState={false} sidebarInfo={dashInfo} />}
             >
               <Route
-                path="/competition/page/:compId"
-                element={<CompIdNavigate route="/competition/page/teams" />}
+                path="/game/page/:gameId"
+                element={<CompIdNavigate route="/game/page/teams" />}
               />
               <Route
-                path="/competition/page"
+                path="/game/page"
                 element={<Navigate to="/dashboard" />}
               />
-              <Route path="/competition/page/" element={<CompetitionPage />}>
+              <Route path="/game/page/" element={<CompetitionPage />}>
                 <Route index element={<Navigate to="/dashboard" />} />
-                <Route path="teams/:compId" element={<TeamPage />} />
-                <Route path="students/:compId" element={<StudentPage />} />
-                <Route path="staff/:compId" element={<StaffPage />} />
-                <Route path="site/:compId" element={<AttendeesDisplay />} />
-                <Route path="manage/:compId" element={<ManagePage />} />
+                <Route path="teams/:gameId" element={<TeamPage />} />
+                <Route path="students/:gameId" element={<StudentPage />} />
+                <Route path="staff/:gameId" element={<StaffPage />} />
+                <Route path="site/:gameId" element={<AttendeesDisplay />} />
+                <Route path="manage/:gameId" element={<ManagePage />} />
               </Route>
 
               <Route
-                path="/competition/participant/:compId/"
+                path="/game/participant/:gameId/"
                 element={<TeamProfile />}
               >
                 <Route index element={<TeamDetails />} />
@@ -190,14 +190,14 @@ function App() {
               <Route path="/settings" element={<Settings />} />
             </Route>
 
-            <Route path="/competition/create" element={<CompDataInput />} />
+            <Route path="/game/create" element={<CompDataInput />} />
             <Route
-              path="/competition/confirmation"
+              path="/game/confirmation"
               element={<CompDataConfirmation />}
             />
 
             <Route
-              path="/competition/information/:code?"
+              path="/game/register/:gameId?"
               element={
                 <CompRegisterFormProvider>
                   <CompetitionInformation />
@@ -205,7 +205,7 @@ function App() {
               }
             />
             <Route
-              path="/competition/individual/:code?"
+              path="/game/individual/:code?"
               element={
                 <CompRegisterFormProvider>
                   <CompIndividualInput />
@@ -213,7 +213,7 @@ function App() {
               }
             />
             <Route
-              path="/competition/experience/:code?"
+              path="/game/experience/:code?"
               element={
                 <CompRegisterFormProvider>
                   <CompExperienceInput />
@@ -222,7 +222,7 @@ function App() {
             />
 
             <Route
-              path="/competition/staff/register/:code?"
+              path="/game/staff/register/:code?"
               element={<StaffRegisterForm />}
             />
           </Routes>

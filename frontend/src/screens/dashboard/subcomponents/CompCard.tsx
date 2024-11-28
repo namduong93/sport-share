@@ -15,6 +15,7 @@ import {
   StyledRole,
   StyledRoleContainer,
 } from "./CompCard.styles";
+import { DEFAULT_TEAM_ID } from "../../../../shared_types/Team/Team";
 
 interface CardProps {
   gameName: string;
@@ -64,7 +65,7 @@ export const CompCard: FC<CardProps> = ({
     totalDays > 0 ? ((totalDays - daysRemaining) / totalDays) * 100 : 100;
   return (
     <StyledCompCardContainer
-      onClick={() => navigate("/dashboard")}
+      onClick={() => navigate(`/game/register/` + gameId)}
       className="comp-card--StyledCompCardContainer-0">
       <StyledCardHeader className="comp-card--StyledCardHeader-0">
         <StyledCardTop className="comp-card--StyledCardTop-0">
