@@ -17,12 +17,12 @@ import {
 } from "./CompCard.styles";
 
 interface CardProps {
-  compName: string;
+  gameName: string;
   location: string;
-  compDate: string;
-  roles: string[];
-  compId: string;
-  compCreationDate: string;
+  gameDate: string;
+  gameId: string;
+  gameCreationDate: string;
+  estimatedExpense: string;
 };
 
 /**
@@ -38,30 +38,23 @@ interface CardProps {
  * and a progress bar showing the time elapsed since creation.
  */
 export const CompCard: FC<CardProps> = ({
-  compName,
+  gameName,
   location,
-  compDate,
-  roles,
-  compId,
-  compCreationDate,
+  gameDate,
+  gameId,
+  gameCreationDate,
+  estimatedExpense,
 }) => {
   const navigate = useNavigate();
-
-  const roleUrl = () => {
-    if (roles.includes("Participant")) {
-      return `/competition/participant/${compId}`;
-    }
-    return `/competition/page/${compId}`;
-  };
-
-  const compDateFormatted = format(new Date(compDate), "MMMM yyyy");
+  console.log(gameDate)
+  const gameDateFormatted = format(new Date(Number(gameDate) * 1000), "MMMM yyyy");
   const today = new Date(); // Today's date
-  const daysRemaining = differenceInDays(new Date(compDate), today);
+  const daysRemaining = differenceInDays(new Date(gameDate), today);
 
   // calculate the width of the progress bar as a percentage of the total days
-  const compCreationDateFormatted = new Date(compCreationDate);
+  const compCreationDateFormatted = new Date(gameCreationDate);
   let totalDays = differenceInDays(
-    new Date(compDate),
+    new Date(gameDate),
     compCreationDateFormatted
   );
   totalDays = Math.max(totalDays, daysRemaining);
@@ -71,26 +64,24 @@ export const CompCard: FC<CardProps> = ({
     totalDays > 0 ? ((totalDays - daysRemaining) / totalDays) * 100 : 100;
   return (
     <StyledCompCardContainer
-      onClick={() => navigate(roleUrl())}
+      onClick={() => navigate("/dashboard")}
       className="comp-card--StyledCompCardContainer-0">
       <StyledCardHeader className="comp-card--StyledCardHeader-0">
         <StyledCardTop className="comp-card--StyledCardTop-0">
           <StyledCompHeader className="comp-card--StyledCompHeader-0">
-            <h2>{compName}</h2>
+            <h2>{gameName}</h2>
           </StyledCompHeader>
         </StyledCardTop>
       </StyledCardHeader>
       <StyledCardMiddle className="comp-card--StyledCardMiddle-0">
         <StyledCardText className="comp-card--StyledCardText-0">{location}</StyledCardText>
-        <StyledCardText className="comp-card--StyledCardText-1">{compDateFormatted}</StyledCardText>
+        <StyledCardText className="comp-card--StyledCardText-1">{gameDateFormatted}</StyledCardText>
       </StyledCardMiddle>
       <StyledCardBottom className="comp-card--StyledCardBottom-0">
         <StyledRoleContainer className="comp-card--StyledRoleContainer-0">
-          {roles.map((role, index) => (
-            <StyledRole key={index} className="comp-card--StyledRole-0">{role}</StyledRole>
-          ))}
+          <StyledRole className="comp-card--StyledRole-0">{estimatedExpense}</StyledRole>
         </StyledRoleContainer>
-        <StyledCountdown className="comp-card--StyledCountdown-0">{daysRemaining > 0 ? `${daysRemaining} days to go!` : "Competition ended!"}</StyledCountdown>
+        <StyledCountdown className="comp-card--StyledCountdown-0">{daysRemaining > 0 ? `${daysRemaining} days to go!` : "Game ended!"}</StyledCountdown>
       </StyledCardBottom>
       <StyledProgressBar className="comp-card--StyledProgressBar-0">
         <StyledProgress $width={progressWidth} className="comp-card--StyledProgress-0" />

@@ -20,12 +20,13 @@ import { CompCard } from "./subcomponents/CompCard";
 import { RegisterPopUp } from "../../components/general_utility/RegisterPopUp";
 import { useUserContext } from "../../components/general_utility/UserContext";
 import { UserType } from "../../../shared_types/User/User";
+import { DEFAULT_TEAM_ID } from "../../../shared_types/Team/Team";
+import { Game } from "../../../shared_types/Game/Game";
 
 export interface Competition {
   compName: string;
   location: string;
   compDate: string;
-  roles: string[];
   compId: string;
   compCreatedDate: string;
 };
@@ -63,7 +64,7 @@ export const Dashboard: FC<DashboardsProps> = ({ dashInfo }) => {
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const [competitions, setCompetitions] = useState<Competition[]>([]);
+  const [competitions, setCompetitions] = useState<Game[]>([]);
   const [userType, setUserType] = useState<string>("");
   const navigate = useNavigate();
   const { userData } = useUserContext();
@@ -76,20 +77,8 @@ export const Dashboard: FC<DashboardsProps> = ({ dashInfo }) => {
         setUserType(userData?.role || UserType.USER);
         setIsAdmin(userData?.role === UserType.ADMIN);
         setIsLoaded(true);
-
-        // const fakeComps = await sendRequest.get<{
-        //   competitions: Competition[];
-        // }>("/competitions/list");
-        // const formattedCompetitions = fakeComps.data.competitions.map(
-        //   (comp) => ({
-        //     ...comp,
-        //     compDate: new Date(comp.compDate).toISOString().split("T")[0],
-        //     compCreatedDate: new Date(comp.compCreatedDate)
-        //       .toISOString()
-        //       .split("T")[0],
-        //   })
-        // );
-        // setCompetitions(formattedCompetitions);
+        const response = await sendRequest.get<Game[]>(`/teams/${DEFAULT_TEAM_ID}/games`);
+        setCompetitions(response.data);
       } catch (error: unknown) {
         sendRequest.handleErrorStatus(error, [403], () => {
           setIsLoaded(false);
@@ -106,13 +95,12 @@ export const Dashboard: FC<DashboardsProps> = ({ dashInfo }) => {
   // Filter options based on the Competition fields (location, role, status, year)
   const filterOptions = {
     Location: Array.from(
-      new Set(competitions.map((comp) => comp.location))
+      new Set(competitions.map((game) => game.location))
     ).sort(),
-    Role: Array.from(new Set(competitions.flatMap((comp) => comp.roles))),
+    Creator: Array.from(new Set(competitions.flatMap((game) => game.createdBy))),
     Status: ["Completed", "Upcoming"],
-    Year: Array.from(
-      new Set(competitions.map((comp) => comp.compDate.split("-")[0]))
-    ).sort((a, b) => parseInt(a) - parseInt(b)),
+    Expense: Array.from(
+      new Set(competitions.map((game) => game.estimatedExpense.split("-")[0]))),
   };
 
   const removeFilter = (field: string, value: string) => {
@@ -127,41 +115,38 @@ export const Dashboard: FC<DashboardsProps> = ({ dashInfo }) => {
   };
 
   // Checks if a competition matches the current search term
-  const matchesSearch = (comp: Competition) => {
+  const matchesSearch = (game: Game) => {
     const searchLower = searchTerm.toLowerCase();
-    const compDateMonth = new Date(comp.compDate)
+    const gameDateMonth = new Date(game.deadlineForRegistration)
       .toLocaleString("default", { month: "long" })
       .toLowerCase();
 
     return (
-      comp.compName.toLowerCase().includes(searchLower) ||
-      comp.location.toLowerCase().includes(searchLower) ||
-      comp.roles.some((role) => role.toLowerCase().includes(searchLower)) ||
-      compDateMonth.includes(searchLower)
+      game.name.toLowerCase().includes(searchLower) ||
+      game.location.toLowerCase().includes(searchLower) ||
+      game.createdBy.toLowerCase().includes(searchLower) ||
+      gameDateMonth.includes(searchLower)
     );
   };
 
   // Filters the list of competitions based on the current search term
-  const filteredCompetitions = competitions.filter((comp) => {
+  const filteredCompetitions = competitions.filter((game : Game) => {
     return (
-      matchesSearch(comp) &&
+      matchesSearch(game) &&
       Object.keys(filters).every((field) => {
         if (!filters[field].length) return true;
         if (field === "Status") {
           return (
-            (comp.compDate < today && filters[field].includes("Completed")) ||
-            (comp.compDate >= today && filters[field].includes("Upcoming"))
+            (game.deadlineForRegistration < today && filters[field].includes("Completed")) ||
+            (game.deadlineForRegistration >= today && filters[field].includes("Upcoming"))
           );
         }
         if (field === "Year") {
-          return filters[field].includes(comp.compDate.split("-")[0]);
+          return filters[field].includes(game.deadlineForRegistration.split("-")[0]);
         }
         return filters[field].some((filterValue) => {
           if (field === "Location") {
-            return comp.location === filterValue;
-          }
-          if (field === "Role") {
-            return comp.roles.includes(filterValue);
+            return game.location === filterValue;
           }
           return false;
         });
@@ -171,23 +156,23 @@ export const Dashboard: FC<DashboardsProps> = ({ dashInfo }) => {
 
   // Sorts the filtered competitions based on the selected sort option
   const sortedCompetitions = [...filteredCompetitions].sort((a, b) => {
-    const defaultIndices = filteredCompetitions.map((comp) => comp.compId);
+    const defaultIndices = filteredCompetitions.map((game : Game) => game.id);
 
     switch (sortOption) {
       case "name":
-        return a.compName.localeCompare(b.compName);
+        return a.name.localeCompare(b.name);
       case "date":
-        return new Date(a.compDate).getTime() - new Date(b.compDate).getTime();
+        return new Date(a.deadlineForRegistration).getTime() - new Date(b.deadlineForRegistration).getTime();
       case "location":
         return a.location.localeCompare(b.location);
       case "timeRemaining": {
-        const aRemaining = new Date(a.compDate).getTime() - Date.now();
-        const bRemaining = new Date(b.compDate).getTime() - Date.now();
+        const aRemaining = new Date(a.deadlineForRegistration).getTime() - Date.now();
+        const bRemaining = new Date(b.deadlineForRegistration).getTime() - Date.now();
         return aRemaining - bRemaining;
       }
       case "original":
         return (
-          defaultIndices.indexOf(a.compId) - defaultIndices.indexOf(b.compId)
+          defaultIndices.indexOf(a.id) - defaultIndices.indexOf(b.id)
         );
       default:
         return 0;
@@ -321,15 +306,15 @@ export const Dashboard: FC<DashboardsProps> = ({ dashInfo }) => {
         </div>
         <StyledContentArea className="dashboard--StyledContentArea-0">
           <StyledCompetitionGrid className="dashboard--StyledCompetitionGrid-0">
-            {sortedCompetitions.map((comp, index) => (
+            {sortedCompetitions.map((game : Game, index) => (
               <CompCard
                 key={index}
-                compName={comp.compName}
-                location={comp.location}
-                compDate={comp.compDate}
-                roles={comp.roles}
-                compId={comp.compId}
-                compCreationDate={comp.compCreatedDate}
+                gameName={game.name}
+                location={game.location}
+                gameDate={game.deadlineForRegistration}
+                gameId={game.id}
+                gameCreationDate={game.createdAt}
+                estimatedExpense={game.estimatedExpense}
               />
             ))}
           </StyledCompetitionGrid>
