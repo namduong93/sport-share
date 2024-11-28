@@ -71,7 +71,7 @@ export const UpdatePassword: FC<UpdatePasswordProps> = ({ isOpen }) => {
       setIsSuccess(false);
     } else {
       try {
-        await sendRequest.put("/user/password", {
+        await sendRequest.put("/users/password", {
           oldPassword: currentPassword,
           newPassword: newPassword,
         });

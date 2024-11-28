@@ -31,7 +31,6 @@ export class UserController {
     // This method is used to log out a user
     async logout(req: Request, res: Response, next: NextFunction) {
         try {
-            const email = req.body.email;
             const token = req.body.token;
             const deleted = await this.userService.logout(token);
 
@@ -109,6 +108,25 @@ export class UserController {
                 res.status(500).send('Failed to delete user');
             }
         }catch (e) {
+            next(e)
+        }
+    }
+
+    // This method is used to change a user's password
+    async changePassword(req: Request, res: Response, next: NextFunction) {
+        try {
+            const userId = res.locals.uuid;
+            const oldPassword = req.body.oldPassword;
+            const newPassword = req.body.newPassword;
+
+            const changed = await this.userService.changePassword(userId, oldPassword, newPassword);
+
+            if (changed) {
+                res.send('Password changed');
+            } else {
+                res.status(500).send('Failed to change password');
+            }
+        } catch (e) {
             next(e)
         }
     }

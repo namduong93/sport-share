@@ -176,8 +176,6 @@ export class DynamoDBUserRepository implements UserRepository {
         }
         user.email = await this.trimDotsForEmail(user.email);
 
-        console.log("Updating user:", user);
-
         const params = {
             TableName: DDB_USERS_TABLE_NAME,
             Key: {
@@ -207,6 +205,49 @@ export class DynamoDBUserRepository implements UserRepository {
         } catch (err) {
             console.error("Error updating user in DynamoDB:", err);
             throw err; // Propagate error to the caller
+        }
+    }
+
+    async changePassword(userId: string, oldPassword: string, newPassword: string): Promise<boolean> {
+        if (!userId || userId.length === 0) {
+            return false;
+        }
+    
+        // First verify the old password
+        const user = await this.findById(userId);
+        if (!user) {
+            return false;
+        }
+    
+        // Check if old password matches
+        if (user.password !== sha256(oldPassword)) {
+            return false;
+        }
+    
+        // Update with new password
+        const params = {
+            TableName: DDB_USERS_TABLE_NAME,
+            Key: {
+                "em": {S: user.email},
+                "sk": {S: await this.generateSortKey(userId)}
+            },
+            UpdateExpression: "SET #pw = :pw, #ma = :ma",
+            ExpressionAttributeNames: {
+                "#pw": "pw",
+                "#ma": "ma"
+            },
+            ExpressionAttributeValues: {
+                ":pw": {S: sha256(newPassword)},
+                ":ma": {S: new Date().getTime().toString()}
+            }
+        };
+    
+        try {
+            await this.dynamoDB.updateItem(params).promise();
+            return true;
+        } catch (err) {
+            console.error("Error updating password in DynamoDB:", err);
+            throw err; 
         }
     }
 

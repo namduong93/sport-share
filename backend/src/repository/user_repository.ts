@@ -9,4 +9,5 @@ export interface UserRepository {
     update(user: User): Promise<User | null>;
     delete(email: string, userId: string): Promise<boolean>;
     list(): Promise<User[]>;
+    changePassword(userId: string, oldPassword: string, newPassword: string): Promise<boolean>;
 }

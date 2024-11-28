@@ -68,4 +68,9 @@ export class UserService {
     async logout(token: string): Promise<boolean> {
         return await this.sessionRepository.delete(token);
     }
+
+    // This method is used to change a user's password
+    async changePassword(userId: string, oldPassword: string, newPassword: string): Promise<boolean> {
+        return await this.userRepository.changePassword(userId, oldPassword, newPassword);
+    }
 }
