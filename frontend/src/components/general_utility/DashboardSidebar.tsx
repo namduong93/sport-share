@@ -255,19 +255,17 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
           >
             <FaHome /> {!cropState && <span>Dashboard</span>}
           </StyledNavButton>
-          {isSysAdmin && (
-            <StyledNavButton className="dashboard-sidebar--StyledNavButton-1"
-              $active={location.pathname === "/staffAccounts"}
-              onClick={() => handleNavigation("/staffAccounts")}
-            >
-              <FaIdBadge /> {!cropState && <span>Staff Accounts</span>}
-            </StyledNavButton>
-          )}
+          <StyledNavButton className="dashboard-sidebar--StyledNavButton-1"
+            $active={location.pathname === "/club"}
+            onClick={() => handleNavigation("/club")}
+          >
+            <FaIdBadge /> {!cropState && <span>My Club</span>}
+          </StyledNavButton>
           <StyledNavButton className="dashboard-sidebar--StyledNavButton-2"
             $active={location.pathname === "/account"}
             onClick={() => handleNavigation("/account")}
           >
-            <FaUser /> {!cropState && <span>Account</span>}
+            <FaUser /> {!cropState && <span>My Profile</span>}
           </StyledNavButton>
           <StyledNavButton
             $active={location.pathname === "/settings"}

@@ -91,9 +91,8 @@ export const CompRegistrationProgressBar: FC<ProgressBarProps> = ({
 }) => {
   return (
     <ProgressBar progressNumber={progressNumber}>
-      <span>Competition Information</span>
-      <span>Individual Information</span>
-      <span>Competitive Experience</span>
+      <span>Game Register</span>
+      <span>Join Game</span>
     </ProgressBar>
   );
 };

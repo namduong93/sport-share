@@ -73,6 +73,7 @@ export const StyledText = styled.label`
   font-family: ${({ theme }) => theme.fonts.fontFamily};
   font-size: 16px;
   width: 100%;
+  font-weight: normal; 
 `;
 
 export const StyledDoubleInputContainer = styled.div`

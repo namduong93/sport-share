@@ -4,7 +4,7 @@ import styled from "styled-components";
 import rehypeRaw from "rehype-raw";
 
 interface MarkdownDisplayProps {
-  content: string;
+  content: string | undefined;
 };
 
 const StyledMarkdown = styled(ReactMarkdown)`

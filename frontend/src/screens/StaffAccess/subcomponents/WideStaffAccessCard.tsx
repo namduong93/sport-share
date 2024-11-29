@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { StaffAccessCardProps } from "../StaffAccessPage";
 import { UserAccess } from "../../../../shared_types/User/User";
 import { StaffRequests } from "../../../../shared_types/Competition/staff/StaffInfo";
 import { sendRequest } from "../../../utility/request";
@@ -7,6 +6,7 @@ import { StyledStandardSpan } from "../../competition/staff_pages/CompetitionPag
 import { AccessDropdown } from "./AccessDropdown";
 import { StyledUserIcon, StyledUserNameContainerDiv, StyledUserNameGrid, StyledUsernameTextSpan, StyledWideInfoContainerDiv } from "../../competition/staff_pages/CompetitionPage/subroutes/StudentsPage/StudentPage.styles";
 import { StyledStandardContainerDiv } from "../../competition/staff_pages/CompetitionPage/subroutes/StaffPage/subcomponents/CompRoles";
+import { ClubAccessCardProps } from "../ClubAccessPage";
 
 /**
  * A React component that displays detailed information about a staff member on a wider display
@@ -14,12 +14,12 @@ import { StyledStandardContainerDiv } from "../../competition/staff_pages/Compet
  * The `WideStaffAccessCard` component shows staff member details such as their name, university affiliation,
  * email, and current access level. It also provides a dropdown menu for changing the staff member's access level.
  *
- * @param {StaffAccessCardProps} props - React StaffAccessCardProps, including:
+ * @param {ClubAccessCardProps} props - React ClubAccessCardProps, including:
  * staffDetails, which is the details of the staff member and staffListState, which manages the list.
  * @returns {JSX.Element} - A UI component displaying staff details with the ability to modify their access on a
  * wider displat.
  */
-export const WideStaffAccessCard: FC<StaffAccessCardProps> = ({
+export const WideStaffAccessCard: FC<ClubAccessCardProps> = ({
   staffDetails,
   staffListState: [staffList, setStaffList],
   ...props

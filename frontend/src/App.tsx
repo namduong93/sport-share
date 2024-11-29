@@ -36,7 +36,6 @@ import { AttendeesDisplay } from "./screens/competition/staff_pages/CompetitionP
 import { ManagePage } from "./screens/competition/staff_pages/CompetitionPage/subroutes/ManagePage/ManagePage";
 
 import { Dashboard } from "./screens/dashboard/Dashboard";
-import { StaffAccessPage } from "./screens/StaffAccess/StaffAccessPage";
 import { Account } from "./screens/Account/Account";
 import { CompDataInput } from "./screens/competition/staff_pages/creation/CompDataInput/CompDataInput";
 import { CompDataConfirmation } from "./screens/competition/staff_pages/creation/CompDataConfirmation/CompDataConfirmation";
@@ -48,6 +47,7 @@ import { StaffRegisterForm } from "./screens/competition/register/StaffRegisterF
 import { TeamDetails } from "./screens/student/subroutes/TeamDetails/TeamDetails";
 import { TeamManage } from "./screens/student/subroutes/TeamManage/TeamManage";
 import { UserProvider } from "./components/general_utility/UserContext";
+import { ClubAccessPage } from "./screens/StaffAccess/ClubAccessPage";
 
 const themeMap = {
   default: defaultTheme,
@@ -182,7 +182,7 @@ function App() {
                 path="/dashboard"
                 element={<Dashboard dashInfo={dashInfo} />}
               />
-              <Route path="/staffAccounts" element={<StaffAccessPage />} />
+              <Route path="/club" element={<ClubAccessPage />} />
               <Route
                 path="/account"
                 element={<Account setDashInfo={setDashInfo} />}

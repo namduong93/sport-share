@@ -9,7 +9,7 @@ import {
   StyledPageBackground,
   StyledStaffContainer,
   StyledStaffRecords,
-} from "./StaffAccessPage.styles";
+} from "./ClubAccessPage.styles";
 import { PageHeader } from "../../components/page_header/PageHeader";
 import { StaffAccessButtons } from "./subcomponents/StaffAccessButtons";
 import { StyledFilterTagButton, StyledRemoveFilterIcon } from "../dashboard/Dashboard.styles";
@@ -18,7 +18,7 @@ import { NarrowStaffAccessCard } from "./subcomponents/NarrowStaffAccessCard";
 import { WideStaffAccessHeader } from "./subcomponents/WideStaffAccessHeader";
 import { WideStaffAccessCard } from "./subcomponents/WideStaffAccessCard";
 
-export interface StaffAccessCardProps
+export interface ClubAccessCardProps
   extends React.HTMLAttributes<HTMLDivElement> {
   staffDetails: StaffInfo;
   staffListState: [
@@ -39,13 +39,13 @@ const STAFF_DISPLAY_FILTER_OPTIONS: Record<string, Array<string>> = {
 /**
  * A React compoenent displaying and managing staff account requests.
  *
- * `StaffAccessPage` allows for the filtering, sorting, and searching of staff requests based on different criteria
+ * `ClubAccessPage` allows for the filtering, sorting, and searching of staff requests based on different criteria
  * such as access status, name, university affiliation, and email. It also supports approving or rejecting
  * multiple staff requests at once.
  *
  * @returns {JSX.Element} - The rendered Staff Access page component with filtering, searching, and approval/rejection functionality.
  */
-export const StaffAccessPage: FC = () => {
+export const ClubAccessPage: FC = () => {
   const [staffList, setStaffList] = useState<Array<StaffInfo>>([]);
   const [sortOption, setSortOption] = useState<string | null>(null);
   const [filters, setFilters] = useState<Record<string, Array<string>>>({});

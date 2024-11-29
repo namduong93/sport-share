@@ -234,7 +234,7 @@ export const NotificationButton: FC = () => {
       } else if (type === "welcomeAccount") {
         navigate("/dashboard");
       } else if (isAdmin && type === "staffAccount") {
-        navigate("/staffAccounts");
+        navigate("/club");
       }
     } else {
       if (type === "update") {
