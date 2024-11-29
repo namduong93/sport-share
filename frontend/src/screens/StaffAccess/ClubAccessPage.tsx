@@ -1,9 +1,7 @@
 import { FC, useEffect, useState } from "react";
-import { StaffInfo } from "../../../shared_types/Competition/staff/StaffInfo";
 import { UserAccess } from "../../../shared_types/User/User";
-import { fetchStaffRequests } from "./util/fetchStaffRequests";
+// import { fetchStaffRequests } from "./util/fetchStaffRequests";
 import Fuse from "fuse.js";
-import { sendRequest } from "../../utility/request";
 import {
   StyledFilterTagContainer,
   StyledPageBackground,
@@ -11,19 +9,22 @@ import {
   StyledStaffRecords,
 } from "./ClubAccessPage.styles";
 import { PageHeader } from "../../components/page_header/PageHeader";
-import { StaffAccessButtons } from "./subcomponents/StaffAccessButtons";
 import { StyledFilterTagButton, StyledRemoveFilterIcon } from "../dashboard/Dashboard.styles";
 import { StyledNarrowDisplayDiv, StyledWideDisplayDiv } from "../competition/staff_pages/CompetitionPage/subroutes/StudentsPage/StudentPage.styles";
 import { NarrowStaffAccessCard } from "./subcomponents/NarrowStaffAccessCard";
 import { WideStaffAccessHeader } from "./subcomponents/WideStaffAccessHeader";
 import { WideStaffAccessCard } from "./subcomponents/WideStaffAccessCard";
+import { TeamMember } from "../../../shared_types/TeamMember/TeamMember";
+import { fetchMemberList } from "./util/fetchMemberList";
+import { DEFAULT_TEAM_ID } from "../../../shared_types/Team/Team";
+import { sendRequest } from "../../utility/request";
 
 export interface ClubAccessCardProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  staffDetails: StaffInfo;
-  staffListState: [
-    StaffInfo[],
-    React.Dispatch<React.SetStateAction<StaffInfo[]>>
+  memberDetails: TeamMember;
+  memberListState: [
+    TeamMember[],
+    React.Dispatch<React.SetStateAction<TeamMember[]>>
   ];
 }
 
@@ -37,16 +38,16 @@ const STAFF_DISPLAY_FILTER_OPTIONS: Record<string, Array<string>> = {
 };
 
 /**
- * A React compoenent displaying and managing staff account requests.
+ * A React compoenent displaying and managing member account requests.
  *
- * `ClubAccessPage` allows for the filtering, sorting, and searching of staff requests based on different criteria
+ * `ClubAccessPage` allows for the filtering, sorting, and searching of member requests based on different criteria
  * such as access status, name, university affiliation, and email. It also supports approving or rejecting
- * multiple staff requests at once.
+ * multiple member requests at once.
  *
- * @returns {JSX.Element} - The rendered Staff Access page component with filtering, searching, and approval/rejection functionality.
+ * @returns {JSX.Element} - The rendered Member Access page component with filtering, searching, and approval/rejection functionality.
  */
 export const ClubAccessPage: FC = () => {
-  const [staffList, setStaffList] = useState<Array<StaffInfo>>([]);
+  const [memberList, setMemberList] = useState<Array<TeamMember>>([]);
   const [sortOption, setSortOption] = useState<string | null>(null);
   const [filters, setFilters] = useState<Record<string, Array<string>>>({});
   const [filterOptions, setFilterOptions] = useState<
@@ -59,18 +60,29 @@ export const ClubAccessPage: FC = () => {
     filters["Access"]?.length === 1 &&
     filters["Access"].includes(UserAccess.Pending);
 
-  useEffect(() => {
-    setSortOption(STAFF_DISPLAY_SORT_OPTIONS[0].value);
-    setFilterOptions(STAFF_DISPLAY_FILTER_OPTIONS);
-    fetchStaffRequests(setStaffList);
-  }, []);
+    useEffect(() => {
+      setSortOption(STAFF_DISPLAY_SORT_OPTIONS[0].value);
+      setFilterOptions(STAFF_DISPLAY_FILTER_OPTIONS);
+      
+      const fetchMembers = async () => {
+        try {
+          const response = await sendRequest.get<TeamMember[]>(`/teams/${DEFAULT_TEAM_ID}/members`);
+          console.log(response);
+          setMemberList(response.data);
+        } catch (error) {
+          setMemberList([]);
+        }
+      };
+    
+      fetchMembers();
+    }, []);
 
-  // Filtering for staff based on selected filters
-  const filteredStaff = staffList.filter((staffDetails) => {
+  // Filtering for member based on selected filters
+  const filteredMember = memberList.filter((memberDetails) => {
     if (
       filters["Access"] &&
       filters["Access"].length > 0 &&
-      !filters["Access"].includes(staffDetails.userAccess)
+      !filters["Access"].includes(memberDetails.meta) // Doing nothing
     ) {
       return false;
     }
@@ -78,25 +90,25 @@ export const ClubAccessPage: FC = () => {
   });
 
   // Sorting logic based on the selected sorting option
-  const sortedStaff = filteredStaff.sort((staffDetails1, staffDetails2) => {
+  const sortedMember = filteredMember.sort((memberDetails1, memberDetails2) => {
     if (sortOption === "name") {
-      return staffDetails1.name.localeCompare(staffDetails2.name);
+      return memberDetails1.preferredName.localeCompare(memberDetails2.preferredName);
     }
     return 0;
   });
 
-  // Searching for staff based on the selected sort option
-  const fuse = new Fuse(sortedStaff, {
+  // Searching for member based on the selected sort option
+  const fuse = new Fuse(sortedMember, {
     keys: ["name", "universityName", "access", "email"],
     threshold: 0.5,
   });
 
-  let searchedStaff;
+  let searchedMember;
   if (searchTerm) {
-    searchedStaff = fuse.search(searchTerm);
+    searchedMember = fuse.search(searchTerm);
   } else {
-    searchedStaff = sortedStaff.map((staff) => {
-      return { item: staff };
+    searchedMember = sortedMember.map((member) => {
+      return { item: member };
     });
   }
 
@@ -111,66 +123,17 @@ export const ClubAccessPage: FC = () => {
     });
   };
 
-  const handleApproveAll = async (): Promise<boolean> => {
-    // Filter by pending
-    const pendingStaffListIds = searchedStaff
-      .filter(
-        (staffDetails) => staffDetails.item.userAccess === UserAccess.Pending
-      )
-      .map((staffDetails) => staffDetails.item.userId);
-
-    try {
-      await sendRequest.post("/user/staff_requests", {
-        staffRequests: pendingStaffListIds.map((userId) => ({
-          userId,
-          access: UserAccess.Accepted,
-        })),
-      });
-    } catch (error) {
-      console.error("Error updating staff access: ", error);
-      return false;
-    }
-    return true;
-  };
-
-  const handleRejectAll = async (): Promise<boolean> => {
-    // Filter by pending
-    const pendingStaffListIds = searchedStaff
-      .filter(
-        (staffDetails) => staffDetails.item.userAccess === UserAccess.Pending
-      )
-      .map((staffDetails) => staffDetails.item.userId);
-
-    try {
-      await sendRequest.post("/user/staff_requests", {
-        staffRequests: pendingStaffListIds.map((userId) => ({
-          userId,
-          access: UserAccess.Rejected,
-        })),
-      });
-    } catch (error) {
-      console.error("Error updating staff access: ", error);
-      return false;
-    }
-    return true;
-  };
-
   return (
     <StyledPageBackground className="staff-access-page--StyledPageBackground-0">
       <PageHeader
-        pageTitle="Staff Account Management"
-        pageDescription="Review pending staff account requests"
+        pageTitle="Club Member"
+        pageDescription="Check out who's playing with us in our club today!"
         sortOptions={STAFF_DISPLAY_SORT_OPTIONS}
         sortOptionState={{ sortOption, setSortOption }}
         filterOptions={filterOptions}
         filtersState={{ filters, setFilters }}
         searchTermState={{ searchTerm, setSearchTerm }}
       >
-        <StaffAccessButtons
-          onApproveAll={handleApproveAll}
-          onRejectAll={handleRejectAll}
-          editingForAll={isPendingOnly}
-        />
       </PageHeader>
       <StyledFilterTagContainer className="staff-access-page--StyledFilterTagContainer-0">
         {Object.entries(filters).map(([field, values]) =>
@@ -192,32 +155,32 @@ export const ClubAccessPage: FC = () => {
       <StyledStaffContainer className="staff-access-page--StyledStaffContainer-0">
         <StyledNarrowDisplayDiv className="staff-access-page--StyledNarrowDisplayDiv-0">
           <StyledStaffRecords className="staff-access-page--StyledStaffRecords-0">
-            {searchedStaff.length > 0 ? (
-              searchedStaff.map(({ item: staffDetails }) => (
+            {searchedMember.length > 0 ? (
+              searchedMember.map(({ item: memberDetails }) => (
                 <NarrowStaffAccessCard
-                  key={`staff-wide-${staffDetails.userId}`}
-                  staffDetails={staffDetails}
-                  staffListState={[staffList, setStaffList]}
+                  key={`staff-wide-${memberDetails.uuid}`}
+                  memberDetails={memberDetails}
+                  memberListState={[memberList, setMemberList]}
                 />
               ))
             ) : (
-              <p>No staff members found.</p>
+              <p>No member members found.</p>
             )}
           </StyledStaffRecords>
         </StyledNarrowDisplayDiv>
         <StyledWideDisplayDiv className="staff-access-page--StyledWideDisplayDiv-0">
           <WideStaffAccessHeader />
           <StyledStaffRecords className="staff-access-page--StyledStaffRecords-1">
-            {searchedStaff.length > 0 ? (
-              searchedStaff.map(({ item: staffDetails }) => (
+            {searchedMember.length > 0 ? (
+              searchedMember.map(({ item: memberDetails }) => (
                 <WideStaffAccessCard
-                  key={`staff-wide-${staffDetails.userId}`}
-                  staffDetails={staffDetails}
-                  staffListState={[staffList, setStaffList]}
+                  key={`staff-wide-${memberDetails.uuid}`}
+                  memberDetails={memberDetails}
+                  memberListState={[memberList, setMemberList]}
                 />
               ))
             ) : (
-              <p>No staff members found.</p>
+              <p>No member members found.</p>
             )}
           </StyledStaffRecords>
         </StyledWideDisplayDiv>

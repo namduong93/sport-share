@@ -169,6 +169,7 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
             }
 
             // Convert DynamoDB items to TeamMember objects
+            console.log(data.Items);
             const promises = data.Items.map(async item => await this.convertDB2Model(item));
             return await Promise.all(promises);
         } catch (err) {
@@ -199,10 +200,10 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
     // This method is used to convert the database item to a team_member model
     async convertDB2Model(item: any): Promise<TeamMember> {
         return {
-            uuid: item?.uuid?.S || "",
+            uuid: item?.sk?.S || "",
             preferredName: item?.pn?.S || "",
             teamId: item?.tid?.S || "",
-            meta: item?.sk?.S || "",
+            meta: item?.mt?.S || "",
             credit: item?.cr?.N || 0,
             playerStats: {
                 preferredPosition: item?.ps?.M?.pp?.L?.map((pos: any) => pos.S) || [],
@@ -210,9 +211,9 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
                 attack: parseInt(item?.ps?.M?.at?.N || 0, 10),
                 badmintonRanking: parseInt(item?.ps?.M?.br?.N || 0, 10)
             },
-            joinAt: new Date(item?.ja?.S || Date.now()),
-            modifiedAt: new Date(item?.ma?.S || Date.now()),
-            lastTimePlayed: new Date(item?.lt?.S || Date.now()),
+            joinAt: item?.ja?.S,
+            modifiedAt: item?.ma?.S,
+            lastTimePlayed: item?.lt?.S,
             bio: item?.bi?.S || "",
             referrer: item?.rf?.S || ""
         }

@@ -26,7 +26,7 @@ export const defaultCompInformation = `
 Welcome you to the Game!
   `;
 
-const formatDateTime = (timestamp: number | undefined): string => {
+export const formatDateTime = (timestamp: number | undefined): string => {
   if (!timestamp) return '';
   
   const date = new Date(Number(timestamp) * 1000);

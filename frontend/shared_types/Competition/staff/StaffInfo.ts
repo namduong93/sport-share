@@ -46,6 +46,6 @@ export interface StaffInfo {
 }
 
 export interface StaffRequests {
-  userId: number;
+  uuid: string;
   access: UserAccess;
 }

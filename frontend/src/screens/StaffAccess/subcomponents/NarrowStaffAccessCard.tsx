@@ -1,13 +1,11 @@
 import { FC } from "react";
-import { UserAccess } from "../../../../shared_types/User/User";
-import { sendRequest } from "../../../utility/request";
 import {
   Field,
   StyledStudentInfoContainerDiv,
 } from "../../competition/staff_pages/CompetitionPage/subroutes/StudentsPage/subcomponents/StudentInfoCard";
-import { StyledNarrowStatusDiv } from "../../competition/staff_pages/CompetitionPage/subroutes/StaffPage/StaffPage.styles";
 import { AccessDropdown } from "./AccessDropdown";
 import { ClubAccessCardProps } from "../ClubAccessPage";
+import { formatDateTime } from "../../competition/register/RegisterForm/subroutes/CompInformation/CompInformation";
 
 /**
  * A React card component for displaying and managing staff access details in a narrow layout.
@@ -22,57 +20,19 @@ import { ClubAccessCardProps } from "../ClubAccessPage";
  * for narrow displays.
  */
 export const NarrowStaffAccessCard: FC<ClubAccessCardProps> = ({
-  staffDetails,
-  staffListState: [staffList, setStaffList],
+  memberDetails,
   ...props
 }) => {
-  const handleAccessChange = async (
-    userId: number | undefined,
-    newAccess: UserAccess
-  ) => {
-    if (userId) {
-      try {
-        await sendRequest.post("/user/staff_requests", {
-          staffRequests: [{ userId, access: newAccess }],
-        });
-        const userIndex = staffList.findIndex(
-          (staff) => staff.userId === userId
-        );
-        setStaffList([
-          ...staffList.slice(0, userIndex),
-          { ...staffList[userIndex], userAccess: newAccess },
-          ...staffList.slice(userIndex + 1),
-        ]);
-      } catch (error) {
-        console.error("Error updating staff access: ", error);
-      }
-    }
-  };
 
   return (
     <StyledStudentInfoContainerDiv
       {...props}
       className="narrow-staff-access-card--StyledStudentInfoContainerDiv-0">
-      <Field label="Full Name" value={staffDetails.name} style={{ width: '20%', minWidth: '120px' }} />
-      <Field label="Affiliation" value={staffDetails.universityName} style={{ width: '20%', minWidth: '170px', whiteSpace: 'break-spaces' }} />
+      <Field label="Full Name" value={memberDetails.preferredName} style={{ width: '20%', minWidth: '120px' }} />
+      <Field label="Referrer" value={memberDetails.referrer} style={{ width: '20%', minWidth: '170px', whiteSpace: 'break-spaces' }} />
       <Field
-        label="Access"
-        value={
-          <StyledNarrowStatusDiv className="narrow-staff-access-card--StyledNarrowStatusDiv-0">
-            <AccessDropdown
-              staffId={staffDetails.userId}
-              currentAccess={staffDetails.userAccess}
-              onChange={(newAccess) =>
-                handleAccessChange(staffDetails.userId, newAccess)
-              }
-            />
-          </StyledNarrowStatusDiv>
-        }
-        style={{ width: "20%", minWidth: "125px" }}
-      />
-      <Field
-        label="Email"
-        value={staffDetails.email}
+        label="Date Joined"
+        value={formatDateTime(Number(memberDetails?.joinAt))}
         style={{ width: "25%", minWidth: "170px" }}
       />
       <div style={{ display: "flex" }}></div>

@@ -182,7 +182,7 @@ export const Settings: FC = () => {
             onClick={() => setCreditsOpen(!creditsOpen)}
             className="settings--StyledDropdownHeader-3">Credits<FaChevronDown />
           </StyledDropdownHeader>
-          <StyledDropdownContent $isOpen={creditsOpen} className="settings--StyledDropdownContent-3">
+          {/* <StyledDropdownContent $isOpen={creditsOpen} className="settings--StyledDropdownContent-3">
             <p>
               We are a team of computer science students from UNSW who created
               TeamUP!
@@ -222,7 +222,7 @@ export const Settings: FC = () => {
               email="x@gmail.com"
               bio="Backend Dev"
             />
-          </StyledDropdownContent>
+          </StyledDropdownContent> */}
         </StyledDropdownContainer>
       </StyledSettingsContainer>
     </StyledBackground>

@@ -26,13 +26,22 @@ export const WideStaffAccessHeader: FC = () => {
         <StyledUsernameTextSpan className="wide-staff-access-header--StyledUsernameTextSpan-0">Full Name</StyledUsernameTextSpan>
       </StyledUserNameContainerDiv>
       <StyledStandardContainerDiv className="wide-staff-access-header--StyledStandardContainerDiv-0">
-        <StyledStandardSpan className="wide-staff-access-header--StyledStandardSpan-0">Affiliation</StyledStandardSpan>
+        <StyledStandardSpan className="wide-staff-access-header--StyledStandardSpan-0">Referer</StyledStandardSpan>
+      </StyledStandardContainerDiv>
+      <StyledStandardContainerDiv className="wide-staff-access-header--StyledStandardContainerDiv-0">
+        <StyledStandardSpan className="wide-staff-access-header--StyledStandardSpan-0">Credit</StyledStandardSpan>
+      </StyledStandardContainerDiv>
+      <StyledStandardContainerDiv className="wide-staff-access-header--StyledStandardContainerDiv-0">
+        <StyledStandardSpan className="wide-staff-access-header--StyledStandardSpan-0">Rating</StyledStandardSpan>
       </StyledStandardContainerDiv>
       <StyledStandardContainerDiv className="wide-staff-access-header--StyledStandardContainerDiv-1">
-        <StyledStandardSpan className="wide-staff-access-header--StyledStandardSpan-1">Access</StyledStandardSpan>
+        <StyledStandardSpan className="wide-staff-access-header--StyledStandardSpan-1">Bio</StyledStandardSpan>
       </StyledStandardContainerDiv>
-      <StyledStandardContainerDiv className="wide-staff-access-header--StyledStandardContainerDiv-2">
-        <StyledStandardSpan className="wide-staff-access-header--StyledStandardSpan-2">Email</StyledStandardSpan>
+      <StyledStandardContainerDiv className="wide-staff-access-header--StyledStandardContainerDiv-1">
+        <StyledStandardSpan className="wide-staff-access-header--StyledStandardSpan-1">Last Time Played</StyledStandardSpan>
+      </StyledStandardContainerDiv>
+      <StyledStandardContainerDiv className="wide-staff-access-header--StyledStandardContainerDiv-1">
+        <StyledStandardSpan className="wide-staff-access-header--StyledStandardSpan-1">Join</StyledStandardSpan>
       </StyledStandardContainerDiv>
     </StyledWideInfoContainerDiv>
   );

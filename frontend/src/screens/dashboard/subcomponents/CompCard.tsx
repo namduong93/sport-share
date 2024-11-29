@@ -46,7 +46,6 @@ export const CompCard: FC<CardProps> = ({
   estimatedExpense,
 }) => {
   const navigate = useNavigate();
-  console.log(gameDate)
   const gameDateFormatted = format(new Date(Number(gameDate) * 1000), "MMMM yyyy");
   const today = new Date(); // Today's date
   const daysRemaining = differenceInDays(new Date(gameDate), today);

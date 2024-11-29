@@ -9,9 +9,9 @@ export interface TeamMember {
     meta: string;
     credit: number;
     playerStats: PlayerStats;
-    joinAt: Date;
-    modifiedAt: Date;
-    lastTimePlayed: Date;
+    joinAt: string;
+    modifiedAt: string;
+    lastTimePlayed: string;
     bio: string;
     referrer?: string;
 }
