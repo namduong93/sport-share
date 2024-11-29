@@ -2,17 +2,20 @@ import { Game, GameAttendee, gameVotes, gameVotesArray } from "../model/game_mod
 import { GameRepository } from '../repository/game_repository';
 import { TeamMemberRepository } from "../repository/team_member_repository";
 import { TeamRepository } from "../repository/team_repository";
+import { UserRepository } from "../repository/user_repository";
 
 // This is the service layer. It is responsible for handling business logic.
 export class GameService {
     private gameRepository: GameRepository;
     private teamMemberRepository: TeamMemberRepository;
     private teamRepository: TeamRepository;
+    private userRepository: UserRepository
 
-    constructor(gameRepository: GameRepository, teamMemberRepository: TeamMemberRepository, teamRepository: TeamRepository) {
+    constructor(gameRepository: GameRepository, teamMemberRepository: TeamMemberRepository, teamRepository: TeamRepository, userRepository: UserRepository) {
         this.gameRepository = gameRepository;
         this.teamMemberRepository = teamMemberRepository;
         this.teamRepository = teamRepository;
+        this.userRepository = userRepository;
     }
 
     // This method is used to fetch a game by id
@@ -97,14 +100,15 @@ export class GameService {
         for (const attendeeId of attendees) {
             const teamMember = await this.teamMemberRepository.find(teamId, attendeeId);
             if (teamMember) {
+                const user = await this.userRepository.findById(teamMember.uuid);
                 gameAttendees.push(
                     {
                         uuid: teamMember.uuid,
                         vote: gameVotes.YES,
-                        firstName: teamMember.firstName,
-                        lastName: teamMember.lastName,
-                        preferredName: teamMember.preferredName,
-                        image: teamMember.image
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        preferredName: user.preferredName,
+                        image: user.image
                     }
                 );
             }

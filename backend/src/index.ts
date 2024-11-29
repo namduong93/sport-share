@@ -58,7 +58,7 @@ const teamController = new TeamController(teamService);
 
 // Game Registry
 const gameRepository = new DynamoDBGameRepository(new AWS.DynamoDB());
-const gameService = new GameService(gameRepository, teamMemberRepository, teamRepository);
+const gameService = new GameService(gameRepository, teamMemberRepository, teamRepository, userRepository);
 const gameController = new GameController(gameService);
 
 // Health Check

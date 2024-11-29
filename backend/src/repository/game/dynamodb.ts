@@ -482,10 +482,10 @@ export class DynamoDBGameRepository implements GameRepository {
             },
             ExpressionAttributeValues: {
                 ":uuid": { S: teamMember.uuid },
-                ":fn": { S: teamMember.firstName },
-                ":ln": { S: teamMember.lastName },
-                ":pfn": { S: teamMember.preferredName || "" },
-                ":img": { S: teamMember.image || "" }
+                // ":fn": { S: teamMember.firstName },
+                // ":ln": { S: teamMember.lastName },
+                // ":pfn": { S: teamMember.preferredName || "" },
+                // ":img": { S: teamMember.image || "" }
             },
             ReturnValues: "UPDATED_NEW"
         };
@@ -558,10 +558,10 @@ export class DynamoDBGameRepository implements GameRepository {
             ExpressionAttributeValues: {
                 ":uuid": { S: teamMember.uuid },
                 ":gls": { S: goals },
-                ":fn": { S: teamMember.firstName },
-                ":ln": { S: teamMember.lastName },
-                ":pfn": { S: teamMember.preferredName || "" },
-                ":img": { S: teamMember.image || ""},
+                // ":fn": { S: teamMember.firstName },
+                // ":ln": { S: teamMember.lastName },
+                // ":pfn": { S: teamMember.preferredName || "" },
+                // ":img": { S: teamMember.image || ""},
             },
             ReturnValues: "UPDATED_NEW"
         };
@@ -634,10 +634,10 @@ export class DynamoDBGameRepository implements GameRepository {
             ExpressionAttributeValues: {
                 ":uuid": {S: teamMember.uuid},
                 ":ass": {S: assists},
-                ":fn": {S: teamMember.firstName},
-                ":ln": {S: teamMember.lastName},
-                ":pfn": {S: teamMember.preferredName || ""},
-                ":img": {S: teamMember.image || ""},
+                // ":fn": {S: teamMember.firstName},
+                // ":ln": {S: teamMember.lastName},
+                // ":pfn": {S: teamMember.preferredName || ""},
+                // ":img": {S: teamMember.image || ""},
             },
             ReturnValues: "UPDATED_NEW"
         };
