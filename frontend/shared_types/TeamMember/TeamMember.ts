@@ -1,8 +1,8 @@
-import { PlayerStats, validatePlayerStats } from "./player_stats_model";
+import { PlayerStats, validatePlayerStats } from "./PlayerStats";
 
 // Team member interface model
 export interface TeamMember {
-    uuid: string;
+    uuid?: string;
 
     teamId: string;
     meta: string;
@@ -27,6 +27,10 @@ export const roleNames = [roles.ADMIN, roles.MEMBER, roles.DEV];
 export function validate(teamMember: TeamMember): string {
     if (!teamMember.teamId || teamMember.teamId.length === 0) {
         return "teamId is required";
+    }
+
+    if (!teamMember.uuid || teamMember.uuid.length === 0) {
+        return "uuid is required";
     }
 
     if (teamMember.credit === undefined || teamMember.credit === null || typeof teamMember.credit !== 'number' || teamMember.credit < 0) {

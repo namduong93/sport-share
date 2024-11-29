@@ -2,28 +2,28 @@
 export interface PlayerStats {
 
     preferredPosition: Array<Position>;
-    goalkeeping: number;
     defense: number;
     attack: number;
-    control: number;
-    physique: number;
-    speed: number;
-}
-
-export enum Position {
+    badmintonRanking: number;
+  }
+  
+  export enum Position {
     GOALKEEPER = "GK",
     DEFENDER = "DF",
     MIDFIELDER = "MD",
-    ATTACKER = "AT"
-}
-
-export enum ScoreRange {
+    ATTACKER = "AT",
+  
+    FORWARD = "FW",
+    BACKWARD = "BW",
+  }
+  
+  export enum ScoreRange {
     MIN = 0,
     MAX = 100
-}
-
-// Model validation
-export function validatePlayerStats(playerStats: PlayerStats): string {
+  }
+  
+  // Model validation
+  export function validatePlayerStats(playerStats: PlayerStats): string {
     if (!playerStats.preferredPosition) {
         return "preferred position is required";
     }
@@ -33,11 +33,11 @@ export function validatePlayerStats(playerStats: PlayerStats): string {
             return "unknown position";
         }
     }
-
+  
     const numericFields: Array<keyof PlayerStats> = [
-        "goalkeeping", "defense", "attack", "control", "physique", "speed"
+        "defense", "attack"
     ];
-
+  
     // Validating the numeric score fields
     for (const field of numericFields) {
         const value = playerStats[field];
@@ -45,6 +45,6 @@ export function validatePlayerStats(playerStats: PlayerStats): string {
             return `${field.charAt(0).toUpperCase() + field.slice(1)} score is required and must be between ${ScoreRange.MIN} and ${ScoreRange.MAX}`;
         }
     }
-
+  
     return "";
-}
+  }

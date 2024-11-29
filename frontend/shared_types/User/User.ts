@@ -19,8 +19,6 @@ export interface User {
   token: string;
   createdAt: string;
   modifiedAt?: string;
-  bio: string;
-  referrer?: string;
 }
 
 export enum UserType {

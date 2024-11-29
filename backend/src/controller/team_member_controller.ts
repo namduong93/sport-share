@@ -31,7 +31,8 @@ export class TeamMemberController {
     async create(req: Request, res: Response) {
         try {
             const teamMember = req.body;
-            const newTeamMember = await this.teamMemberService.create(teamMember);
+            const email = req.body.email;
+            const newTeamMember = await this.teamMemberService.create(teamMember, email);
 
             if (newTeamMember) {
                 res.send(newTeamMember);

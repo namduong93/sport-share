@@ -41,10 +41,6 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
 
         // Set the team member properties from the user object
         teamMember.uuid = user.uuid;
-        teamMember.image = user.image;
-        teamMember.firstName = user.firstName;
-        teamMember.lastName = user.lastName;
-        teamMember.preferredName = user.preferredName;
 
         // Round the credit to 2 decimal places
         teamMember.credit = Math.floor(teamMember.credit * 100) / 100;
@@ -58,29 +54,23 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
         const params = {
             TableName: DDB_TEAM_MEMBERS_TABLE_NAME,
             Item: {
+                "sk": { S: await this.generateSortKey(teamMember.uuid) }, // we need this here from FE
                 "tid": { S: teamMember.teamId },
-                "sk": { S: await this.generateSortKey(teamMember.uuid) },
-                "uuid": { S: teamMember.uuid }, // we need this here from FE
+                "meta": { S: teamMember.meta },
                 "cr": { N: teamMember.credit.toString() || "0" },
-                "fn": { S: teamMember.firstName },
-                "ln": { S: teamMember.lastName },
-                "pfn": { S: teamMember.preferredName },
-                "em": { S: teamMember.email },
-                "hp": { S: teamMember.mobile },
-                "img": { S: teamMember.image },
-                "rl": { S: teamMember.role },
                 "ps": {
                     M: {
                         "pp": { L: teamMember?.playerStats?.preferredPosition.map(pos => ({ S: pos }))},
-                        "gk": { N: teamMember?.playerStats?.goalkeeping.toString() },
                         "df": { N: teamMember?.playerStats?.defense.toString() },
                         "at": { N: teamMember?.playerStats?.attack.toString() },
-                        "ct": { N: teamMember?.playerStats?.control.toString() },
-                        "ph": { N: teamMember?.playerStats?.physique.toString() },
-                        "sp": { N: teamMember?.playerStats?.speed.toString() }
+                        "br": { N: teamMember?.playerStats?.badmintonRanking.toString() },
                     }
                 },
-                "ca": { S: currentDate.getTime().toString()},
+                "ja": { S: currentDate.getTime().toString()},
+                "ma": { S: currentDate.getTime().toString()},
+                "lt": { S: currentDate.getTime().toString()},
+                "bi": { S: teamMember.bio },
+                "rf": { S: teamMember.referrer || ""}
             },
             ConditionExpression: "attribute_not_exists(sk)" // Ensure the item does not exist
         };
@@ -112,44 +102,28 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
             },
             UpdateExpression: `
                 SET #cr = :cr, 
-                    #na = :na, 
-                    #em = :em, 
-                    #hp = :hp, 
-                    #img = :img,
-                    #rl = :rl, 
+                    #ps = :ps,
                     #ma = :ma,
-                    #ps = :ps
+                    #bi = :bi,
             `,
             ExpressionAttributeNames: {
                 "#cr": "cr",
-                "#na": "na",
-                "#em": "em",
-                "#hp": "hp",
-                "#img": "img",
-                "#rl": "rl",
+                "#ps": "ps",
                 "#ma": "ma",
-                "#ps": "ps"
+                "#bi": "bi"
             },
             ExpressionAttributeValues: {
                 ":cr": { N: teamMember.credit.toString() || "0" },
-                ":fn": { S: teamMember.firstName },
-                ":ln": { S: teamMember.lastName },
-                ":em": { S: teamMember.email },
-                ":hp": { S: teamMember.mobile },
-                ":img": { S: teamMember.image },
-                ":rl": { S: teamMember.role },
-                ":ma": { S: dateString },
                 ":ps": {
                     M: {
                         "pp": { L: teamMember?.playerStats?.preferredPosition.map(pos => ({ S: pos }))},
-                        "gk": { N: teamMember?.playerStats?.goalkeeping.toString() },
                         "df": { N: teamMember?.playerStats?.defense.toString() },
                         "at": { N: teamMember?.playerStats?.attack.toString() },
-                        "ct": { N: teamMember?.playerStats?.control.toString() },
-                        "ph": { N: teamMember?.playerStats?.physique.toString() },
-                        "sp": { N: teamMember?.playerStats?.speed.toString() }
+                        "br": { N: teamMember?.playerStats?.badmintonRanking.toString()},
                     }
-                }
+                },
+                ":ma": { S: dateString },
+                ":bi": { S: teamMember.bio }
             },
             ReturnValues: "ALL_NEW"
         };
@@ -213,27 +187,21 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
     // This method is used to convert the database item to a team_member model
     async convertDB2Model(item: any): Promise<TeamMember> {
         return {
+            uuid: item?.uuid?.S || "",
             teamId: item?.tid?.S || "",
             meta: item?.sk?.S || "",
             credit: item?.cr?.N || 0,
-            uuid: item?.uuid?.S || "",
-            firstName: item?.na?.S || "",
-            lastName: item?.ln?.S || "",
-            email: item?.em?.S || "",
-            mobile: item?.hp?.S || "",
-            image: item?.img?.S || "",
-            role: item?.rl?.S || "",
             playerStats: {
                 preferredPosition: item?.ps?.M?.pp?.L?.map((pos: any) => pos.S) || [],
-                goalkeeping: parseInt(item?.ps?.M?.gk?.N || 0, 10),
                 defense: parseInt(item?.ps?.M?.df?.N || 0, 10),
                 attack: parseInt(item?.ps?.M?.at?.N || 0, 10),
-                control: parseInt(item?.ps?.M?.ct?.N || 0, 10),
-                physique: parseInt(item?.ps?.M?.ph?.N || 0, 10),
-                speed: parseInt(item?.ps?.M?.sp?.N || 0, 10)
+                badmintonRanking: parseInt(item?.ps?.M?.br?.N || 0, 10)
             },
-            createdAt: new Date(item?.ca?.S || Date.now()),
-            modifiedAt: new Date(item?.ma?.S || Date.now())
+            joinAt: new Date(item?.ja?.S || Date.now()),
+            modifiedAt: new Date(item?.ma?.S || Date.now()),
+            lastTimePlayed: new Date(item?.lt?.S || Date.now()),
+            bio: item?.bi?.S || "",
+            referrer: item?.rf?.S || ""
         }
     }
 

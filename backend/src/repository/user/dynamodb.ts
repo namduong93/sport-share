@@ -77,8 +77,6 @@ export class DynamoDBUserRepository implements UserRepository {
                 "img": {S: user.image || ""},
                 "ca": {S: currentDate.getTime().toString()},
                 "ma": {S: ""},
-                "bio": {S: user.bio},
-                "ref": {S: user.referrer || ""}
             },
             ConditionExpression: "attribute_not_exists(sk)" // Ensure the item does not exist
         };
@@ -182,13 +180,14 @@ export class DynamoDBUserRepository implements UserRepository {
                 "em": {S: user.email},
                 "sk": {S: await this.generateSortKey(user.uuid)}
             },
-            UpdateExpression: "SET #fn = :fn, #ln = :ln, #pfn = :pfn, #img = :img, #ma = :ma",
+            UpdateExpression: "SET #fn = :fn, #ln = :ln, #pfn = :pfn, #img = :img, #ma = :ma, #rl = :rl",
             ExpressionAttributeNames: {
                 "#fn": "fn",
                 "#ln": "ln",
                 "#pfn": "pfn",
                 "#img": "img",
-                "#ma": "ma"
+                "#ma": "ma",
+                "#rl": "rl",
             },
             ExpressionAttributeValues: {
                 ":fn": {S: user.firstName},
@@ -196,6 +195,7 @@ export class DynamoDBUserRepository implements UserRepository {
                 ":pfn": {S: user.preferredName},
                 ":img": {S: user.image},
                 ":ma": {S: currentDate.getTime().toString()},
+                ":rl": {S: user.role}
             }
         };
 
@@ -264,8 +264,6 @@ export class DynamoDBUserRepository implements UserRepository {
             token: "",
             createdAt: item?.ca?.S || "",
             modifiedAt: item?.ma?.S || "",
-            bio: item?.bio?.S || "",
-            referrer: item?.ref?.S || ""
         };
     }
 

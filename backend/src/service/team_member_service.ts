@@ -18,12 +18,12 @@ export class TeamMemberService {
     }
 
     // This method is used to create a team member
-    async create(teamMember: TeamMember): Promise<TeamMember | null> {
-        if (!teamMember.email) {
+    async create(teamMember: TeamMember, email: string): Promise<TeamMember | null> {
+        if (!email) {
             throw new Error("email is required");
         }
         // Get user by email
-        let user = await this.userRepository.findByEmail(teamMember.email);
+        let user = await this.userRepository.findByEmail(email);
         if (!user) {
             throw new Error("User not found");
         }
@@ -45,9 +45,6 @@ export class TeamMemberService {
     async list(teamId: string, uuid: string): Promise<TeamMember[]> {
         let member = await this.teamMemberRepository.find(teamId, uuid);
         if (!member) {
-            return [];
-        }
-        if (member.role !== 'admin') {
             return [];
         }
 
