@@ -18,7 +18,7 @@ import { Login } from "./screens/auth/Login/Login";
 import { RegisterFormProvider } from "./screens/auth/RegisterForm/RegisterFormProvider";
 import { RoleSelect } from "./screens/auth/RegisterForm/subroutes/RoleSelect/RoleSelect";
 import { AccountDataInput } from "./screens/auth/RegisterForm/subroutes/AccountDataInput/AccountDataInput";
-import { SiteDataInput } from "./screens/auth/RegisterForm/subroutes/SiteDataInput/SiteDataInput";
+// import { SiteDataInput } from "./screens/auth/RegisterForm/subroutes/SiteDataInput/SiteDataInput";
 // import { InstitutionDataInput } from "./screens/auth/RegisterForm/subroutes/InstitutionDataInput/InstitutionDataInput";
 import {
   PasswordCodeRecoverForm,
@@ -126,14 +126,14 @@ function App() {
                 </RegisterFormProvider>
               }
             />
-            <Route
+            {/* <Route
               path="/siteinformation"
               element={
                 <RegisterFormProvider>
                   <SiteDataInput />
                 </RegisterFormProvider>
               }
-            />
+            /> */}
             {/* <Route
               path="/institutioninformation"
               element={

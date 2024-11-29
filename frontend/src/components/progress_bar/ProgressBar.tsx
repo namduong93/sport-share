@@ -70,7 +70,6 @@ export const RegoProgressBar: FC<ProgressBarProps> = ({
     <ProgressBar progressNumber={progressNumber}>
       <span>User Type</span>
       <span>Account Information</span>
-      <span>Club Information</span>
     </ProgressBar>
   );
 };

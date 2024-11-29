@@ -12,9 +12,9 @@ import {
   StyledTitle,
 } from "./AccountDataInput.styles";
 import TextInput from "../../../../../components/general_utility/TextInput";
-import DropdownInput from "../../../../../components/general_utility/DropDownInput";
 import { StyledErrorMessage } from "../../../../general_styles/error_styles";
-import { genderOptions } from "./AccountDataOptions";
+import { User } from "../../../../../../shared_types/User/User";
+import { sendRequest } from "../../../../../utility/request";
 
 /**
  * A React web page form component for collecting account information in a multi-step registration process.
@@ -56,8 +56,16 @@ export const AccountDataInput: FC = () => {
     }
   };
 
-  const handleNext = () => {
-    navigate("/siteinformation");
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    try {
+      console.log("Sending registration data:", formData);
+      await sendRequest.post<User> ("/users", formData);
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
   };
 
   return (
@@ -141,8 +149,8 @@ export const AccountDataInput: FC = () => {
               className="account-data-input--StyledButton-0">Back</StyledButton>
             <StyledButton
               $disabled={isButtonDisabled()}
-              onClick={handleNext}
-              className="account-data-input--StyledButton-1">Next</StyledButton>
+              onClick={handleSubmit}
+              className="account-data-input--StyledButton-1">Create Account</StyledButton>
           </StyledButtonContainer>
         </StyledContentContainer>
       </StyledContainer>

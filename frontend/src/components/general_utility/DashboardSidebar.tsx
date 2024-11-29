@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { FaHome, FaUser, FaCog, FaSignOutAlt, FaIdBadge } from "react-icons/fa";
 import styled from "styled-components";
 import { sendRequest } from "../../utility/request";
-import { backendURL } from "../../../config/backendURLConfig";
 import { StyledProfilePic } from "../../screens/Account/Account.styles";
 import { useUserContext } from "./UserContext";
 

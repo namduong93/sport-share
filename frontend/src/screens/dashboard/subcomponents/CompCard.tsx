@@ -15,7 +15,6 @@ import {
   StyledRole,
   StyledRoleContainer,
 } from "./CompCard.styles";
-import { DEFAULT_TEAM_ID } from "../../../../shared_types/Team/Team";
 
 interface CardProps {
   gameName: string;
