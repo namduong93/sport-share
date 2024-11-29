@@ -3,6 +3,7 @@ import { PlayerStats, validatePlayerStats } from "./player_stats_model";
 // Team member interface model
 export interface TeamMember {
     uuid: string;
+    preferredName: string;
 
     teamId: string;
     meta: string;

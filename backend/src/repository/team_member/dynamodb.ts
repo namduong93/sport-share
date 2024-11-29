@@ -41,9 +41,19 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
 
         // Set the team member properties from the user object
         teamMember.uuid = user.uuid;
+        teamMember.preferredName = user.preferredName || user.firstName + " " + user.lastName;
+        teamMember.meta = teamMember.meta || "default";
 
         // Round the credit to 2 decimal places
-        teamMember.credit = Math.floor(teamMember.credit * 100) / 100;
+        teamMember.credit = Math.floor((teamMember.credit || 0) * 100) / 100;
+        teamMember.playerStats = {
+            preferredPosition: teamMember.playerStats?.preferredPosition || [],
+            defense: teamMember.playerStats?.defense || 0,
+            attack: teamMember.playerStats?.attack || 0,
+            badmintonRanking: teamMember.playerStats?.badmintonRanking || 0
+        };
+        teamMember.bio = teamMember.bio || "Hi I'm new here!";
+        teamMember.referrer = teamMember.referrer || "Admin";
 
         // Validate the team member object
         const validated = validate(teamMember);
@@ -56,6 +66,7 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
             Item: {
                 "sk": { S: await this.generateSortKey(teamMember.uuid) }, // we need this here from FE
                 "tid": { S: teamMember.teamId },
+                "pn": { S: teamMember.preferredName },
                 "meta": { S: teamMember.meta },
                 "cr": { N: teamMember.credit.toString() || "0" },
                 "ps": {
@@ -101,7 +112,8 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
                 "sk": { S: await this.generateSortKey(teamMember.uuid) }
             },
             UpdateExpression: `
-                SET #cr = :cr, 
+                SET #pn = :pn,
+                    #cr = :cr, 
                     #ps = :ps,
                     #ma = :ma,
                     #bi = :bi,
@@ -188,6 +200,7 @@ export class DynamoDBTeamMemberRepository implements TeamMemberRepository {
     async convertDB2Model(item: any): Promise<TeamMember> {
         return {
             uuid: item?.uuid?.S || "",
+            preferredName: item?.pn?.S || "",
             teamId: item?.tid?.S || "",
             meta: item?.sk?.S || "",
             credit: item?.cr?.N || 0,

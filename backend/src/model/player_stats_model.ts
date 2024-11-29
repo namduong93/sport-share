@@ -1,6 +1,5 @@
 // Player stat interface model
 export interface PlayerStats {
-
     preferredPosition: Array<Position>;
     defense: number;
     attack: number;

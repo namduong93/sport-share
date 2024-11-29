@@ -14,6 +14,8 @@ import TextInput from "../../../components/general_utility/TextInput";
 import { StyledCustomButton } from "../../general_styles/button_styles";
 import { User } from "../../../../shared_types/User/User";
 import { useUserContext } from "../../../components/general_utility/UserContext";
+import { DEFAULT_TEAM_ID } from "../../../../shared_types/Team/Team";
+import { TeamMember } from "../../../../shared_types/TeamMember/TeamMember";
 
 /**
  * A React web page component that renders a login form. It includes fields for email and password
@@ -35,6 +37,10 @@ export const Login: FC = () => {
     e.preventDefault();
     try {
       const response = await sendRequest.post<User>("/users/authenticate", { email, password });
+      const teamResponse = await sendRequest.post<TeamMember>(`/teams/${DEFAULT_TEAM_ID}/members`, { 
+        email,
+        teamId: DEFAULT_TEAM_ID  // Include teamId in request body
+      });      
       setUserData(response.data);
       localStorage.setItem('userData', JSON.stringify(response.data));
       window.location.href = "/dashboard";
@@ -79,7 +85,7 @@ export const Login: FC = () => {
         <StyledForgotPassword
           onClick={() => navigate('/password/recovery/email')}
           className="login--StyledForgotPassword-0">Forgot Password?</StyledForgotPassword>
-        <StyledCustomButton type="submit" className="login--StyledCustomButton-0">Sign in</StyledCustomButton>
+        <StyledCustomButton type="submit" className="login--StyledCustomButton-0">Log in</StyledCustomButton>
         <div>
           <span style={{ marginRight: '5px', fontFamily: 'Arial, Helvetica, sans-serif' }}>Are you new?</span>
           <StyledSignUpLink
