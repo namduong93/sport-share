@@ -36,17 +36,17 @@ export const Login: FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await sendRequest.post<User>("/users/authenticate", { email, password });
-      const teamResponse = await sendRequest.post<TeamMember>(`/teams/${DEFAULT_TEAM_ID}/members`, { 
-        email,
-        teamId: DEFAULT_TEAM_ID  // Include teamId in request body
-      });      
+      const response = await sendRequest.post<User>("/users/authenticate", { email, password });   
       setUserData(response.data);
       localStorage.setItem('userData', JSON.stringify(response.data));
       window.location.href = "/dashboard";
     } catch (error: unknown) {
       console.error("Login failed", error);
     }
+    await sendRequest.post<TeamMember>(`/teams/${DEFAULT_TEAM_ID}/members`, { 
+      email,
+      teamId: DEFAULT_TEAM_ID  // Include teamId in request body
+    });   
   };
 
   return (
