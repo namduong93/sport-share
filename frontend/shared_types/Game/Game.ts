@@ -75,9 +75,7 @@ export function validate(game: Game): string {
 export interface GameAttendee {
   uuid: string;
   vote: string;
-  name: string;
   preferredName?: string;
-  image?: string;
   goals?: string;
   assists?: string;
 }

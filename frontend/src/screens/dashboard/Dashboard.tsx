@@ -68,7 +68,6 @@ export const Dashboard: FC<DashboardsProps> = ({ dashInfo }) => {
   const [userType, setUserType] = useState<string>("");
   const navigate = useNavigate();
   const { userData } = useUserContext();
-  console.log(userData);
 
   // Fetches the user type and competitions data when the component mounts
   useEffect(() => {

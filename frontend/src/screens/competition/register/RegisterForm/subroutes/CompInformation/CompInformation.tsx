@@ -17,7 +17,7 @@ import {
   StyledTitle,
 } from "./CompInformation.styles";
 import { MarkdownDisplay } from "../../../../../general_components/MarkdownDisplay";
-import { Game } from "../../../../../../../shared_types/Game/Game";
+import { Game, GameAttendee, gameVotes } from "../../../../../../../shared_types/Game/Game";
 import { DEFAULT_TEAM_ID } from "../../../../../../../shared_types/Team/Team";
 import { StyledFormLabel, StyledText } from "../CompIndividualInput/CompIndividualInput.styles";
 import { format } from "path";
@@ -59,6 +59,7 @@ export const CompetitionInformation: FC = () => {
   const navigate = useNavigate();
   const { gameId } = useParams<{ gameId?: string }>();
   const [game, setGame] = useState<Game>();
+  const [attendees, setAttendees] = useState<GameAttendee[]>([]);
 
   useEffect(() => {
     const fetchCompInformation = async () => {
@@ -70,13 +71,26 @@ export const CompetitionInformation: FC = () => {
         else {
           setGame(response.data);
         }
-        console.log(response.data);
+      } catch (err: unknown) {
+        console.error(err);
+      }
+    };
+
+    const fetchGameAttendees = async () => {
+      try {
+        const response = await sendRequest.get<GameAttendee[]>(`/teams/${DEFAULT_TEAM_ID}/games/${gameId}/attendees/${gameVotes.YES}`);
+        if(response.data === null) {
+          throw new Error("Attendees not found");
+        } else {
+          setAttendees(response.data);
+        }
       } catch (err: unknown) {
         console.error(err);
       }
     };
 
     fetchCompInformation();
+    fetchGameAttendees();
   }, [gameId]);
 
   const handleBack = () => {
@@ -93,14 +107,6 @@ export const CompetitionInformation: FC = () => {
     }
   };
 
-  const date = new Date(Number(game?.startTime) * 1000);
-  console.log(date.toLocaleString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  }));
   return (
     <StyledFlexBackground
       style={{
@@ -186,39 +192,35 @@ export const CompetitionInformation: FC = () => {
           <MarkdownDisplay content={game?.description !== null ? game?.description : defaultCompInformation} />
 
           <StyledTitle className="comp-information--StyledTitle-1">Players</StyledTitle>
-          {game?.going?.map((userName, index) => (
+          {attendees?.map((attendee, index) => (
             <StyledBoxPlayerContainer 
               key={`player-${index}`} 
               className="comp-information--StyledBoxPlayerContainer-0"
             >
               <StyledBoxNameContainer className="comp-information--StyledBoxNameContainer-0">
-                {userName}
+                {attendee.preferredName}
               </StyledBoxNameContainer>
               <StyledPlayerStatus $status="going">Going</StyledPlayerStatus>
             </StyledBoxPlayerContainer>
           ))}
-          {game?.maybe?.map((userName, index) => (
-            <StyledBoxPlayerContainer 
-              key={`player-${index}`} 
+          <StyledBoxPlayerContainer 
+              key={`player-notgoing`}
               className="comp-information--StyledBoxPlayerContainer-0"
             >
-              <StyledBoxNameContainer className="comp-information--StyledBoxNameContainer-0">
-                {userName}
-              </StyledBoxNameContainer>
-              <StyledPlayerStatus $status="maybe">Maybe</StyledPlayerStatus>
-            </StyledBoxPlayerContainer>
-          ))}
-          {game?.notGoing?.map((userName, index) => (
-            <StyledBoxPlayerContainer 
-              key={`player-${index}`} 
+            <StyledBoxNameContainer className="comp-information--StyledBoxNameContainer-0">
+              Minh Truong
+            </StyledBoxNameContainer>
+            <StyledPlayerStatus $status="notgoing">Not Going</StyledPlayerStatus>
+          </StyledBoxPlayerContainer>
+          <StyledBoxPlayerContainer 
+              key={`player-maybe`}
               className="comp-information--StyledBoxPlayerContainer-0"
             >
-              <StyledBoxNameContainer className="comp-information--StyledBoxNameContainer-0">
-                {userName}
-              </StyledBoxNameContainer>
-              <StyledPlayerStatus $status="notgoing">Not Going</StyledPlayerStatus>
-            </StyledBoxPlayerContainer>
-          ))}
+            <StyledBoxNameContainer className="comp-information--StyledBoxNameContainer-0">
+              Joe Nguyen
+            </StyledBoxNameContainer>
+            <StyledPlayerStatus $status="maybe">Maybe</StyledPlayerStatus>
+          </StyledBoxPlayerContainer>
           <StyledButtonContainer className="comp-information--StyledButtonContainer-0">
             <StyledButton onClick={handleBack} className="comp-information--StyledButton-0">Back</StyledButton>
             <StyledButton onClick={handleNext} className="comp-information--StyledButton-1">Join Game</StyledButton>

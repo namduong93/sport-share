@@ -100,15 +100,11 @@ export class GameService {
         for (const attendeeId of attendees) {
             const teamMember = await this.teamMemberRepository.find(teamId, attendeeId);
             if (teamMember) {
-                const user = await this.userRepository.findById(teamMember.uuid);
                 gameAttendees.push(
                     {
                         uuid: teamMember.uuid,
                         vote: gameVotes.YES,
-                        firstName: user.firstName,
-                        lastName: user.lastName,
-                        preferredName: user.preferredName,
-                        image: user.image
+                        preferredName: teamMember.preferredName,
                     }
                 );
             }
