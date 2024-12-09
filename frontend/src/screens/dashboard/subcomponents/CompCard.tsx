@@ -15,6 +15,9 @@ import {
   StyledRole,
   StyledRoleContainer,
 } from "./CompCard.styles";
+import { sendRequest } from "../../../utility/request";
+import { GameAttendee, gameVotes } from "../../../../shared_types/Game/Game";
+import { DEFAULT_TEAM_ID } from "../../../../shared_types/Team/Team";
 
 interface CardProps {
   gameName: string;
@@ -50,7 +53,6 @@ export const CompCard: FC<CardProps> = ({
   const today = new Date(); // Today's date
   const daysRemaining = differenceInDays(new Date(gameDate), today);
 
-  // calculate the width of the progress bar as a percentage of the total days
   const compCreationDateFormatted = new Date(gameCreationDate);
   let totalDays = differenceInDays(
     new Date(gameDate),
@@ -58,12 +60,28 @@ export const CompCard: FC<CardProps> = ({
   );
   totalDays = Math.max(totalDays, daysRemaining);
 
-  // calculate the progress width
   const progressWidth =
     totalDays > 0 ? ((totalDays - daysRemaining) / totalDays) * 100 : 100;
+
+  const handleClick = async () => {
+    const getTeamInfo = async () => {
+      const response = await sendRequest.get(`/teams/${DEFAULT_TEAM_ID}/games/${gameId}/attended`);
+      if(response.data === null) {
+        throw new Error("Game not found");
+      }
+      console.log(response.data);
+      if(response.data === false) {
+        navigate(`/game/register/` + gameId);
+      } else {
+        navigate(`/game/${gameId}`);
+      }
+    };
+    getTeamInfo();
+  };
+    
   return (
     <StyledCompCardContainer
-      onClick={() => navigate(`/game/register/` + gameId)}
+      onClick={handleClick}
       className="comp-card--StyledCompCardContainer-0">
       <StyledCardHeader className="comp-card--StyledCardHeader-0">
         <StyledCardTop className="comp-card--StyledCardTop-0">

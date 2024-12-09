@@ -88,9 +88,8 @@ export const CompetitionInformation: FC = () => {
         console.error(err);
       }
     };
-
-    fetchCompInformation();
     fetchGameAttendees();
+    fetchCompInformation();
   }, [gameId]);
 
   const handleBack = () => {

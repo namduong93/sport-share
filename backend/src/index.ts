@@ -95,6 +95,7 @@ app.put("/teams/:teamId/games/:id", (req: Request, res: Response) => gameControl
 app.delete("/teams/:teamId/games/:id", (req: Request, res: Response) => gameController.delete(req, res));
 
 // Game actions & stats
+app.get("/teams/:teamId/games/:id/attended", (req: Request, res: Response) => gameController.hasAttended(req, res));
 app.post("/teams/:teamId/games/:id/vote", (req: Request, res: Response) => gameController.vote(req, res));
 app.post("/teams/:teamId/games/:id/removeVote", (req: Request, res: Response) => gameController.removeVote(req, res));
 app.post("/teams/:teamId/games/:id/announce", (req: Request, res: Response) => gameController.announce(req, res));

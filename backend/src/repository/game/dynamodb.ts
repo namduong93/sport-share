@@ -682,11 +682,8 @@ export class DynamoDBGameRepository implements GameRepository {
     async convertDB2ModelGameAttendee(item: any): Promise<GameAttendee> {
         return {
             uuid: item?.uuid?.S,
-            firstName: item?.fn?.S,
-            lastName: item?.ln?.S,
             vote: gameVotes.YES,
             preferredName: item?.pfn?.S || "",
-            image: item?.img?.S || "",
             goals: item?.gls?.S || "",
             assists: item?.ass?.S || "",
         };

@@ -68,6 +68,19 @@ export class GameService {
         return await this.gameRepository.status(teamId, id, status);
     }
 
+    // This method is used to check if user has attend a game
+    async hasAttended(teamId: string, id: string, uuid: string): Promise<boolean> {
+        const game = await this.gameRepository.find(teamId, id);
+        if (!game) {
+            throw new Error("Game not found");
+        }
+        console.log(game.going);
+        if (game.going && game.going.includes(uuid)) {
+            return true;
+        }
+        return false;
+    }
+
     // This method is used to fetch going attendees details of a game
     async attendees(teamId: string, id: string, vote: string): Promise<GameAttendee[]> {
         const game = await this.gameRepository.find(teamId, id);

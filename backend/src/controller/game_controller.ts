@@ -186,6 +186,22 @@ export class GameController {
         }
     }
 
+
+    // This method is used to check if user has attend a game
+    async hasAttended(req: Request, res: Response) {
+        try {
+            const teamId = req.params.teamId;
+            const id = req.params.id;
+            const uuid = res.locals.uuid;
+
+            const joined = await this.gameService.hasAttended(teamId, id, uuid);
+
+            res.send(joined);
+        } catch (e) {
+            res.status(500).send('Failed to check join');
+        }
+    }
+
     // This method is used to fetch attendees details of a game
     async attendees(req: Request, res: Response) {
         try {
