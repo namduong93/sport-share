@@ -9,3 +9,5 @@ export const DDB_USERS_TABLE_NAME: string = process.env.DDB_USERS_TABLE_NAME  ||
 export const DDB_SESSIONS_TABLE_NAME: string = process.env.DDB_USER_SESSIONS_TABLE_NAME || "dev-generations-sessions";
 
 export const DDB_USER_DEVICES_TABLE_NAME: string = process.env.DDB_USER_DEVICES_TABLE_NAME || "dev-generations-user-devices";
+
+export const DDB_GAME_TEAMS_TABLE_NAME: string = process.env.DDB_GAME_TEAMS_TABLE_NAME || "dev-generations-game-teams";

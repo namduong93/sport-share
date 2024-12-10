@@ -330,4 +330,23 @@ export class GameController {
             res.status(500).send('Failed to fetch assists');
         }
     }
+
+    // This method is used to join user into gameTeam
+    async joinGameTeam(req: Request, res: Response) {
+        try {
+            const teamId = req.params.teamId;
+            const gameId = req.params.id;
+            const uuid = res.locals.uuid;
+
+            const joined = await this.gameService.joinGameTeam(teamId, gameId, uuid);
+
+            if (joined) {
+                res.send('Joined successfully');
+            } else {
+                res.status(500).send('Failed to join');
+            }
+        } catch (e) {
+            res.status(500).send('Failed to join');
+        }
+    }
 }

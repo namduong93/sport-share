@@ -1,4 +1,5 @@
 import { Game, GameAttendee, gameVotes, gameVotesArray } from "../model/game_model";
+import { GameTeam } from "../model/game_team";
 import { GameRepository } from '../repository/game_repository';
 import { TeamMemberRepository } from "../repository/team_member_repository";
 import { TeamRepository } from "../repository/team_repository";
@@ -208,5 +209,28 @@ export class GameService {
     // This method is used to fetch assists of a team member in a game
     async findAssistsOfMember(teamId: string, gameId: string, uuid: string): Promise<GameAttendee | null> {
         return await this.gameRepository.findAssistsOfMember(teamId, gameId, uuid);
+    }
+
+    // This method is used to join user into gameTeam
+    async joinGameTeam(teamId: string, gameId: string, uuid: string): Promise<GameTeam | null> {
+        // Find the team
+        const team = await this.teamRepository.find(teamId);
+        if (!team) {
+            throw new Error("Team not found");
+        }
+
+        // Find the game
+        const game = await this.gameRepository.find(teamId, gameId);
+        if (!game) {
+            throw new Error("Game not found");
+        }
+
+        // Find the team member
+        const teamMember = await this.teamMemberRepository.find(teamId, uuid);
+        if (!teamMember) {
+            throw new Error("Team member not found");
+        }
+
+        return await this.gameRepository.joinGameTeam(team, game, teamMember);
     }
 }

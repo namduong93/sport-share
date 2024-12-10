@@ -16,7 +16,6 @@ import {
   StyledRoleContainer,
 } from "./CompCard.styles";
 import { sendRequest } from "../../../utility/request";
-import { GameAttendee, gameVotes } from "../../../../shared_types/Game/Game";
 import { DEFAULT_TEAM_ID } from "../../../../shared_types/Team/Team";
 
 interface CardProps {
@@ -73,7 +72,7 @@ export const CompCard: FC<CardProps> = ({
       if(response.data === false) {
         navigate(`/game/register/` + gameId);
       } else {
-        navigate(`/game/${gameId}`);
+        navigate(`/game/participant/${gameId}`);
       }
     };
     getTeamInfo();

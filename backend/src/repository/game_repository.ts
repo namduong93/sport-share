@@ -1,6 +1,7 @@
 import {Game, GameAttendee} from "../model/game_model";
 import { Team } from "../model/team_model";
 import { TeamMember } from "../model/team_member_model";
+import { GameTeam } from "../model/game_team";
 
 // This is the repository layer. It is responsible for handling database operations.
 export interface GameRepository {
@@ -20,4 +21,5 @@ export interface GameRepository {
     findGoalsOfMember(teamId: string, gameId: string, uuid: string): Promise<GameAttendee | null>
     upsertAssists(team: Team, game: Game, teamMember: TeamMember, assists: string): Promise<boolean>
     findAssistsOfMember(teamId: string, gameId: string, uuid: string): Promise<GameAttendee | null>
+    joinGameTeam(team: Team, game: Game, teamMember: TeamMember): Promise<GameTeam | null>
 }

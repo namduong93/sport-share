@@ -19,6 +19,9 @@ import {Authenticator} from "./middleware/authenticator";
 import {handleError} from "./middleware/error_hanlder";
 import cors from 'cors';
 import cookieParser from "cookie-parser";
+import { GameTeamController } from "./controller/game_team_controller";
+import { GameTeamService } from "./service/game_team_service";
+import { DynamoDBGameTeamRepository } from "./repository/game_team/dynamodb";
 
 // Load environment variable
 dotenv.config();
@@ -60,6 +63,11 @@ const teamController = new TeamController(teamService);
 const gameRepository = new DynamoDBGameRepository(new AWS.DynamoDB());
 const gameService = new GameService(gameRepository, teamMemberRepository, teamRepository, userRepository);
 const gameController = new GameController(gameService);
+
+// Game Team Registry
+const gameTeamRepository = new DynamoDBGameTeamRepository(new AWS.DynamoDB());
+const gameTeamService = new GameTeamService(gameTeamRepository, gameRepository, teamMemberRepository, teamRepository);
+const gameTeamController = new GameTeamController(gameTeamService);
 
 // Health Check
 app.get("/", (req: Request, res: Response) => res.send("Yeah it works"));
@@ -108,6 +116,9 @@ app.post("/teams/:teamId/games/:id/goals", (req: Request, res: Response) => game
 app.get("/teams/:teamId/games/:id/goals/:uuid", (req: Request, res: Response) => gameController.findGoalsOfMember(req, res));
 app.post("/teams/:teamId/games/:id/assists", (req: Request, res: Response) => gameController.upsertAssists(req, res));
 app.get("/teams/:teamId/games/:id/assists/:uuid", (req: Request, res: Response) => gameController.findAssistsOfMember(req, res));
+
+// Gameteam actions
+app.post("/teams/:teamId/games/:id/gameTeams", (req: Request, res: Response) => gameTeamController.joinGameTeam(req, res));
 
 // Middleware to handle error
 app.use(handleError);

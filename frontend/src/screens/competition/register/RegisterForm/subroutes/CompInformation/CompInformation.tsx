@@ -1,5 +1,3 @@
-import { CompetitionInformation as CompetitionDetails } from "../../../../../../../shared_types/Competition/CompetitionDetails";
-
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { sendRequest } from "../../../../../../utility/request";
@@ -20,7 +18,7 @@ import { MarkdownDisplay } from "../../../../../general_components/MarkdownDispl
 import { Game, GameAttendee, gameVotes } from "../../../../../../../shared_types/Game/Game";
 import { DEFAULT_TEAM_ID } from "../../../../../../../shared_types/Team/Team";
 import { StyledFormLabel, StyledText } from "../CompIndividualInput/CompIndividualInput.styles";
-import { format } from "path";
+import { GameTeam } from "../../../../../../../shared_types/GameTeam/GameTeam";
 
 export const defaultCompInformation = `
 Welcome you to the Game!
@@ -99,6 +97,7 @@ export const CompetitionInformation: FC = () => {
   const handleNext = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
       await sendRequest.post<string>(`/teams/${DEFAULT_TEAM_ID}/games/${gameId}/vote`, { vote: "yes" });
+      await sendRequest.post<GameTeam | null>(`/teams/${DEFAULT_TEAM_ID}/games/${gameId}/gameTeams`);
       navigate("/dashboard");
     }
     catch (err: unknown) {
